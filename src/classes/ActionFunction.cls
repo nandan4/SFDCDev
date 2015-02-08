@@ -5,6 +5,6 @@ public class ActionFunction {
     public void actionfuntion(){
         System.debug('*** Action Function ***');
         showMSG = True;
-        System.debug('*** Action Function ***');
+        System.debug('*** Action  ***');
     }
 }
