@@ -1,0 +1,39 @@
+<apex:page controller="FLSGlobalCont">
+    <apex:form >
+        <apex:pageblock >
+            <apex:pageblocksection >
+                <apex:SelectList value="{!selObjName}" size="1" >
+                  <apex:selectOptions value="{!objList}" ></apex:selectOptions>
+                  <apex:actionSupport event="onchange" rerender="fields"/>
+                </apex:SelectList>
+                
+                <apex:SelectList value="{!selfieldName}" size="1" id="fields">
+                  <apex:selectOptions value="{!fieldList}"></apex:selectOptions>
+                  <apex:actionSupport event="onchange" rerender="profilePermissions"/>
+                </apex:SelectList>
+            </apex:pageblocksection>
+        </apex:pageblock>
+        
+        <apex:pageblock id="profilePermissions">
+        
+            <apex:pageBlockTable value="{!ProfilePermissions}" var="o" >
+                <apex:column value="{!o.Parent.Profile.Name}" headervalue="Profile Name"/> 
+                <apex:column value="{!o.PermissionsEdit}" headervalue="Editable"/>
+                <apex:column value="{!o.PermissionsRead}" headervalue="Read"/>  
+                <apex:column value="{!o.Parent.PermissionsEditReadonlyFields}" headervalue="Read Only"/>
+            
+            </apex:pageBlockTable>
+        
+        </apex:pageblock>
+    </apex:form>
+    
+    <script>
+        function checkAll(cb){
+            var inputElem = document.getElementsByTagName("input");
+            for(var i=0; i<inputElem.length; i++){
+                if(inputElem[i].id.indexOf("checkedone")!=-1)
+                inputElem[i].checked = cb.checked;
+            }
+        }    
+    </script>  
+</apex:page>

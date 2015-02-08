@@ -1,0 +1,5 @@
+<apex:page standardController="Opportunity" extensions="VFC_OppButton" action="{!methodCall}" recordSetVar="opps">
+    <apex:repeat value="{!opps}" var="opp">
+        <apex:outputtext value="{!opp.stageName},{!opp.Name}" rendered="false"/>
+    </apex:repeat>
+</apex:page>

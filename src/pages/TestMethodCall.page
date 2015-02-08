@@ -1,0 +1,5 @@
+<apex:page standardController="Account" extensions="TestMethodCallCont2,TestMethodCallCont1">
+    <apex:form >
+        <apex:commandButton action="{!cancel}"/>
+    </apex:form> 
+</apex:page>

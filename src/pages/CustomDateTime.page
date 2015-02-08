@@ -1,0 +1,31 @@
+<apex:page controller="CustomDateTime" docType="html-5.0" id="page">
+    <apex:stylesheet value="{!URLFOR($Resource.jqueryDateTime,'jquery.datetimepicker.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.jqueryDateTime,'jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.jqueryDateTime,'jquery.datetimepicker.js')}"/>
+    
+    <script>
+        $(document).ready(function(){
+            var elem1 = document.getElementById('page:form:pBlock:pBSection:datetimepicker1');
+            var elem2 = document.getElementById('page:form:pBlock:pBSection:datetimepicker2');
+            $(elem1).datetimepicker();
+            $(elem2).datetimepicker();
+        });
+        
+    </script>
+    
+    <apex:form id="form">
+        <apex:pageblock id="pBlock">
+            <apex:pageblockSection columns="2" id="pBSection"> 
+                <apex:input id="datetimepicker1" type="datetime" value="{!startDate}" label="Start Date"/>
+                <apex:input id="datetimepicker2" type="datetime" value="{!endDate}" label="End Date"/>        -    
+
+            </apex:pageblockSection>
+            <center>
+                <apex:commandButton value="Search" action="{!search}" rerender="countBlock"/>
+            </center>
+        </apex:pageblock>
+        <apex:pageBlock id="countBlock">
+            <apex:outputText value="Record Count - {!count}"/>                           
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

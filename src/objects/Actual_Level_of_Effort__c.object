@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>TOOLKIT - An object that represents the actual level of effort for each requirement.</description>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Adapt_Ongoing_Support__c</fullName>
+        <description>Actual level of effort recorded for the Adapt &amp; Ongoing Support phase in a week for a User.</description>
+        <inlineHelpText>Actual level of effort recorded for the Adapt &amp; Ongoing Support phase in a week for a User.</inlineHelpText>
+        <label>Adapt &amp; Ongoing Support</label>
+        <precision>6</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Build__c</fullName>
+        <description>The actual level of effort recorded for the Build phase in a week for a User.</description>
+        <inlineHelpText>The actual level of effort recorded for the Build phase in a week for a User.</inlineHelpText>
+        <label>Build</label>
+        <precision>6</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Deploy__c</fullName>
+        <description>Actual level of effor recorded for the Deploy phase in a week for a User.</description>
+        <inlineHelpText>Actual level of effor recorded for the Deploy phase in a week for a User.</inlineHelpText>
+        <label>Deploy</label>
+        <precision>6</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Design__c</fullName>
+        <description>The actual level of effort recorded for the Design phase in a week for a User.</description>
+        <inlineHelpText>The actual level of effort recorded for the Design phase in a week for a User.</inlineHelpText>
+        <label>Design</label>
+        <precision>6</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Name__c</fullName>
+        <description>Name of the user that is capturing the actual level of effort for the requirement.</description>
+        <inlineHelpText>Name of the user that is capturing the actual level of effort for the requirement.</inlineHelpText>
+        <label>Name</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Actual_Levels_of_Effort</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Plan__c</fullName>
+        <description>Actual level of effort recorded for the Plan phase in a week for a User.</description>
+        <inlineHelpText>Actual level of effort recorded for the Plan phase in a week for a User.</inlineHelpText>
+        <label>Plan</label>
+        <precision>6</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Requirement__c</fullName>
+        <description>Relate the actual level of effort to a requirement.</description>
+        <label>Requirement</label>
+        <referenceTo>Request__c</referenceTo>
+        <relationshipLabel>Actual Level of Effort by Week</relationshipLabel>
+        <relationshipName>Actual_Levels_of_Effort</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <type>MasterDetail</type>
+    </fields>
+    <fields>
+        <fullName>Role__c</fullName>
+        <description>Reflects the role of the user that is entering the actual level of effort</description>
+        <label>Role</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Business Architect</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Configuration Resource</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Data Architect</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Data Migration Resource</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Development Resource</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Integration Resource</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Program Manager</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Project Manager</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Solution Architect</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>System Admin</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Technical Architect</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Testing Resource</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Test__c</fullName>
+        <description>Actual level of effort recorded for the Test phase in a week for a User.</description>
+        <inlineHelpText>Actual level of effort recorded for the Test phase in a week for a User.</inlineHelpText>
+        <label>Test</label>
+        <precision>6</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Actual_Level_of_Effort__c</fullName>
+        <description>Total Actual level of effort in a week for a User</description>
+        <formula>Plan__c  +  Design__c  +  Build__c  +  Test__c  +  UAT__c  +  UAT__c  +  Deploy__c  +  Adapt_Ongoing_Support__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Actual Level of Effort</label>
+        <precision>18</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>UAT__c</fullName>
+        <description>Actual level of effort recorded for the UAT phase in a week for a User.</description>
+        <inlineHelpText>Actual level of effort recorded for the UAT phase in a week for a User.</inlineHelpText>
+        <label>UAT</label>
+        <precision>6</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Week__c</fullName>
+        <label>Week</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <label>Actual Level of Effort</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>{0000000}</displayFormat>
+        <label>ID</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Actual Level of Effort</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

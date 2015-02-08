@@ -1,0 +1,2568 @@
+<apex:page id="MyPage">
+<apex:form id="MyForm" >
+<script type="text/javascript" src="/static/022509/js/functions.js"></script>
+<script  src="/jslibrary/1241745801000/main.js" type="text/javascript"></script><script  src="/jslibrary/labels/1242843164000/en_US.js" type="text/javascript"></script><script type="text/javascript" src="/static/022509/desktop/desktopAjax.js"></script>
+<script type="text/javascript" src="/soap/ajax/14.0/connection.js"></script>
+<script type="text/javascript" src="/soap/ajax/14.0/apex.js"></script>
+<script>
+    var contactdetails = new Array();
+    var mastercontact = new Array();
+    var secondarycontact = new Array();
+    var str_lastnamepar='';
+    var str_firstnamepar='';
+    var master_contactId='';
+    var master_firstname=null;
+    var master_middlename=null;
+    var master_lastname=null;
+    var master_suffix=null;
+    var master_title=null;
+    var master_nickname=null;
+    var master_status=null;
+    var master_type=null;
+    var master_appointed;
+    var master_appointedstate=null;
+    var master_firmregion=null;
+    var master_assistant=null;
+    var master_sourceofcontact=null;
+    var master_homephone=null;
+    var master_asstphone=null;
+    var master_assistantemail=null;
+    var master_personalemail=null;
+    var master_accountId='';
+    var master_agencyname=null;
+    var master_business_street1=null;
+    var master_business_street2=null;
+    var master_business_city=null;
+    var master_business_state=null;
+    var master_business_zipcode=null;
+    var master_business_country='';
+    var master_workphone=null;
+    var master_workphoneExtension=null;
+    var master_mobile=null;
+    var master_fax=null;
+    var master_email=null;
+    var master_donotsolicit;
+    var master_instructions=null;
+    var master_address;
+    var master_temporary_street1=null;
+    var master_temporary_street2=null;
+    var master_temporary_city=null;
+    var master_temporary_state=null;
+    var master_temporary_zipcode=null;
+    var master_temporary_country='';
+    var master_ProducerCategoryByAE=null;
+    var master_ProducerCategoryByRLC=null;
+    var master_ProducerCategoryByRMS=null;
+    var master_PreferredTouchFrequencyByAE=null;
+    var master_PreferredTouchFrequencyByRLC=null;
+    var master_PreferredTouchFrequencyByRMS=null;
+    var master_YearsInBusiness=null;
+    var master_NumberOfClients=null;
+    var master_AUM=null;
+    var master_LifeInsurancePremiumGoal=null;
+    var master_TotalYTDLifePremiumsAllCompanies=null;
+    var master_TotalGDCProduction=null;
+    var master_WorkedWithHLIBefore=null;
+    var master_TypeOfSalesPerson=null;
+    var master_TypeOfPoliciesSoldBefore=null;
+    var master_SoldHLIPoliciesBefore=null;
+    var master_TypeOfHLIPoliciesSoldYTD=null;
+    var master_TypeOfHLIPoliciesSoldPriorYear=null;
+    var master_AdditionalInformation=null;
+    var master_YearsMDRT=null;
+    var master_YearsTopOfTheTable=null;
+    var master_Birthdate=null;
+    var master_Spouse=null;
+    var master_SpouseBirthday=null;
+    var master_ConAssocId='';
+
+    window.onload=function func_ContactDetails()
+    {
+        sforce.connection.init("{!$Api.Session_ID}","{!$Api.Partner_Server_URL_140}");
+        var ContactId1 = "{!$CurrentPage.parameters.cid1}";
+        var ContactId2 = "{!$CurrentPage.parameters.cid2}";
+        var ContactId3 = "{!$CurrentPage.parameters.cid3}";
+        str_lastnamepar = "{!$CurrentPage.parameters.Last}";
+        str_firstnamepar = "{!$CurrentPage.parameters.First}";
+        alert(ContactId1);
+        alert(ContactId2);
+        var bln_appointed = false;
+        var i=0;
+        var j=1;
+        var k=2;
+        var str_query ='';
+        str_query = 'Select c.AccountId, c.Account.Name,  c.AssistantPhone, c.Birthdate,  c.Email, c.Fax, c.FirstName, c.HomePhone, c.Id, c.LastName,  c.MobilePhone, c.Name, c.OwnerId, c.Phone, c.Title from Contact c where c.id in (\''+ContactId1+'\',\''+ContactId2+'\'';
+        if(ContactId3!='')
+        {
+            str_query +=',\''+ContactId3+'\'';
+        }
+        str_query += ')';
+
+        var contactinfo = sforce.connection.query(str_query);
+        contactdetails = contactinfo.getArray('records');
+
+        if(contactdetails[0].Appointed__c == 'true')
+        {
+            i=0;
+            j=1;
+            k=2;
+            bln_appointed = true;
+        }
+        if(contactdetails[1].Appointed__c == 'true')
+        {
+            i=1;
+            j=0;
+            k=2;
+            bln_appointed = true;
+        }
+        if(ContactId3!='')
+        {
+        if(contactdetails[2].Appointed__c == 'true')
+        {
+            i=2;
+            j=1;
+            k=0;
+            bln_appointed = true;
+        }
+        }
+        //default master records
+
+        master_contactId = contactdetails[i].Id;
+        master_ConAssocId = contactdetails[i].Id;
+        if(contactdetails[i].FirstName !=null)
+            master_firstname = contactdetails[i].FirstName;
+        if(contactdetails[i].Middle_Name__c !=null)
+            master_middlename = contactdetails[i].Middle_Name__c;
+        if(contactdetails[i].LastName !=null)
+            master_lastname = contactdetails[i].LastName;
+        if(contactdetails[i].Suffix__c !=null)
+            master_suffix = contactdetails[i].Suffix__c;
+        if(contactdetails[i].Title !=null)
+            master_title = contactdetails[i].Title;
+        if(contactdetails[i].Nickname__c !=null)
+            master_nickname = contactdetails[i].Nickname__c;
+        if(contactdetails[i].Status__c !=null)
+            master_status = contactdetails[i].Status__c;
+        if(contactdetails[i].Type__c !=null)
+            master_type = contactdetails[i].Type__c;
+        
+        master_appointed = contactdetails[i].Appointed__c;
+
+        if(contactdetails[i].Appointment_State_s__c !=null)
+            master_appointedstate =  contactdetails[i].Appointment_State_s__c;
+        if(contactdetails[i].Region__c !=null)
+            master_firmregion = contactdetails[i].Region__c;
+        if(contactdetails[i].AssistantName !=null)
+            master_assistant = contactdetails[i].AssistantName;
+        if(contactdetails[i].Source_Of_Contact__c !=null)
+            master_sourceofcontact = contactdetails[i].Source_Of_Contact__c;
+        if(contactdetails[i].HomePhone !=null)
+            master_homephone = contactdetails[i].HomePhone;
+        if(contactdetails[i].AssistantPhone !=null)
+            master_asstphone = contactdetails[i].AssistantPhone;
+        if(contactdetails[i].Assistant_Email__c !=null)
+            master_assistantemail = contactdetails[i].Assistant_Email__c;
+        if(contactdetails[i].Secondary_Email__c !=null)
+            master_personalemail = contactdetails[i].Secondary_Email__c;
+        if(contactdetails[i].AccountId !=null)
+            master_accountId = contactdetails[i].AccountId;
+        if(contactdetails[i].Agency_Name__c !=null)
+            master_agencyname = contactdetails[i].Agency_Name__c;
+        if(contactdetails[i].Business_Street_1__c !=null)
+            master_business_street1 = contactdetails[i].Business_Street_1__c;
+        if(contactdetails[i].Business_Street_2__c !=null)
+            master_business_street2 = contactdetails[i].Business_Street_2__c;
+        if(contactdetails[i].Business_City__c !=null)
+            master_business_city = contactdetails[i].Business_City__c;
+        if(contactdetails[i].Business_State__c !=null)
+            master_business_state = contactdetails[i].Business_State__c;
+        if(contactdetails[i].Business_Zip_Code__c !=null)
+            master_business_zipcode = contactdetails[i].Business_Zip_Code__c;
+        if(contactdetails[i].Business_Country__c !=null)
+            master_business_country = contactdetails[i].Business_Country__c;
+        if(contactdetails[i].Phone !=null)
+            master_workphone = contactdetails[i].Phone;
+        if(contactdetails[i].Work_Phone_Extension__c !=null)
+            master_workphoneExtension = contactdetails[i].Work_Phone_Extension__c;
+        if(contactdetails[i].MobilePhone !=null)
+            master_mobile = contactdetails[i].MobilePhone;
+        if(contactdetails[i].Fax !=null)
+            master_fax = contactdetails[i].Fax;
+        if(contactdetails[i].Email !=null)
+            master_email = contactdetails[i].Email;
+        
+        master_donotsolicit = contactdetails[i].HasOptedOutOfEmail;
+
+        if(contactdetails[i].Instructions__c !=null)
+            master_instructions = contactdetails[i].Instructions__c;
+        
+        master_address = contactdetails[i].Address__c;
+
+        if(contactdetails[i].Temporary_Street_1__c !=null)
+            master_temporary_street1 = contactdetails[i].Temporary_Street_1__c;
+        if(contactdetails[i].Temporary_Street_2__c !=null)
+            master_temporary_street2 = contactdetails[i].Temporary_Street_2__c;
+        if(contactdetails[i].Temporary_City__c !=null)
+            master_temporary_city = contactdetails[i].Temporary_City__c;
+        if(contactdetails[i].Temporary_State__c !=null)
+            master_temporary_state = contactdetails[i].Temporary_State__c;
+        if(contactdetails[i].Temporary_Zip_Code__c !=null)
+            master_temporary_zipcode = contactdetails[i].Temporary_Zip_Code__c;
+        if(contactdetails[i].Temporary_Country__c !=null)
+            master_temporary_country = contactdetails[i].Temporary_Country__c;
+        if(contactdetails[i].Producer_Category_ByAE__c !=null)
+            master_ProducerCategoryByAE = contactdetails[i].Producer_Category_ByAE__c;
+        if(contactdetails[i].Producer_Category_By_RLC__c !=null)
+            master_ProducerCategoryByRLC = contactdetails[i].Producer_Category_By_RLC__c;
+        if(contactdetails[i].Producer_Category_By_RMS__c !=null)
+            master_ProducerCategoryByRMS = contactdetails[i].Producer_Category_By_RMS__c;
+        if(contactdetails[i].Preferred_Touch_Frequency_By_AE__c !=null)
+            master_PreferredTouchFrequencyByAE = contactdetails[i].Preferred_Touch_Frequency_By_AE__c;
+        if(contactdetails[i].Preferred_Touch_Frequency_By_RLC__c !=null)
+            master_PreferredTouchFrequencyByRLC = contactdetails[i].Preferred_Touch_Frequency_By_RLC__c;
+        if(contactdetails[i].Preferred_Touch_Frequency_By_RMS__c !=null)
+            master_PreferredTouchFrequencyByRMS = contactdetails[i].Preferred_Touch_Frequency_By_RMS__c;
+        if(contactdetails[i].Years_In_Business__c !=null)
+            master_YearsInBusiness = contactdetails[i].Years_In_Business__c;
+        if(contactdetails[i].Number_Of_Clients__c !=null)
+            master_NumberOfClients = contactdetails[i].Number_Of_Clients__c;
+        if(contactdetails[i].AUM__c !=null)
+            master_AUM = contactdetails[i].AUM__c;
+        if(contactdetails[i].Life_Insurance_Premium_Goal__c !=null)
+            master_LifeInsurancePremiumGoal = contactdetails[i].Life_Insurance_Premium_Goal__c;
+        if(contactdetails[i].Total_YTD_Life_Premiums_All_Companies__c !=null)
+            master_TotalYTDLifePremiumsAllCompanies = contactdetails[i].Total_YTD_Life_Premiums_All_Companies__c;
+        if(contactdetails[i].GDC_Production__c !=null)
+            master_TotalGDCProduction = contactdetails[i].GDC_Production__c;
+        if(contactdetails[i].Worked_With_HLI_Before__c !=null)
+            master_WorkedWithHLIBefore = contactdetails[i].Worked_With_HLI_Before__c;
+        if(contactdetails[i].Type_Of_Sales_Person__c !=null)
+            master_TypeOfSalesPerson = contactdetails[i].Type_Of_Sales_Person__c;
+        if(contactdetails[i].Type_Of_Policies_Sold_Before__c !=null)
+            master_TypeOfPoliciesSoldBefore = contactdetails[i].Type_Of_Policies_Sold_Before__c;
+        if(contactdetails[i].Sold_HLI_Policies_Before__c !=null)
+            master_SoldHLIPoliciesBefore = contactdetails[i].Sold_HLI_Policies_Before__c;
+        if(contactdetails[i].Type_Of_HLI_Policies_Sold_YTD__c !=null)
+            master_TypeOfHLIPoliciesSoldYTD = contactdetails[i].Type_Of_HLI_Policies_Sold_YTD__c;
+        if(contactdetails[i].Type_Of_HLI_Policies_Sold_Prior_Year__c !=null)
+            master_TypeOfHLIPoliciesSoldPriorYear = contactdetails[i].Type_Of_HLI_Policies_Sold_Prior_Year__c;
+        if(contactdetails[i].Additional_Information__c !=null)
+            master_AdditionalInformation = contactdetails[i].Additional_Information__c;
+        if(contactdetails[i].Years_MDRT__c !=null)
+            master_YearsMDRT = contactdetails[i].Years_MDRT__c;
+        if(contactdetails[i].Years_Top_Of_The_Table__c !=null)
+            master_YearsTopOfTheTable = contactdetails[i].Years_Top_Of_The_Table__c;
+        if(contactdetails[i].Birthdate !=null)
+            master_Birthdate = contactdetails[i].Birthdate;
+        if(contactdetails[i].Spouse__c !=null)
+            master_Spouse = contactdetails[i].Spouse__c;
+        if(contactdetails[i].Spouse_Birthday__c !=null)
+            master_SpouseBirthday = contactdetails[i].Spouse_Birthday__c;
+
+
+        var str_='';
+        str_table += '<Table class=\"mergeEntity\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">';
+        
+        str_table += '<tr class=\"headerRow\">';
+        str_table += '<th width=\"25%\">&nbsp;';
+        str_table += '</th>';
+        str_table += '<th scope=\"col\" width=\"25%\">';
+        str_table += contactdetails[i].Name;
+        str_table += '</th>';
+        str_table += '<th scope=\"col\" width=\"25%\">';
+        str_table += contactdetails[j].Name;
+        str_table += '</th>';
+        if(ContactId3!='')
+        {
+        str_table += '<th scope=\"col\" width=\"25%\">';
+        str_table += contactdetails[k].Name;
+        str_table += '</th>';
+        }
+        str_table += '</tr>';
+        
+        if(bln_appointed == true)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Master Record';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"MasterRecordId\" onclick=\"javascript:mthd_MasterRecordId(this.value)\" value=\"'+contactdetails[i].Id+'\" Checked >';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"MasterRecordId\" onclick=\"javascript:mthd_MasterRecordId(this.value)\" value=\"'+contactdetails[j].Id+'\" disabled=true>';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"MasterRecordId\" onclick=\"javascript:mthd_MasterRecordId(this.value)\" value=\"'+contactdetails[k].Id+'\" disabled=true>';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';
+        }
+        if(bln_appointed == false)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Master Record';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"MasterRecordId\" onclick=\"javascript:mthd_MasterRecordId(\''+contactdetails[i].Id+'\',\''+contactdetails[i].Preferred_Touch_Frequency_By_AE__c+'\',\''+contactdetails[i].Preferred_Touch_Frequency_By_RLC__c+'\',\''+contactdetails[i].Preferred_Touch_Frequency_By_RMS__c+'\',\''+contactdetails[i].Producer_Category_ByAE__c+'\',\''+contactdetails[i].Producer_Category_By_RLC__c+'\',\''+contactdetails[i].Producer_Category_By_RMS__c+'\')\" value=\"'+contactdetails[i].Id+'\" Checked>';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"MasterRecordId\" onclick=\"javascript:mthd_MasterRecordId(\''+contactdetails[j].Id+'\',\''+contactdetails[j].Preferred_Touch_Frequency_By_AE__c+'\',\''+contactdetails[j].Preferred_Touch_Frequency_By_RLC__c+'\',\''+contactdetails[j].Preferred_Touch_Frequency_By_RMS__c+'\',\''+contactdetails[j].Producer_Category_ByAE__c+'\',\''+contactdetails[j].Producer_Category_By_RLC__c+'\',\''+contactdetails[j].Producer_Category_By_RMS__c+'\')\" value=\"'+contactdetails[j].Id+'\">';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"MasterRecordId\" onclick=\"javascript:mthd_MasterRecordId(\''+contactdetails[k].Id+'\',\''+contactdetails[k].Preferred_Touch_Frequency_By_AE__c+'\',\''+contactdetails[k].Preferred_Touch_Frequency_By_RLC__c+'\',\''+contactdetails[k].Preferred_Touch_Frequency_By_RMS__c+'\',\''+contactdetails[k].Producer_Category_ByAE__c+'\',\''+contactdetails[k].Producer_Category_By_RLC__c+'\',\''+contactdetails[k].Producer_Category_By_RMS__c+'\')\" value=\"'+contactdetails[k].Id+'\">';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';       
+        }
+        
+        if(bln_appointed == true)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'First Name';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[i].FirstName !=null)
+                    str_table += contactdetails[i].FirstName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[j].FirstName !=null)
+                    str_table += contactdetails[j].FirstName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[k].FirstName !=null)
+                    str_table += contactdetails[k].FirstName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';
+        }
+        if(bln_appointed == false)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'First Name';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"FirstName\" onclick=\"javascript:mthd_FirstName(this.value)\" value=\"'+contactdetails[i].FirstName+'\" Checked>';
+                if(contactdetails[i].FirstName !=null)
+                    str_table += contactdetails[i].FirstName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"FirstName\" onclick=\"javascript:mthd_FirstName(this.value)\" value=\"'+contactdetails[j].FirstName+'\">';
+                if(contactdetails[j].FirstName !=null)
+                    str_table += contactdetails[j].FirstName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"FirstName\" onclick=\"javascript:mthd_FirstName(this.value)\" value=\"'+contactdetails[k].FirstName+'\">';
+                if(contactdetails[k].FirstName !=null)
+                    str_table += contactdetails[k].FirstName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';
+            
+        }
+
+        if(bln_appointed == true)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Middle Name';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[i].Middle_Name__c !=null)
+                    str_table += contactdetails[i].Middle_Name__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[j].Middle_Name__c !=null)
+                    str_table += contactdetails[j].Middle_Name__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[k].Middle_Name__c !=null)
+                    str_table += contactdetails[k].Middle_Name__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';
+        }
+        if(bln_appointed == false)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Middle Name';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"MiddleName\" onclick=\"javascript:mthd_MiddleName(this.value)\" value=\"'+contactdetails[i].Middle_Name__c+'\" Checked>';
+                if(contactdetails[i].Middle_Name__c !=null)
+                    str_table += contactdetails[i].Middle_Name__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"MiddleName\" onclick=\"javascript:mthd_MiddleName(this.value)\" value=\"'+contactdetails[j].Middle_Name__c+'\">';
+                if(contactdetails[j].Middle_Name__c !=null)
+                    str_table += contactdetails[j].Middle_Name__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"MiddleName\" onclick=\"javascript:mthd_MiddleName(this.value)\" value=\"'+contactdetails[k].Middle_Name__c+'\">';
+                if(contactdetails[k].Middle_Name__c !=null)
+                    str_table += contactdetails[k].Middle_Name__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';       
+        }
+
+        if(bln_appointed == true)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Last Name';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[i].LastName !=null)
+                    str_table += contactdetails[i].LastName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[j].LastName !=null)
+                    str_table += contactdetails[j].LastName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[k].LastName !=null)
+                    str_table += contactdetails[k].LastName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';
+        }
+        if(bln_appointed == false)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Last Name';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"LastName\" onclick=\"javascript:mthd_LastName(this.value)\" value=\"'+contactdetails[i].LastName+'\" Checked>';
+                if(contactdetails[i].LastName !=null)
+                    str_table += contactdetails[i].LastName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"LastName\" onclick=\"javascript:mthd_LastName(this.value)\" value=\"'+contactdetails[j].LastName+'\">';
+                if(contactdetails[j].LastName !=null)
+                    str_table += contactdetails[j].LastName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"LastName\" onclick=\"javascript:mthd_LastName(this.value)\" value=\"'+contactdetails[k].LastName+'\">';
+                if(contactdetails[k].LastName !=null)
+                    str_table += contactdetails[k].LastName;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';       
+        }
+
+        if(bln_appointed == true)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Suffix';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[i].Suffix__c !=null)
+                    str_table += contactdetails[i].Suffix__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[j].Suffix__c !=null)
+                    str_table += contactdetails[j].Suffix__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[k].Suffix__c !=null)
+                    str_table += contactdetails[k].Suffix__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';
+        }
+        if(bln_appointed == false)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Suffix';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Suffix\" onclick=\"javascript:mthd_Suffix(this.value)\" value=\"'+contactdetails[i].Suffix__c+'\" Checked>';
+                if(contactdetails[i].Suffix__c !=null)
+                    str_table += contactdetails[i].Suffix__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Suffix\" onclick=\"javascript:mthd_Suffix(this.value)\" value=\"'+contactdetails[j].Suffix__c+'\">';
+                if(contactdetails[j].Suffix__c !=null)
+                    str_table += contactdetails[j].Suffix__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Suffix\" onclick=\"javascript:mthd_Suffix(this.value)\" value=\"'+contactdetails[k].Suffix__c+'\">';
+                if(contactdetails[k].Suffix__c !=null)
+                    str_table += contactdetails[k].Suffix__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';       
+        }
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Title';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Title\" onclick=\"javascript:mthd_Title(this.value)\" value=\"'+contactdetails[i].Title+'\" Checked>';
+        if(contactdetails[i].Title !=null)
+            str_table += contactdetails[i].Title;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Title\" onclick=\"javascript:mthd_Title(this.value)\" value=\"'+contactdetails[j].Title+'\">';
+        if(contactdetails[j].Title !=null)
+            str_table += contactdetails[j].Title;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Title\" onclick=\"javascript:mthd_Title(this.value)\" value=\"'+contactdetails[k].Title+'\">';
+        if(contactdetails[k].Title !=null)
+            str_table += contactdetails[k].Title;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Nickname';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Nickname\" onclick=\"javascript:mthd_Nickname(this.value)\" value=\"'+contactdetails[i].Nickname__c+'\" Checked>';
+        if(contactdetails[i].Nickname__c !=null)
+            str_table += contactdetails[i].Nickname__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Nickname\" onclick=\"javascript:mthd_Nickname(this.value)\" value=\"'+contactdetails[j].Nickname__c+'\">';
+        if(contactdetails[j].Nickname__c !=null)
+            str_table += contactdetails[j].Nickname__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Nickname\" onclick=\"javascript:mthd_Nickname(this.value)\" value=\"'+contactdetails[k].Nickname__c+'\">';
+        if(contactdetails[k].Nickname__c !=null)
+            str_table += contactdetails[k].Nickname__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Status';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Status__c !=null)
+            str_table += contactdetails[i].Status__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Status__c !=null)
+            str_table += contactdetails[j].Status__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Status__c !=null)
+            str_table += contactdetails[k].Status__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+
+
+        if(bln_appointed == true)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Type';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[i].Type__c !=null)
+                    str_table += contactdetails[i].Type__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[j].Type__c !=null)
+                    str_table += contactdetails[j].Type__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[k].Type__c !=null)
+                    str_table += contactdetails[k].Type__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';
+        }
+        if(bln_appointed == false)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Type';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Typevalue\" onclick=\"javascript:mthd_Typevalue(this.value)\" value=\"'+contactdetails[i].Type__c+'\" Checked>';
+                if(contactdetails[i].Type__c !=null)
+                    str_table += contactdetails[i].Type__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Typevalue\" onclick=\"javascript:mthd_Typevalue(this.value)\" value=\"'+contactdetails[j].Type__c+'\">';
+                if(contactdetails[j].Type__c !=null)
+                    str_table += contactdetails[j].Type__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Typevalue\" onclick=\"javascript:mthd_Typevalue(this.value)\" value=\"'+contactdetails[k].Type__c+'\">';
+                if(contactdetails[k].Type__c !=null)
+                    str_table += contactdetails[k].Type__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';           
+        }
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Appointed';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Appointed__c =='true')
+        {
+            str_table += '<input type=\"checkbox\" checked=\"checked\" disabled=\"disabled\"/>';
+        }
+        else
+        {
+            str_table +='<input type=\"checkbox\" disabled=\"disabled\"/>';
+        }
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Appointed__c =='true')
+        {
+            str_table += '<input type=\"checkbox\" checked=\"checked\" disabled=\"disabled\"/>';
+        }
+        else
+        {
+            str_table +='<input type=\"checkbox\" disabled=\"disabled\"/>';
+        }        
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Appointed__c =='true')
+        {
+            str_table += '<input type=\"checkbox\" checked=\"checked\" disabled=\"disabled\"/>';
+        }
+        else
+        {
+            str_table +='<input type=\"checkbox\" disabled=\"disabled\"/>';
+        }        
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        if(bln_appointed == true)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Appointment State';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[i].Appointment_State_s__c !=null)
+                    str_table += contactdetails[i].Appointment_State_s__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[j].Appointment_State_s__c !=null)
+                    str_table += contactdetails[j].Appointment_State_s__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[k].Appointment_State_s__c !=null)
+                    str_table += contactdetails[k].Appointment_State_s__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';
+        }
+        if(bln_appointed == false)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Appointment State';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AppointmentState\" onclick=\"javascript:mthd_AppointmentState(this.value)\" value=\"'+contactdetails[i].Appointment_State_s__c+'\" Checked>';
+                if(contactdetails[i].Appointment_State_s__c !=null)
+                    str_table += contactdetails[i].Appointment_State_s__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AppointmentState\" onclick=\"javascript:mthd_AppointmentState(this.value)\" value=\"'+contactdetails[j].Appointment_State_s__c+'\">';
+                if(contactdetails[j].Appointment_State_s__c !=null)
+                    str_table += contactdetails[j].Appointment_State_s__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AppointmentState\" onclick=\"javascript:mthd_AppointmentState(this.value)\" value=\"'+contactdetails[k].Appointment_State_s__c+'\">';
+                if(contactdetails[k].Appointment_State_s__c !=null)
+                    str_table += contactdetails[k].Appointment_State_s__c;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';       
+        }
+        
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Firm Region';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"FirmRegion\" onclick=\"javascript:mthd_FirmRegion(this.value)\" value=\"'+contactdetails[i].Region__c+'\" Checked>';
+        if(contactdetails[i].Region__c !=null)
+            str_table += contactdetails[i].Region__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"FirmRegion\" onclick=\"javascript:mthd_FirmRegion(this.value)\" value=\"'+contactdetails[j].Region__c+'\">';
+        if(contactdetails[j].Region__c !=null)
+        str_table += contactdetails[j].Region__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"FirmRegion\" onclick=\"javascript:mthd_FirmRegion(this.value)\" value=\"'+contactdetails[k].Region__c+'\">';
+        if(contactdetails[k].Region__c !=null)
+        str_table += contactdetails[k].Region__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Assistant';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Assistantname\" onclick=\"javascript:mthd_Assistantname(this.value)\" value=\"'+contactdetails[i].AssistantName+'\" Checked>';
+        if(contactdetails[i].AssistantName !=null)
+        str_table += contactdetails[i].AssistantName;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Assistantname\" onclick=\"javascript:mthd_Assistantname(this.value)\" value=\"'+contactdetails[j].AssistantName+'\">';
+        if(contactdetails[j].AssistantName !=null)
+        str_table += contactdetails[j].AssistantName;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"Assistantname\" onclick=\"javascript:mthd_Assistantname(this.value)\" value=\"'+contactdetails[k].AssistantName+'\">';
+        if(contactdetails[k].AssistantName !=null)
+        str_table += contactdetails[k].AssistantName;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Source Of Contact';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"SourceOfContact\" onclick=\"javascript:mthd_SourceOfContact(this.value)\" value=\"'+contactdetails[i].Source_Of_Contact__c+'\" Checked>';
+        if(contactdetails[i].Source_Of_Contact__c !=null)
+            str_table += contactdetails[i].Source_Of_Contact__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"SourceOfContact\" onclick=\"javascript:mthd_SourceOfContact(this.value)\" value=\"'+contactdetails[j].Source_Of_Contact__c+'\">';
+        if(contactdetails[j].Source_Of_Contact__c !=null)
+            str_table += contactdetails[j].Source_Of_Contact__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"SourceOfContact\" onclick=\"javascript:mthd_SourceOfContact(this.value)\" value=\"'+contactdetails[k].Source_Of_Contact__c+'\">';
+        if(contactdetails[k].Source_Of_Contact__c !=null)
+            str_table += contactdetails[k].Source_Of_Contact__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        if(bln_appointed == true)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Home Phone';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[i].HomePhone!=null)
+                    str_table += contactdetails[i].HomePhone;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[j].HomePhone!=null)
+                    str_table += contactdetails[j].HomePhone;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[k].HomePhone!=null)
+                    str_table += contactdetails[k].HomePhone;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';
+        }
+        if(bln_appointed == false)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Home Phone';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"HomePhone\" onclick=\"javascript:mthd_HomePhone(this.value)\" value=\"'+contactdetails[i].HomePhone+'\" Checked>';
+                if(contactdetails[i].HomePhone!=null)
+                    str_table += contactdetails[i].HomePhone;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"HomePhone\" onclick=\"javascript:mthd_HomePhone(this.value)\" value=\"'+contactdetails[j].HomePhone+'\">';
+                if(contactdetails[j].HomePhone!=null)
+                    str_table += contactdetails[j].HomePhone;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"HomePhone\" onclick=\"javascript:mthd_HomePhone(this.value)\" value=\"'+contactdetails[k].HomePhone+'\">';
+                if(contactdetails[k].HomePhone!=null)
+                    str_table += contactdetails[k].HomePhone;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';       
+        }
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Asst. Phone';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AsstPhone\" onclick=\"javascript:mthd_AsstPhone(this.value)\" value=\"'+contactdetails[i].AssistantPhone+'\" Checked>';
+        if(contactdetails[i].AssistantPhone!=null)
+            str_table += contactdetails[i].AssistantPhone;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AsstPhone\" onclick=\"javascript:mthd_AsstPhone(this.value)\" value=\"'+contactdetails[j].AssistantPhone+'\">';
+        if(contactdetails[j].AssistantPhone!=null)
+            str_table += contactdetails[j].AssistantPhone;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AsstPhone\" onclick=\"javascript:mthd_AsstPhone(this.value)\" value=\"'+contactdetails[k].AssistantPhone+'\">';
+        if(contactdetails[k].AssistantPhone!=null)
+            str_table += contactdetails[k].AssistantPhone;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Assistant Email';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AssistantEmail\" onclick=\"javascript:mthd_AssistantEmail(this.value)\" value=\"'+contactdetails[i].Assistant_Email__c+'\" Checked>';
+        if(contactdetails[i].Assistant_Email__c!=null)
+            str_table += contactdetails[i].Assistant_Email__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AssistantEmail\" onclick=\"javascript:mthd_AssistantEmail(this.value)\" value=\"'+contactdetails[j].Assistant_Email__c+'\">';
+        if(contactdetails[j].Assistant_Email__c!=null)
+            str_table += contactdetails[j].Assistant_Email__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AssistantEmail\" onclick=\"javascript:mthd_AssistantEmail(this.value)\" value=\"'+contactdetails[k].Assistant_Email__c+'\">';
+        if(contactdetails[k].Assistant_Email__c!=null)
+            str_table += contactdetails[k].Assistant_Email__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Personal Email';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"PersonalEmail\" onclick=\"javascript:mthd_PersonalEmail(this.value)\" value=\"'+contactdetails[i].Secondary_Email__c+'\" Checked>';
+        if(contactdetails[i].Secondary_Email__c!=null)
+             str_table += contactdetails[i].Secondary_Email__c;
+        else
+             str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"PersonalEmail\" onclick=\"javascript:mthd_PersonalEmail(this.value)\" value=\"'+contactdetails[j].Secondary_Email__c+'\">';
+        if(contactdetails[j].Secondary_Email__c!=null)
+             str_table += contactdetails[j].Secondary_Email__c;
+        else
+             str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+             str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"PersonalEmail\" onclick=\"javascript:mthd_PersonalEmail(this.value)\" value=\"'+contactdetails[k].Secondary_Email__c+'\">';
+             if(contactdetails[k].Secondary_Email__c!=null)
+                 str_table += contactdetails[k].Secondary_Email__c;
+             else
+                 str_table +='&nbsp;';
+             str_table += '</td>';
+        }
+        str_table += '</tr>';       
+
+        if(bln_appointed == true)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Account Name';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[i].Account.Name !=null)
+                    str_table += contactdetails[i].Account.Name;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[j].Account.Name !=null)
+                    str_table += contactdetails[j].Account.Name;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">';
+                if(contactdetails[k].Account.Name !=null)
+                    str_table += contactdetails[k].Account.Name;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                 str_table += '</tr>';
+        }
+        if(bln_appointed == false)
+        {
+                str_table += '<tr>';
+                str_table += '<th scope=\"row\" width=\"25%\">';
+                str_table += 'Account Name';
+                str_table += '</th>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AccountName\" onclick=\"javascript:mthd_AccountName(\''+contactdetails[i].AccountId+'\',\''+contactdetails[i].Id+'\',\''+contactdetails[i].Phone+'\',\''+contactdetails[i].Email+'\',\''+contactdetails[i].MobilePhone+'\',\''+contactdetails[i].Fax+'\',\''+contactdetails[i].HasOptedOutOfEmail+'\',\''+contactdetails[i].Work_Phone_Extension__c+'\',\''+contactdetails[i].Instructions__c+'\',\''+contactdetails[i].Business_Street_1__c+'\',\''+contactdetails[i].Business_Street_2__c+'\',\''+contactdetails[i].Business_City__c+'\',\''+contactdetails[i].Business_State__c+'\',\''+contactdetails[i].Business_Zip_Code__c+'\',\''+contactdetails[i].Business_Country__c+'\')\" value=\"'+contactdetails[i].AccountId+'\" Checked>';
+                if(contactdetails[i].Account.Name !=null)
+                    str_table += contactdetails[i].Account.Name;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AccountName\" onclick=\"javascript:mthd_AccountName(\''+contactdetails[j].AccountId+'\',\''+contactdetails[j].Id+'\',\''+contactdetails[j].Phone+'\',\''+contactdetails[j].Email+'\',\''+contactdetails[j].MobilePhone+'\',\''+contactdetails[j].Fax+'\',\''+contactdetails[j].HasOptedOutOfEmail+'\',\''+contactdetails[j].Work_Phone_Extension__c+'\',\''+contactdetails[j].Instructions__c+'\',\''+contactdetails[j].Business_Street_1__c+'\',\''+contactdetails[j].Business_Street_2__c+'\',\''+contactdetails[j].Business_City__c+'\',\''+contactdetails[j].Business_State__c+'\',\''+contactdetails[j].Business_Zip_Code__c+'\',\''+contactdetails[j].Business_Country__c+'\')\" value=\"'+contactdetails[j].AccountId+'\">';
+                if(contactdetails[j].Account.Name !=null)
+                    str_table += contactdetails[j].Account.Name;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                if(ContactId3!='')
+                {
+                str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AccountName\" onclick=\"javascript:mthd_AccountName(\''+contactdetails[k].AccountId+'\',\''+contactdetails[k].Id+'\',\''+contactdetails[k].Phone+'\',\''+contactdetails[k].Email+'\',\''+contactdetails[k].MobilePhone+'\',\''+contactdetails[k].Fax+'\',\''+contactdetails[k].HasOptedOutOfEmail+'\',\''+contactdetails[k].Work_Phone_Extension__c+'\',\''+contactdetails[k].Instructions__c+'\',\''+contactdetails[k].Business_Street_1__c+'\',\''+contactdetails[k].Business_Street_2__c+'\',\''+contactdetails[k].Business_City__c+'\',\''+contactdetails[k].Business_State__c+'\',\''+contactdetails[k].Business_Zip_Code__c+'\',\''+contactdetails[k].Business_Country__c+'\')\" value=\"'+contactdetails[k].AccountId+'\">';
+                if(contactdetails[k].Account.Name !=null)
+                    str_table += contactdetails[k].Account.Name;
+                else
+                    str_table +='&nbsp;';
+                str_table += '</td>';
+                }
+                str_table += '</tr>';           
+        }
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Agency Name';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AgencyName\" onclick=\"javascript:mthd_AgencyName(this.value)\" value=\"'+contactdetails[i].Agency_Name__c+'\" Checked>';
+        if(contactdetails[i].Agency_Name__c!=null)
+            str_table += contactdetails[i].Agency_Name__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AgencyName\" onclick=\"javascript:mthd_AgencyName(this.value)\" value=\"'+contactdetails[j].Agency_Name__c+'\">';
+        if(contactdetails[j].Agency_Name__c!=null)
+            str_table += contactdetails[j].Agency_Name__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AgencyName\" onclick=\"javascript:mthd_AgencyName(this.value)\" value=\"'+contactdetails[k].Agency_Name__c+'\">';
+        if(contactdetails[k].Agency_Name__c!=null)
+            str_table += contactdetails[k].Agency_Name__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Business Address';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Business_Address__c !=null)
+            str_table += contactdetails[i].Business_Address__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Business_Address__c !=null)
+            str_table += contactdetails[j].Business_Address__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Business_Address__c !=null)
+            str_table += contactdetails[k].Business_Address__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Work Phone';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Phone !=null)
+            str_table += contactdetails[i].Phone;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Phone !=null)
+            str_table += contactdetails[j].Phone;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Phone !=null)
+            str_table += contactdetails[k].Phone;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Work Phone Extension';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Work_Phone_Extension__c !=null)
+            str_table += contactdetails[i].Work_Phone_Extension__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Work_Phone_Extension__c !=null)
+            str_table += contactdetails[j].Work_Phone_Extension__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Work_Phone_Extension__c !=null)
+            str_table += contactdetails[k].Work_Phone_Extension__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Mobile';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].MobilePhone !=null)
+            str_table += contactdetails[i].MobilePhone;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].MobilePhone !=null)
+            str_table += contactdetails[j].MobilePhone;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].MobilePhone !=null)
+            str_table += contactdetails[k].MobilePhone;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Fax';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Fax !=null)
+            str_table += contactdetails[i].Fax;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Fax !=null)
+            str_table += contactdetails[j].Fax;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Fax !=null)
+            str_table += contactdetails[k].Fax;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Email';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Email!=null)
+            str_table += contactdetails[i].Email;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Email!=null)
+            str_table += contactdetails[j].Email;
+        else
+            str_table +='&nbsp;';
+        str_table +='</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Email!=null)
+            str_table += contactdetails[k].Email;
+        else
+            str_table +='&nbsp;';
+        str_table +='</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Do Not Solicit';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].HasOptedOutOfEmail =='true')
+        {
+            str_table += '<input type=\"checkbox\" checked=\"checked\" disabled=\"disabled\"/>';
+        }
+        else
+        {
+            str_table +='<input type=\"checkbox\" disabled=\"disabled\"/>';
+        }
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].HasOptedOutOfEmail =='true')
+        {
+            str_table += '<input type=\"checkbox\" checked=\"checked\" disabled=\"disabled\"/>';
+        }
+        else
+        {
+            str_table +='<input type=\"checkbox\" disabled=\"disabled\"/>';
+        }        
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].HasOptedOutOfEmail =='true')
+        {
+            str_table += '<input type=\"checkbox\" checked=\"checked\" disabled=\"disabled\"/>';
+        }
+        else
+        {
+            str_table +='<input type=\"checkbox\" disabled=\"disabled\"/>';
+        }        
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Instructions';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Instructions__c!=null)
+            str_table += contactdetails[i].Instructions__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Instructions__c!=null)
+            str_table += contactdetails[j].Instructions__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Instructions__c!=null)
+            str_table += contactdetails[k].Instructions__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Address';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Address__c =='true')
+        {
+            str_table += '<input type=\"checkbox\" checked=\"checked\" disabled=\"disabled\"/>';
+        }
+        else
+        {
+            str_table +='<input type=\"checkbox\" disabled=\"disabled\"/>';
+        }
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Address__c =='true')
+        {
+            str_table += '<input type=\"checkbox\" checked=\"checked\" disabled=\"disabled\"/>';
+        }
+        else
+        {
+            str_table +='<input type=\"checkbox\" disabled=\"disabled\"/>';
+        }        
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Address__c =='true')
+        {
+            str_table += '<input type=\"checkbox\" checked=\"checked\" disabled=\"disabled\"/>';
+        }
+        else
+        {
+            str_table +='<input type=\"checkbox\" disabled=\"disabled\"/>';
+        }        
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Temporary Address';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"TemporaryAddress\" onclick=\"javascript:mthd_TemporaryAddress(\''+contactdetails[i].Address__c+'\',\''+contactdetails[i].Temporary_Street_1__c+'\',\''+contactdetails[i].Temporary_Street_2__c+'\',\''+contactdetails[i].Temporary_City__c+'\',\''+contactdetails[i].Temporary_State__c+'\',\''+contactdetails[i].Temporary_Zip_Code__c+'\',\''+contactdetails[i].Temporary_Country__c+'\')\" value=\"'+contactdetails[i].Temporary_Address__c+'\" Checked>';
+        if(contactdetails[i].Temporary_Address__c!=null)
+            str_table += contactdetails[i].Temporary_Address__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"TemporaryAddress\" onclick=\"javascript:mthd_TemporaryAddress(\''+contactdetails[j].Address__c+'\',\''+contactdetails[j].Temporary_Street_1__c+'\',\''+contactdetails[j].Temporary_Street_2__c+'\',\''+contactdetails[j].Temporary_City__c+'\',\''+contactdetails[j].Temporary_State__c+'\',\''+contactdetails[j].Temporary_Zip_Code__c+'\',\''+contactdetails[j].Temporary_Country__c+'\')\" value=\"'+contactdetails[j].Temporary_Address__c+'\">';
+        if(contactdetails[j].Temporary_Address__c!=null)
+            str_table += contactdetails[j].Temporary_Address__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"TemporaryAddress\" onclick=\"javascript:mthd_TemporaryAddress(\''+contactdetails[k].Address__c+'\',\''+contactdetails[k].Temporary_Street_1__c+'\',\''+contactdetails[k].Temporary_Street_2__c+'\',\''+contactdetails[k].Temporary_City__c+'\',\''+contactdetails[k].Temporary_State__c+'\',\''+contactdetails[k].Temporary_Zip_Code__c+'\',\''+contactdetails[k].Temporary_Country__c+'\')\" value=\"'+contactdetails[k].Temporary_Address__c+'\">';
+        if(contactdetails[k].Temporary_Address__c!=null)
+            str_table += contactdetails[k].Temporary_Address__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Producer Category (By AE)';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Producer_Category_ByAE__c!=null)
+            str_table += contactdetails[i].Producer_Category_ByAE__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Producer_Category_ByAE__c!=null)
+            str_table += contactdetails[j].Producer_Category_ByAE__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Producer_Category_ByAE__c!=null)
+            str_table += contactdetails[k].Producer_Category_ByAE__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+        
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Producer Category (By RLC)';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Producer_Category_By_RLC__c!=null)
+            str_table += contactdetails[i].Producer_Category_By_RLC__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Producer_Category_By_RLC__c!=null)
+            str_table += contactdetails[j].Producer_Category_By_RLC__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Producer_Category_By_RLC__c!=null)
+            str_table += contactdetails[k].Producer_Category_By_RLC__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Producer Category (By RMS)';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Producer_Category_By_RMS__c!=null)
+            str_table += contactdetails[i].Producer_Category_By_RMS__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Producer_Category_By_RMS__c!=null)
+            str_table += contactdetails[j].Producer_Category_By_RMS__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Producer_Category_By_RMS__c!=null)
+            str_table += contactdetails[k].Producer_Category_By_RMS__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Preferred Touch Frequency (By AE)';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Preferred_Touch_Frequency_By_AE__c!=null)
+            str_table += contactdetails[i].Preferred_Touch_Frequency_By_AE__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Preferred_Touch_Frequency_By_AE__c!=null)
+            str_table += contactdetails[j].Preferred_Touch_Frequency_By_AE__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Preferred_Touch_Frequency_By_AE__c!=null)
+            str_table += contactdetails[k].Preferred_Touch_Frequency_By_AE__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+        
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Preferred Touch Frequency (By RLC)';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Preferred_Touch_Frequency_By_RLC__c!=null)
+            str_table += contactdetails[i].Preferred_Touch_Frequency_By_RLC__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Preferred_Touch_Frequency_By_RLC__c!=null)
+            str_table += contactdetails[j].Preferred_Touch_Frequency_By_RLC__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Preferred_Touch_Frequency_By_RLC__c!=null)
+            str_table += contactdetails[k].Preferred_Touch_Frequency_By_RLC__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Preferred Touch Frequency (By RMS)';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Preferred_Touch_Frequency_By_RMS__c!=null)
+            str_table += contactdetails[i].Preferred_Touch_Frequency_By_RMS__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Preferred_Touch_Frequency_By_RMS__c!=null)
+            str_table += contactdetails[j].Preferred_Touch_Frequency_By_RMS__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Preferred_Touch_Frequency_By_RMS__c!=null)
+            str_table += contactdetails[k].Preferred_Touch_Frequency_By_RMS__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Years In Business';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"YearsInBusiness\" onclick=\"javascript:mthd_YearsInBusiness(this.value)\" value=\"'+contactdetails[i].Years_In_Business__c+'\" Checked>';
+        if(contactdetails[i].Years_In_Business__c!=null)
+            str_table += contactdetails[i].Years_In_Business__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"YearsInBusiness\" onclick=\"javascript:mthd_YearsInBusiness(this.value)\" value=\"'+contactdetails[j].Years_In_Business__c+'\">';
+        if(contactdetails[j].Years_In_Business__c!=null)
+            str_table += contactdetails[j].Years_In_Business__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"YearsInBusiness\" onclick=\"javascript:mthd_YearsInBusiness(this.value)\" value=\"'+contactdetails[k].Years_In_Business__c+'\">';
+        if(contactdetails[k].Years_In_Business__c!=null)
+            str_table += contactdetails[k].Years_In_Business__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Number Of Clients';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"NumberOfClients\" onclick=\"javascript:mthd_NumberOfClients(this.value)\" value=\"'+contactdetails[i].Number_Of_Clients__c+'\" Checked>';
+        if(contactdetails[i].Number_Of_Clients__c!=null)
+            str_table += contactdetails[i].Number_Of_Clients__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"NumberOfClients\" onclick=\"javascript:mthd_NumberOfClients(this.value)\" value=\"'+contactdetails[j].Number_Of_Clients__c+'\">';
+        if(contactdetails[j].Number_Of_Clients__c!=null)
+            str_table += contactdetails[j].Number_Of_Clients__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"NumberOfClients\" onclick=\"javascript:mthd_NumberOfClients(this.value)\" value=\"'+contactdetails[k].Number_Of_Clients__c+'\">';
+        if(contactdetails[k].Number_Of_Clients__c!=null)
+            str_table += contactdetails[k].Number_Of_Clients__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'AUM';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AUMvalue\" onclick=\"javascript:mthd_AUMvalue(this.value)\" value=\"'+contactdetails[i].AUM__c+'\" Checked>';
+        if(contactdetails[i].AUM__c!=null)
+            str_table += contactdetails[i].AUM__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AUMvalue\" onclick=\"javascript:mthd_AUMvalue(this.value)\" value=\"'+contactdetails[j].AUM__c+'\">';
+        if(contactdetails[j].AUM__c!=null)
+            str_table += contactdetails[j].AUM__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AUMvalue\" onclick=\"javascript:mthd_AUMvalue(this.value)\" value=\"'+contactdetails[k].AUM__c+'\">';
+        if(contactdetails[k].AUM__c!=null)
+            str_table += contactdetails[k].AUM__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Life Insurance Premium Goal';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"LifeInsurancePremiumGoal\" onclick=\"javascript:mthd_LifeInsurancePremiumGoal(this.value)\" value=\"'+contactdetails[i].Life_Insurance_Premium_Goal__c+'\" Checked>';
+        if(contactdetails[i].Life_Insurance_Premium_Goal__c!=null)
+            str_table += contactdetails[i].Life_Insurance_Premium_Goal__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"LifeInsurancePremiumGoal\" onclick=\"javascript:mthd_LifeInsurancePremiumGoal(this.value)\" value=\"'+contactdetails[j].Life_Insurance_Premium_Goal__c+'\">';
+        if(contactdetails[j].Life_Insurance_Premium_Goal__c!=null)
+            str_table += contactdetails[j].Life_Insurance_Premium_Goal__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"LifeInsurancePremiumGoal\" onclick=\"javascript:mthd_LifeInsurancePremiumGoal(this.value)\" value=\"'+contactdetails[k].Life_Insurance_Premium_Goal__c+'\">';
+        if(contactdetails[k].Life_Insurance_Premium_Goal__c!=null)
+            str_table += contactdetails[k].Life_Insurance_Premium_Goal__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Total YTD Life Premiums - All Companies';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"TotalYTDLifePremiumsAllCompanies\" onclick=\"javascript:mthd_TotalYTDLifePremiumsAllCompanies(this.value)\" value=\"'+contactdetails[i].Total_YTD_Life_Premiums_All_Companies__c+'\" Checked>';
+        if(contactdetails[i].Total_YTD_Life_Premiums_All_Companies__c!=null)
+            str_table += contactdetails[i].Total_YTD_Life_Premiums_All_Companies__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"TotalYTDLifePremiumsAllCompanies\" onclick=\"javascript:mthd_TotalYTDLifePremiumsAllCompanies(this.value)\" value=\"'+contactdetails[j].Total_YTD_Life_Premiums_All_Companies__c+'\">'; 
+        if(contactdetails[j].Total_YTD_Life_Premiums_All_Companies__c!=null)
+            str_table += contactdetails[j].Total_YTD_Life_Premiums_All_Companies__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"TotalYTDLifePremiumsAllCompanies\" onclick=\"javascript:mthd_TotalYTDLifePremiumsAllCompanies(this.value)\" value=\"'+contactdetails[k].Total_YTD_Life_Premiums_All_Companies__c+'\">'; 
+        if(contactdetails[k].Total_YTD_Life_Premiums_All_Companies__c!=null)
+            str_table += contactdetails[k].Total_YTD_Life_Premiums_All_Companies__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Total GDC Production';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"TotalGDCProduction\" onclick=\"javascript:mthd_TotalGDCProduction(this.value)\" value=\"'+contactdetails[i].GDC_Production__c+'\" Checked>';
+        if(contactdetails[i].GDC_Production__c!=null)
+            str_table += contactdetails[i].GDC_Production__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"TotalGDCProduction\" onclick=\"javascript:mthd_TotalGDCProduction(this.value)\" value=\"'+contactdetails[j].GDC_Production__c+'\">';
+        if(contactdetails[j].GDC_Production__c!=null)
+            str_table += contactdetails[j].GDC_Production__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"TotalGDCProduction\" onclick=\"javascript:mthd_TotalGDCProduction(this.value)\" value=\"'+contactdetails[k].GDC_Production__c+'\">';
+        if(contactdetails[k].GDC_Production__c!=null)
+            str_table += contactdetails[k].GDC_Production__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Has the broker worked with a Hartford Sales Person?';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"WorkedWithHLIBefore\" onclick=\"javascript:mthd_WorkedWithHLIBefore(\''+contactdetails[i].Worked_With_HLI_Before__c+'\',\''+contactdetails[i].Sold_HLI_Policies_Before__c+'\',\''+contactdetails[i].Type_Of_Policies_Sold_Before__c+'\',\''+contactdetails[i].Type_Of_HLI_Policies_Sold_YTD__c+'\',\''+contactdetails[i].Type_Of_HLI_Policies_Sold_Prior_Year__c+'\',\''+contactdetails[i].Type_Of_Sales_Person__c+'\')\" value=\"'+contactdetails[i].Worked_With_HLI_Before__c+'\" Checked>';
+        if(contactdetails[i].Worked_With_HLI_Before__c!=null)
+            str_table += contactdetails[i].Worked_With_HLI_Before__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"WorkedWithHLIBefore\" onclick=\"javascript:mthd_WorkedWithHLIBefore(\''+contactdetails[j].Worked_With_HLI_Before__c+'\',\''+contactdetails[j].Sold_HLI_Policies_Before__c+'\',\''+contactdetails[j].Type_Of_Policies_Sold_Before__c+'\',\''+contactdetails[j].Type_Of_HLI_Policies_Sold_YTD__c+'\',\''+contactdetails[j].Type_Of_HLI_Policies_Sold_Prior_Year__c+'\',\''+contactdetails[j].Type_Of_Sales_Person__c+'\')\" value=\"'+contactdetails[j].Worked_With_HLI_Before__c+'\">';
+        if(contactdetails[j].Worked_With_HLI_Before__c!=null)
+            str_table += contactdetails[j].Worked_With_HLI_Before__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"WorkedWithHLIBefore\" onclick=\"javascript:mthd_WorkedWithHLIBefore(\''+contactdetails[k].Worked_With_HLI_Before__c+'\',\''+contactdetails[k].Sold_HLI_Policies_Before__c+'\',\''+contactdetails[k].Type_Of_Policies_Sold_Before__c+'\',\''+contactdetails[k].Type_Of_HLI_Policies_Sold_YTD__c+'\',\''+contactdetails[k].Type_Of_HLI_Policies_Sold_Prior_Year__c+'\',\''+contactdetails[k].Type_Of_Sales_Person__c+'\')\" value=\"'+contactdetails[k].Worked_With_HLI_Before__c+'\">';
+        if(contactdetails[k].Worked_With_HLI_Before__c!=null)
+            str_table += contactdetails[k].Worked_With_HLI_Before__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Type of Sales Person';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Type_Of_Sales_Person__c!=null)
+            str_table += contactdetails[i].Type_Of_Sales_Person__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Type_Of_Sales_Person__c!=null)
+            str_table += contactdetails[j].Type_Of_Sales_Person__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Type_Of_Sales_Person__c!=null)
+            str_table += contactdetails[k].Type_Of_Sales_Person__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Types of Products Broker Sells';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Type_Of_Policies_Sold_Before__c!=null)
+            str_table += contactdetails[i].Type_Of_Policies_Sold_Before__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Type_Of_Policies_Sold_Before__c!=null)
+            str_table += contactdetails[j].Type_Of_Policies_Sold_Before__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Type_Of_Policies_Sold_Before__c!=null)
+            str_table += contactdetails[k].Type_Of_Policies_Sold_Before__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Sold Hartford products before';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Sold_HLI_Policies_Before__c!=null)
+            str_table += contactdetails[i].Sold_HLI_Policies_Before__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Sold_HLI_Policies_Before__c!=null)
+            str_table += contactdetails[j].Sold_HLI_Policies_Before__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Sold_HLI_Policies_Before__c!=null)
+            str_table += contactdetails[k].Sold_HLI_Policies_Before__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Type of Hartford Products Sold YTD';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Type_Of_HLI_Policies_Sold_YTD__c!=null)
+            str_table += contactdetails[i].Type_Of_HLI_Policies_Sold_YTD__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Type_Of_HLI_Policies_Sold_YTD__c!=null)
+            str_table += contactdetails[j].Type_Of_HLI_Policies_Sold_YTD__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Type_Of_HLI_Policies_Sold_YTD__c!=null)
+            str_table += contactdetails[k].Type_Of_HLI_Policies_Sold_YTD__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Type of Hartford Products Sold Prior Year';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[i].Type_Of_HLI_Policies_Sold_Prior_Year__c!=null)
+            str_table += contactdetails[i].Type_Of_HLI_Policies_Sold_Prior_Year__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[j].Type_Of_HLI_Policies_Sold_Prior_Year__c!=null)
+            str_table += contactdetails[j].Type_Of_HLI_Policies_Sold_Prior_Year__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">';
+        if(contactdetails[k].Type_Of_HLI_Policies_Sold_Prior_Year__c!=null)
+            str_table += contactdetails[k].Type_Of_HLI_Policies_Sold_Prior_Year__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Additional Information';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AdditionalInformation\" onclick=\"javascript:mthd_AdditionalInformation(this.value)\" value=\"'+contactdetails[i].Additional_Information__c+'\" Checked>';
+        if(contactdetails[i].Additional_Information__c!=null)
+            str_table += contactdetails[i].Additional_Information__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AdditionalInformation\" onclick=\"javascript:mthd_AdditionalInformation(this.value)\" value=\"'+contactdetails[j].Additional_Information__c+'\">';
+        if(contactdetails[j].Additional_Information__c!=null)
+            str_table += contactdetails[j].Additional_Information__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"AdditionalInformation\" onclick=\"javascript:mthd_AdditionalInformation(this.value)\" value=\"'+contactdetails[k].Additional_Information__c+'\">';
+        if(contactdetails[k].Additional_Information__c!=null)
+            str_table += contactdetails[k].Additional_Information__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Years MDRT';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"YearsMDRT\" onclick=\"javascript:mthd_YearsMDRT(this.value)\" value=\"'+contactdetails[i].Years_MDRT__c+'\" Checked>';
+        if(contactdetails[i].Years_MDRT__c!=null)
+            str_table += contactdetails[i].Years_MDRT__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"YearsMDRT\" onclick=\"javascript:mthd_YearsMDRT(this.value)\" value=\"'+contactdetails[j].Years_MDRT__c+'\">';
+        if(contactdetails[j].Years_MDRT__c!=null)
+            str_table += contactdetails[j].Years_MDRT__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"YearsMDRT\" onclick=\"javascript:mthd_YearsMDRT(this.value)\" value=\"'+contactdetails[k].Years_MDRT__c+'\">';
+        if(contactdetails[k].Years_MDRT__c!=null)
+            str_table += contactdetails[k].Years_MDRT__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Years Top Of The Table';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"YearsTopOfTheTable\" onclick=\"javascript:mthd_YearsTopOfTheTable(this.value)\" value=\"'+contactdetails[i].Years_Top_Of_The_Table__c+'\" Checked>';
+        if(contactdetails[i].Years_Top_Of_The_Table__c!=null)
+            str_table += contactdetails[i].Years_Top_Of_The_Table__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"YearsTopOfTheTable\" onclick=\"javascript:mthd_YearsTopOfTheTable(this.value)\" value=\"'+contactdetails[j].Years_Top_Of_The_Table__c+'\">';
+        if(contactdetails[j].Years_Top_Of_The_Table__c!=null)
+            str_table += contactdetails[j].Years_Top_Of_The_Table__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"YearsTopOfTheTable\" onclick=\"javascript:mthd_YearsTopOfTheTable(this.value)\" value=\"'+contactdetails[k].Years_Top_Of_The_Table__c+'\">';
+        if(contactdetails[k].Years_Top_Of_The_Table__c!=null)
+            str_table += contactdetails[k].Years_Top_Of_The_Table__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Birthdate';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"ContactBirthdate\" onclick=\"javascript:mthd_ContactBirthdate(this.value)\" value=\"'+contactdetails[i].Birthdate+'\" Checked>';
+        if(contactdetails[i].Birthdate!=null)
+            str_table += contactdetails[i].Birthdate;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"ContactBirthdate\" onclick=\"javascript:mthd_ContactBirthdate(this.value)\" value=\"'+contactdetails[j].Birthdate+'\">';
+        if(contactdetails[j].Birthdate!=null)
+            str_table += contactdetails[j].Birthdate;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"ContactBirthdate\" onclick=\"javascript:mthd_ContactBirthdate(this.value)\" value=\"'+contactdetails[k].Birthdate+'\">';
+        if(contactdetails[k].Birthdate!=null)
+            str_table += contactdetails[k].Birthdate;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Spouse';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"ContactSpouse\" onclick=\"javascript:mthd_ContactSpouse(this.value)\" value=\"'+contactdetails[i].Spouse__c+'\" Checked>';
+        if(contactdetails[i].Spouse__c!=null)
+            str_table += contactdetails[i].Spouse__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"ContactSpouse\" onclick=\"javascript:mthd_ContactSpouse(this.value)\" value=\"'+contactdetails[j].Spouse__c+'\">';
+        if(contactdetails[j].Spouse__c!=null)
+            str_table += contactdetails[j].Spouse__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"ContactSpouse\" onclick=\"javascript:mthd_ContactSpouse(this.value)\" value=\"'+contactdetails[k].Spouse__c+'\">';
+        if(contactdetails[k].Spouse__c!=null)
+            str_table += contactdetails[k].Spouse__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+        str_table += '<tr>';
+        str_table += '<th scope=\"row\" width=\"25%\">';
+        str_table += 'Spouse Birthday';
+        str_table += '</th>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"ContactSpouseBirthday\" onclick=\"javascript:mthd_ContactSpouseBirthday(this.value)\" value=\"'+contactdetails[i].Spouse_Birthday__c+'\" Checked>';
+        if(contactdetails[i].Spouse_Birthday__c!=null)
+            str_table += contactdetails[i].Spouse_Birthday__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"ContactSpouseBirthday\" onclick=\"javascript:mthd_ContactSpouseBirthday(this.value)\" value=\"'+contactdetails[j].Spouse_Birthday__c+'\">';
+        if(contactdetails[j].Spouse_Birthday__c!=null)
+            str_table += contactdetails[j].Spouse_Birthday__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        if(ContactId3!='')
+        {
+        str_table += '<td width=\"25%\">'+'<input type=\"radio\" name=\"ContactSpouseBirthday\" onclick=\"javascript:mthd_ContactSpouseBirthday(this.value)\" value=\"'+contactdetails[k].Spouse_Birthday__c+'\">';
+        if(contactdetails[k].Spouse_Birthday__c!=null)
+            str_table += contactdetails[k].Spouse_Birthday__c;
+        else
+            str_table +='&nbsp;';
+        str_table += '</td>';
+        }
+        str_table += '</tr>';
+
+
+        str_table += '</Table>';
+
+        document.getElementById("table").innerHTML= str_table;
+    }
+    
+    function mthd_MasterRecordId(mastercontactid,masterpreferedtouchfrequencybyAE,masterpreferedtouchfrequencybyRLC,masterpreferedtouchfrequencybyRMS,masterproducercategorybyAE,masterproducercategorybyRLC,masterproducercategorybyRMS)
+    {
+        
+        if(mastercontactid !='null')
+            master_contactId = mastercontactid;
+        if(masterproducercategorybyAE !='null')
+            master_ProducerCategoryByAE=masterproducercategorybyAE;
+        else
+            master_ProducerCategoryByAE = null;
+        if(masterproducercategorybyRLC !='null')
+            master_ProducerCategoryByRLC=masterproducercategorybyRLC;
+        else
+            master_ProducerCategoryByRLC = null;
+        if(masterproducercategorybyRMS !='null')
+            master_ProducerCategoryByRMS=masterproducercategorybyRMS;
+        else
+            master_ProducerCategoryByRMS = null;
+        if(masterpreferedtouchfrequencybyAE !='null')
+            master_PreferredTouchFrequencyByAE=masterpreferedtouchfrequencybyAE;
+        else
+            master_PreferredTouchFrequencyByAE = null;
+        if(masterpreferedtouchfrequencybyRLC !='null')
+            master_PreferredTouchFrequencyByRLC=masterpreferedtouchfrequencybyRLC;
+        else
+            master_PreferredTouchFrequencyByRLC = null;
+        if(masterpreferedtouchfrequencybyRMS !='null')
+            master_PreferredTouchFrequencyByRMS=masterpreferedtouchfrequencybyRMS;
+        else
+            master_PreferredTouchFrequencyByRMS = null;
+    }
+    function mthd_FirstName(masterfirstname)
+    {
+        if(masterfirstname !='null')
+            master_firstname = masterfirstname;
+        else
+            master_firstname = null;
+    }
+    function mthd_LastName(masterlastname)
+    {
+        if(masterlastname !='null')
+            master_lastname = masterlastname;
+        else
+            master_lastname = null;
+    }
+    function mthd_MiddleName(mastermiddlename)
+    {
+        if(mastermiddlename !='null')
+            master_middlename = mastermiddlename;
+        else
+            master_middlename = null;
+    }
+    function mthd_Suffix(mastersuffix)
+    {
+        if(mastersuffix !='null')
+            master_suffix = mastersuffix;
+        else
+            master_suffix = null;
+    }
+    function mthd_Title(mastertitle)
+    {
+        if(mastertitle !='null')
+            master_title = mastertitle;
+        else
+            master_title = null;
+    }
+    function mthd_Nickname(masternickname)
+    {
+        if(masternickname !='null')
+            master_nickname = masternickname;
+        else
+            master_nickname = null;
+    }
+    function mthd_AccountName(masteraccountid,masterconassocId,masterphone,masteremail,mastermobilephone,masterfax,masteremailoptout,masterworkphoneex,masterinstruction,masterbusinessstreet1,masterbusinessstreet2,masterbusinesscity,masterbusinessstate,masterzipcode,masterbusinesscountry)
+    {
+        if(masteraccountid !='null')
+            master_accountId=masteraccountid;
+        else
+            master_accountId = null;
+        if(masterconassocId !='null')
+            master_ConAssocId=masterconassocId;
+        else
+            master_ConAssocId = null;
+        if(masterbusinessstreet1 !='null')
+            master_business_street1=masterbusinessstreet1;
+        else
+            master_business_street1 = null;
+        if(masterbusinessstreet2 !='null')
+            master_business_street2=masterbusinessstreet2;
+        else
+            master_business_street2 = null;
+        if(masterbusinesscity !='null')
+            master_business_city=masterbusinesscity;
+        else
+            master_business_city = null;
+        if(masterbusinessstate !='null')
+            master_business_state=masterbusinessstate;
+        else
+            master_business_state = null;
+        if(masterzipcode !='null')
+            master_business_zipcode=masterzipcode;
+        else
+            master_business_zipcode = null;
+        if(masterbusinesscountry !='null')
+            master_business_country=masterbusinesscountry;
+        else
+            master_business_country = null;
+        if(masterphone !='null')
+            master_workphone=masterphone;
+        else
+            master_workphone = null;
+        if(masterworkphoneex !='null')
+            master_workphoneExtension=masterworkphoneex;
+        else
+            master_workphoneExtension = null;
+        if(mastermobilephone !='null')
+            master_mobile=mastermobilephone;
+        else
+            master_mobile = null;
+        if(masterfax !='null')
+            master_fax=masterfax;
+        else
+            master_fax = null;
+        if(masteremail !='null')
+            master_email=masteremail;
+        else
+            master_email = null;
+        master_donotsolicit=masteremailoptout;
+        if(masterinstruction !='null')
+            master_instructions=masterinstruction;
+        else
+            master_instructions = null;
+    }
+    
+    function mthd_AppointmentState(masterappointmentstate)
+    {
+        if(masterappointmentstate !='null')
+            master_appointedstate = masterappointmentstate;
+        else
+            master_appointedstate = null;
+    }
+    function mthd_FirmRegion(masterfirmregion)
+    {
+        if(masterfirmregion !='null')
+            master_firmregion = masterfirmregion;
+        else
+            master_firmregion = null;
+    }
+    function mthd_Assistantname(masterassistantname)
+    {
+        if(masterassistantname !='null')
+            master_assistant = masterassistantname;
+        else
+            master_assistant = null;
+    }
+    function mthd_SourceOfContact(mastersourceOfcontact)
+    {
+        if(mastersourceOfcontact !='null')
+            master_sourceofcontact = mastersourceOfcontact; 
+        else
+            master_sourceofcontact = null;
+    }
+    function mthd_HomePhone(masterhomePhone)
+    {
+        if(masterhomePhone !='null')
+            master_homephone = masterhomePhone;
+        else
+            master_homephone = null;
+    }
+    function mthd_AsstPhone(masterasstPhone)
+    {
+        if(masterasstPhone !='null')
+            master_asstphone = masterasstPhone;
+        else
+            master_asstphone = null;
+    }
+    function mthd_AssistantEmail(masterassistantemail)
+    {
+        if(masterassistantemail !='null')
+            master_assistantemail = masterassistantemail;
+        else
+            master_assistantemail = null;
+    }
+    function mthd_PersonalEmail(masterpersonalEmail)
+    {
+        if(masterpersonalEmail !='null')
+            master_personalemail = masterpersonalEmail;
+        else
+            master_personalemail = null;
+    }
+    function mthd_AgencyName(masteragencyName)
+    {
+        if(masteragencyName !='null')
+            master_agencyname = masteragencyName;
+        else
+            master_agencyname = null;
+    }
+    function mthd_YearsInBusiness(masteryearsInBusiness)
+    {
+        if(masteryearsInBusiness !='null')
+            master_YearsInBusiness = masteryearsInBusiness;
+        else
+            master_YearsInBusiness = null;
+    }
+    function mthd_NumberOfClients(masternumberOfClients)
+    {
+        if(masternumberOfClients !='null')
+            master_NumberOfClients = masternumberOfClients;
+        else
+            master_NumberOfClients = null;
+    }
+    function mthd_AUMvalue(masterAUMvalue)
+    {
+        if(masterAUMvalue !='null')
+            master_AUM = masterAUMvalue;
+        else
+            master_AUM = null;
+    }
+    function mthd_LifeInsurancePremiumGoal(masterlifeInsurancePremiumGoal)
+    {
+        if(masterlifeInsurancePremiumGoal !='null')
+            master_LifeInsurancePremiumGoal = masterlifeInsurancePremiumGoal;
+        else
+            master_LifeInsurancePremiumGoal = null;
+    }
+    function mthd_TotalYTDLifePremiumsAllCompanies(masterTotalYTDLifePremiumsAllCompanies)
+    {
+        if(masterTotalYTDLifePremiumsAllCompanies !='null')
+            master_TotalYTDLifePremiumsAllCompanies = masterTotalYTDLifePremiumsAllCompanies;
+        else
+            master_TotalYTDLifePremiumsAllCompanies = null;
+    }
+    function mthd_TotalGDCProduction(mastertotalGDCProduction)
+    {
+        if(mastertotalGDCProduction !='null')
+            master_TotalGDCProduction = mastertotalGDCProduction;
+        else
+            master_TotalGDCProduction = null;
+    }
+    
+    function mthd_WorkedWithHLIBefore(masterworkedWithHLIBefore,masterSoldHLIPoliciesBefore,masterTypeofPoliciesSoldbefore,masterTypeHLIPoliciessoldYTD,masterTypeofHLIPoliciessoldPrioryear,masterTypeofSalesPerson)
+    {
+        if(masterworkedWithHLIBefore !='null')
+            master_WorkedWithHLIBefore=masterworkedWithHLIBefore;
+        else
+            master_WorkedWithHLIBefore = null;
+        if(masterTypeofSalesPerson !='null')
+            master_TypeOfSalesPerson=masterTypeofSalesPerson;
+        else
+            master_TypeOfSalesPerson = null;
+        if(masterTypeofPoliciesSoldbefore !='null')
+            master_TypeOfPoliciesSoldBefore=masterTypeofPoliciesSoldbefore;
+        else
+            master_TypeOfPoliciesSoldBefore = null;
+        if(masterSoldHLIPoliciesBefore !='null')
+            master_SoldHLIPoliciesBefore=masterSoldHLIPoliciesBefore;
+        else
+            master_SoldHLIPoliciesBefore = null;
+        if(masterTypeHLIPoliciessoldYTD !='null')
+            master_TypeOfHLIPoliciesSoldYTD=masterTypeHLIPoliciessoldYTD;
+        else
+            master_TypeOfHLIPoliciesSoldYTD = null;
+        if(masterTypeofHLIPoliciessoldPrioryear !='null')
+            master_TypeOfHLIPoliciesSoldPriorYear=masterTypeofHLIPoliciessoldPrioryear;     
+        else
+            master_TypeOfHLIPoliciesSoldPriorYear = null;
+    }
+    function mthd_AdditionalInformation(masteradditionalInformation)
+    {
+        if(masteradditionalInformation !='null')
+            master_AdditionalInformation = masteradditionalInformation;
+        else
+            master_AdditionalInformation = null;
+    }
+    function mthd_YearsMDRT(masterYearsMDRT)
+    {
+        if(masterYearsMDRT !='null')
+            master_YearsMDRT = masterYearsMDRT;
+        else
+            master_YearsMDRT =null;
+    }
+    function mthd_YearsTopOfTheTable(masterYearsTopOfTheTable)
+    {
+        if(masterYearsTopOfTheTable !='null')
+            master_YearsTopOfTheTable = masterYearsTopOfTheTable;
+        else
+            master_YearsTopOfTheTable = null;
+    }
+    function mthd_ContactBirthdate(masterContactBirthdate)
+    {
+        if(masterContactBirthdate !='null')
+            master_Birthdate = masterContactBirthdate;
+        else
+            master_Birthdate = null;
+    }
+    function mthd_ContactSpouse(masterContactSpouse)
+    {
+        if(masterContactSpouse !='null')
+            master_Spouse = masterContactSpouse;
+        else
+            master_Spouse = null;
+    }
+    function mthd_ContactSpouseBirthday(masterContactSpouseBirthday)
+    {
+        if(masterContactSpouseBirthday !='null')
+            master_SpouseBirthday = masterContactSpouseBirthday;
+        else
+            master_SpouseBirthday = null;
+    }
+    function mthd_TemporaryAddress(masterAddress,masterTemporarystreet1,masterTemporarystreet2,mastertemporarycity,masterTemporarystate,masterTemporaryzipcode,masterTemporarycountry)
+    {
+        
+            master_address=masterAddress;
+
+        if(masterTemporarystreet1 != 'null')
+            master_temporary_street1=masterTemporarystreet1;
+        else
+            master_temporary_street1 = null;
+        if(masterTemporarystreet2 != 'null')
+            master_temporary_street2=masterTemporarystreet2;
+        else
+            master_temporary_street2 = null;
+        if(mastertemporarycity != 'null')
+            master_temporary_city=mastertemporarycity;
+        else
+            master_temporary_city = null;
+        if(masterTemporarystate != 'null')
+            master_temporary_state=masterTemporarystate;
+        else
+            master_temporary_state = null;
+        if(masterTemporaryzipcode != 'null')
+            master_temporary_zipcode=masterTemporaryzipcode;
+        else
+            master_temporary_zipcode = null;
+        if(masterTemporarycountry != 'null')
+            master_temporary_country=masterTemporarycountry;
+        else
+            master_temporary_country = null;
+    }
+    function mthd_Typevalue(mastertypevalue)
+    {
+        if(mastertypevalue !='null')
+            master_type = mastertypevalue;
+        else
+            master_type = null;
+    }
+    function mthd_merge()
+    {
+        var bln_userresult = confirm('These records will be merged into one record using the selected values. Merging cannot be undone. Proceed with the record merge?');
+        if(bln_userresult)
+        {
+            var master_Obj = new sforce.SObject("Contact"); 
+            master_Obj.id = master_contactId;
+            master_Obj.FirstName = master_firstname;
+            master_Obj.Middle_Name__c = master_middlename;
+            master_Obj.LastName = master_lastname;
+            master_Obj.Suffix__c = master_suffix;
+            master_Obj.Title = master_title;
+            master_Obj.Nickname__c = master_nickname;
+            master_Obj.Status__c = master_status;
+            master_Obj.Type__c = master_type;
+            //master_Obj.Appointed__c = master_appointed;
+            master_Obj.Appointment_State_s__c = master_appointedstate;
+            master_Obj.Region__c = master_firmregion;
+            master_Obj.AssistantName = master_assistant;
+            master_Obj.Source_Of_Contact__c = master_sourceofcontact;
+            master_Obj.HomePhone = master_homephone;
+            master_Obj.AssistantPhone = master_asstphone;
+            master_Obj.Assistant_Email__c = master_assistantemail;
+            master_Obj.Secondary_Email__c = master_personalemail;
+            master_Obj.AccountId = master_accountId;
+            master_Obj.Agency_Name__c = master_agencyname;
+            master_Obj.Business_Street_1__c = master_business_street1;
+            master_Obj.Business_Street_2__c = master_business_street2;
+            master_Obj.Business_City__c = master_business_city;
+            master_Obj.Business_State__c = master_business_state;
+            master_Obj.Business_Zip_Code__c = master_business_zipcode;
+            //master_Obj.Business_Country__c = master_business_country;
+            master_Obj.Phone = master_workphone;
+            master_Obj.Work_Phone_Extension__c = master_workphoneExtension;
+            master_Obj.MobilePhone = master_mobile;
+            master_Obj.Fax = master_fax;
+            master_Obj.Email = master_email;
+            master_Obj.HasOptedOutOfEmail = master_donotsolicit;
+            master_Obj.Instructions__c = master_instructions;
+            master_Obj.Address__c = master_address;
+            master_Obj.Temporary_Street_1__c = master_temporary_street1;
+            master_Obj.Temporary_Street_2__c = master_temporary_street2;
+            master_Obj.Temporary_City__c = master_temporary_city;
+            master_Obj.Temporary_State__c = master_temporary_state;
+            master_Obj.Temporary_Zip_Code__c = master_temporary_zipcode;
+            //master_Obj.Temporary_Country__c = master_temporary_country;
+            master_Obj.Producer_Category_ByAE__c = master_ProducerCategoryByAE;
+            master_Obj.Producer_Category_By_RLC__c = master_ProducerCategoryByRLC;
+            master_Obj.Producer_Category_By_RMS__c = master_ProducerCategoryByRMS;
+            master_Obj.Preferred_Touch_Frequency_By_AE__c = master_PreferredTouchFrequencyByAE;
+            master_Obj.Preferred_Touch_Frequency_By_RLC__c = master_PreferredTouchFrequencyByRLC;
+            master_Obj.Preferred_Touch_Frequency_By_RMS__c = master_PreferredTouchFrequencyByRMS;
+            master_Obj.Years_In_Business__c = master_YearsInBusiness;
+            master_Obj.Number_Of_Clients__c = master_NumberOfClients;
+            master_Obj.AUM__c = master_AUM;
+            master_Obj.Life_Insurance_Premium_Goal__c = master_LifeInsurancePremiumGoal;
+            master_Obj.Total_YTD_Life_Premiums_All_Companies__c = master_TotalYTDLifePremiumsAllCompanies;
+            master_Obj.GDC_Production__c = master_TotalGDCProduction;
+            master_Obj.Worked_With_HLI_Before__c = master_WorkedWithHLIBefore;
+            master_Obj.Type_Of_Sales_Person__c = master_TypeOfSalesPerson;
+            master_Obj.Type_Of_Policies_Sold_Before__c = master_TypeOfPoliciesSoldBefore;
+            master_Obj.Sold_HLI_Policies_Before__c = master_SoldHLIPoliciesBefore;
+            master_Obj.Type_Of_HLI_Policies_Sold_YTD__c = master_TypeOfHLIPoliciesSoldYTD;
+            master_Obj.Type_Of_HLI_Policies_Sold_Prior_Year__c = master_TypeOfHLIPoliciesSoldPriorYear;
+            master_Obj.Additional_Information__c = master_AdditionalInformation;
+            master_Obj.Years_MDRT__c = master_YearsMDRT;
+            master_Obj.Years_Top_Of_The_Table__c = master_YearsTopOfTheTable;
+            master_Obj.Birthdate = master_Birthdate;
+            master_Obj.Spouse__c = master_Spouse;
+            master_Obj.Spouse_Birthday__c = master_SpouseBirthday;
+
+            
+            var index=0;
+            for(var i=0; i < contactdetails.length ; i++)
+            {
+                if(contactdetails[i].Id != master_contactId)
+                {
+                    secondarycontact[index] = contactdetails[i];
+                    index++;
+                }
+                else
+                {
+                    mastercontact[0] = contactdetails[i];
+                }
+            }
+             var webserviceresult = '';
+            try
+            {
+               //sforce.connection.sessionId = '{!$Api.Session_ID}';
+               webserviceresult = sforce.apex.execute("ILD_cls_MergeContactProcess","ILD_mthd_MergeRelatedList",{lst_SecondaryContact:secondarycontact,str_PrimaryAccountid:master_accountId,str_ConAssocId:master_ConAssocId,obj_UpdatedRecord:master_Obj});
+            }
+            catch(error)
+             {
+                 alert('webservice Error---'+error);
+             }
+            if(webserviceresult=='true')
+           {
+                 window.location.href = '/apex/ILD_VF_ContactMerge';
+           }
+           else
+           {
+                alert('webservice result---'+webserviceresult);     
+           }
+    }
+}
+    
+    function mthd_previous()
+    {
+        var str_previusurl = '';
+        str_previusurl +='/apex/ILD_VF_ContactMerge?Last='+str_lastnamepar;
+        if(str_firstnamepar !='')
+        {
+            str_previusurl +='&First='+str_firstnamepar;
+        }
+        window.location.href = str_previusurl;
+    }
+
+    function mthd_cancel()
+    {
+        var str_cancel = '';
+        str_cancel +='/apex/ILD_VF_ContactMerge';
+        window.location.href = str_cancel;
+    }
+    
+</script>
+
+<a name="skiplink">
+<img src="/s.gif" height='1' width='1' alt="Content Starts Here" class="skiplink" title="Content Starts Here"/>
+</a>
+<div class="bPageTitle">
+    <div class="ptBody secondaryPalette">
+        <div class="content">
+            <img src="/s.gif" alt="Contact"  class="pageTitleIcon" title="Contact"/>
+            <h1 class="pageType noSecondHeader">Merge My Contacts</h1>
+            <div class="blank">&nbsp;</div>
+        </div>
+    </div>
+    <div class="ptBreadcrumb"></div>
+</div>
+<div class="bWizardBlock tertiaryPalette">
+    <div class="pbWizardTitle tertiaryPalette">
+        <div class="ptRightTitle">
+            Step 2 of 2
+        </div>
+        <h2>
+            Step 2. Select the values to retain
+        </h2>
+    </div>
+    <div class="pbBody">
+        <div class="pbWizardHeader"><div class="pbTopButtons" style="white-space: nowrap">
+          <input value="Previous"  class="btn" name="goPrevious" title="Previous" onclick="javascript:mthd_previous();" />&nbsp;<input value=" Merge "  class="btn" name="save" onclick="javascript:mthd_merge();" title="Merge"  />&nbsp;<input value="Cancel"  class="btn" name="cancel" onclick="javascript:mthd_cancel();" title="Cancel"  />
+        </div>
+    </div>
+           
+    <div class="pbJumpTo"> </div>      
+    <div class="pbDescription">
+        Select the values that you want to retain in the merged record.<br/>      
+    </div>
+    <div id="table"></div>     
+    <div class="pbWizardFooter">
+        <div class="pbBottomButtons">
+            <input value="Previous"  class="btn" name="goPrevious" title="Previous" onclick="javascript:mthd_previous();" />&nbsp;
+            <input value=" Merge "  class="btn" name="save" onclick="javascript:mthd_merge();" title="Merge"  />&nbsp;
+            <input value="Cancel"  class="btn" name="cancel" onclick="javascript:mthd_cancel();" title="Cancel" />
+         </div>
+    </div> 
+    <div class="pbWizardBody"/>
+    </div>
+</div>   
+</apex:form> 
+</apex:page>

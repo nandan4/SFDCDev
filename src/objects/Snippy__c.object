@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>TotalEffortSavings__c</fullName>
+        <label>Total Effort Savings (mins)</label>
+        <summarizedField>Snippet__c.EffortSaving__c</summarizedField>
+        <summaryFilterItems>
+            <field>Snippet__c.EffortSaving__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </summaryFilterItems>
+        <summaryForeignKey>Snippet__c.Snippy__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>TotalSnippets__c</fullName>
+        <label>Total Snippets</label>
+        <summaryForeignKey>Snippet__c.Snippy__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <type>Summary</type>
+    </fields>
+    <label>Snippy</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Snippy Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Snippy</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

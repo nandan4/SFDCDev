@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>NovaRun</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>NovaRuns</value>
+    </caseValues>
+    <fields>
+        <label><!-- Date Run --></label>
+        <name>DateRun__c</name>
+    </fields>
+    <fields>
+        <label><!-- Error Description --></label>
+        <name>Error_Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Incident Measure --></label>
+        <name>Incident_Measure__c</name>
+    </fields>
+    <fields>
+        <label><!-- Is Latest Run --></label>
+        <name>Is_Latest_Run__c</name>
+    </fields>
+    <fields>
+        <label><!-- NQI --></label>
+        <name>NQI__c</name>
+    </fields>
+    <fields>
+        <label><!-- P1 Violations --></label>
+        <name>P1_Records__c</name>
+    </fields>
+    <fields>
+        <label><!-- P2 Violations --></label>
+        <name>P2_Records__c</name>
+    </fields>
+    <fields>
+        <label><!-- P3 Violations --></label>
+        <name>P3_Records__c</name>
+    </fields>
+    <fields>
+        <label><!-- P4 Violations --></label>
+        <name>P4_Records__c</name>
+    </fields>
+    <fields>
+        <label><!-- Project --></label>
+        <name>Project__c</name>
+        <relationshipLabel><!-- NovaRuns --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Status --></label>
+        <name>Status__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Violations --></label>
+        <name>Total_Violations__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total lines of code --></label>
+        <name>Total_lines_of_code__c</name>
+    </fields>
+    <layouts>
+        <layout>NovaRun Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Novacop Quality Index --></label>
+            <section>Novacop Quality Index</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

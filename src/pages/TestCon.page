@@ -1,0 +1,16 @@
+<apex:page controller="TestController" id="pg">
+<script>
+var acc = "{!ac}";
+   function test()
+   {   
+    acc.value = 'Success';
+   }
+</script>
+<apex:form id="fm">
+  <apex:pageBlock id="bk" > 
+      Click the Button
+      <apex:commandButton value="Click" onclick="test();"/>
+      <apex:outputText id="test" value="{!ac}"/>
+  </apex:pageBlock>
+</apex:form>  
+</apex:page>

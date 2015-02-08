@@ -1,0 +1,38 @@
+<apex:page >
+
+<script>
+ var newWin=null;
+ function openPopup()
+ {
+    var url="/apex/TreeGrid";
+    newWin=window.open(url, 'Popup','height=500,width=400,left=500,top=100,resizable=no,scrollbars=yes,toolbar=no,status=no');
+    newWin.focus();
+     
+    return false;
+ }
+                  
+                  
+  function closePopup()
+  {
+    if (null!=newWin)
+    {
+      newWin.close();
+    }  
+  }
+  
+  function changeValue(value){
+      alert(value);
+      change(value);
+  }
+</script>
+<apex:form >
+<!--<apex:actionFunction name="change" action="{!dummy}"   rerender="OP">
+    <apex:param name="changeParam" assignTo="{!parentVar}" value="" />
+</apex:actionFunction> 
+<apex:outputPanel id="OP">
+    <apex:outputText value="{!parentVar}"/>
+</apex:outputPanel>-->
+Popup in VF Page
+<input type="button" onclick="openPopup()" value="Open Popup" />
+</apex:form>
+</apex:page>

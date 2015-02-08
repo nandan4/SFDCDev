@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>Defect</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Defects</value>
+    </caseValues>
+    <fields>
+        <label><!-- Capability --></label>
+        <name>Capability__c</name>
+        <relationshipLabel><!-- Defects --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Cause of Defect --></label>
+        <name>Cause_of_Defect__c</name>
+        <picklistValues>
+            <masterLabel>Access Issue</masterLabel>
+            <translation><!-- Access Issue --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Change in Requirement</masterLabel>
+            <translation><!-- Change in Requirement --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Deployment Issue</masterLabel>
+            <translation><!-- Deployment Issue --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>FLS Issue</masterLabel>
+            <translation><!-- FLS Issue --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Incomplete Input</masterLabel>
+            <translation><!-- Incomplete Input --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Incomplete Unit Testing</masterLabel>
+            <translation><!-- Incomplete Unit Testing --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Inconsistency</masterLabel>
+            <translation><!-- Inconsistency --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Incorrect/Invalid Input</masterLabel>
+            <translation><!-- Incorrect/Invalid Input --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Interface</masterLabel>
+            <translation><!-- Interface --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Lack of Clarity</masterLabel>
+            <translation><!-- Lack of Clarity --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Logic</masterLabel>
+            <translation><!-- Logic --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Memory management</masterLabel>
+            <translation><!-- Memory management --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Misunderstood Requirement</masterLabel>
+            <translation><!-- Misunderstood Requirement --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Naming Convention</masterLabel>
+            <translation><!-- Naming Convention --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Not Testable</masterLabel>
+            <translation><!-- Not Testable --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Not Verfiable</masterLabel>
+            <translation><!-- Not Verfiable --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Oversight</masterLabel>
+            <translation><!-- Oversight --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Performance</masterLabel>
+            <translation><!-- Performance --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Planning</masterLabel>
+            <translation><!-- Planning --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Portability</masterLabel>
+            <translation><!-- Portability --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Profile Issue</masterLabel>
+            <translation><!-- Profile Issue --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Redundant Code</masterLabel>
+            <translation><!-- Redundant Code --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Requirements Missed</masterLabel>
+            <translation><!-- Requirements Missed --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Reusability</masterLabel>
+            <translation><!-- Reusability --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Standards</masterLabel>
+            <translation><!-- Standards --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Storage structure</masterLabel>
+            <translation><!-- Storage structure --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test Data</masterLabel>
+            <translation><!-- Test Data --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test Setup</masterLabel>
+            <translation><!-- Test Setup --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Traceability</masterLabel>
+            <translation><!-- Traceability --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>User Interface</masterLabel>
+            <translation><!-- User Interface --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Version Control</masterLabel>
+            <translation><!-- Version Control --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Component Detail --></label>
+        <name>Component_Detail__c</name>
+        <picklistValues>
+            <masterLabel>Custom Buttons or Links</masterLabel>
+            <translation><!-- Custom Buttons or Links --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Custom Functionality / Code</masterLabel>
+            <translation><!-- Custom Functionality / Code --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Data</masterLabel>
+            <translation><!-- Data --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>ETL</masterLabel>
+            <translation><!-- ETL --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Fields</masterLabel>
+            <translation><!-- Fields --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>List Views</masterLabel>
+            <translation><!-- List Views --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Page Layouts</masterLabel>
+            <translation><!-- Page Layouts --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Reports</masterLabel>
+            <translation><!-- Reports --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Security / Permissions</masterLabel>
+            <translation><!-- Security / Permissions --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Validation Rules</masterLabel>
+            <translation><!-- Validation Rules --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Workflow &amp; Approvals</masterLabel>
+            <translation><!-- Workflow &amp; Approvals --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Component --></label>
+        <name>Component__c</name>
+        <picklistValues>
+            <masterLabel>Accounts</masterLabel>
+            <translation><!-- Accounts --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Activities</masterLabel>
+            <translation><!-- Activities --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Campaigns</masterLabel>
+            <translation><!-- Campaigns --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Cases</masterLabel>
+            <translation><!-- Cases --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Contacts</masterLabel>
+            <translation><!-- Contacts --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Leads</masterLabel>
+            <translation><!-- Leads --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Opportunities</masterLabel>
+            <translation><!-- Opportunities --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Products</masterLabel>
+            <translation><!-- Products --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Report / Dashboard</masterLabel>
+            <translation><!-- Report / Dashboard --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Role Hierarchy</masterLabel>
+            <translation><!-- Role Hierarchy --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Search</masterLabel>
+            <translation><!-- Search --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Users</masterLabel>
+            <translation><!-- Users --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Defect Detected --></label>
+        <name>Defect_Detected__c</name>
+        <picklistValues>
+            <masterLabel>Build Review</masterLabel>
+            <translation><!-- Build Review --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Build Stage</masterLabel>
+            <translation><!-- Build Stage --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Code Review</masterLabel>
+            <translation><!-- Code Review --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Design Review</masterLabel>
+            <translation><!-- Design Review --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Design Stage</masterLabel>
+            <translation><!-- Design Stage --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Post Go-Live</masterLabel>
+            <translation><!-- Post Go-Live --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Regression Testing</masterLabel>
+            <translation><!-- Regression Testing --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Requirement Stage</masterLabel>
+            <translation><!-- Requirement Stage --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test Script Review</masterLabel>
+            <translation><!-- Test Script Review --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>UAT</masterLabel>
+            <translation><!-- UAT --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Unit Testing</masterLabel>
+            <translation><!-- Unit Testing --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Defect Type --></label>
+        <name>Defect_Type__c</name>
+        <picklistValues>
+            <masterLabel>Code Review Defect</masterLabel>
+            <translation><!-- Code Review Defect --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Data Validation</masterLabel>
+            <translation><!-- Data Validation --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Defect</masterLabel>
+            <translation><!-- Defect --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Design Defect</masterLabel>
+            <translation><!-- Design Defect --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>General Access</masterLabel>
+            <translation><!-- General Access --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>General Support</masterLabel>
+            <translation><!-- General Support --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Not a Defect</masterLabel>
+            <translation><!-- Not a Defect --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test Script Review Defect</masterLabel>
+            <translation><!-- Test Script Review Defect --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Detailed Description --></label>
+        <name>Detailed_Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Developer Assigned --></label>
+        <name>Developer_Assigned__c</name>
+        <relationshipLabel><!-- Defects (Developer Assigned) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Developer Comments --></label>
+        <name>Developer_Comments__c</name>
+    </fields>
+    <fields>
+        <label><!-- Environment --></label>
+        <name>Environment__c</name>
+        <picklistValues>
+            <masterLabel>Production</masterLabel>
+            <translation><!-- Production --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Sandbox</masterLabel>
+            <translation><!-- Sandbox --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Related Request --></label>
+        <name>Related_Request__c</name>
+        <relationshipLabel><!-- Defects --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Reported By --></label>
+        <name>Reported_By__c</name>
+        <relationshipLabel><!-- Defects (Reported By) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Retest Status --></label>
+        <name>Retest_Status__c</name>
+        <picklistValues>
+            <masterLabel>Failed</masterLabel>
+            <translation><!-- Failed --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Passed</masterLabel>
+            <translation><!-- Passed --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Retested By --></label>
+        <name>Retested_By__c</name>
+        <relationshipLabel><!-- Defects (Retested By) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Retesting Comments --></label>
+        <name>Retesting_Comments__c</name>
+    </fields>
+    <fields>
+        <label><!-- Severity --></label>
+        <name>Severity__c</name>
+        <picklistValues>
+            <masterLabel>1 - Low</masterLabel>
+            <translation><!-- 1 - Low --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>2 - Medium</masterLabel>
+            <translation><!-- 2 - Medium --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>3 - High</masterLabel>
+            <translation><!-- 3 - High --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>4 - Business Critical</masterLabel>
+            <translation><!-- 4 - Business Critical --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>5 - System Outage</masterLabel>
+            <translation><!-- 5 - System Outage --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Status --></label>
+        <name>Status__c</name>
+        <picklistValues>
+            <masterLabel>Approved By Business - Ready to Assign</masterLabel>
+            <translation><!-- Approved By Business - Ready to Assign --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Can Not Reproduce</masterLabel>
+            <translation><!-- Can Not Reproduce --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Developer Assigned</masterLabel>
+            <translation><!-- Developer Assigned --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Fix in Process</masterLabel>
+            <translation><!-- Fix in Process --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Fixed</masterLabel>
+            <translation><!-- Fixed --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Future Enhancement Consideration</masterLabel>
+            <translation><!-- Future Enhancement Consideration --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>New</masterLabel>
+            <translation><!-- New --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Open Salesforce.com Request</masterLabel>
+            <translation><!-- Open Salesforce.com Request --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Resolved</masterLabel>
+            <translation><!-- Resolved --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Withdrawn</masterLabel>
+            <translation><!-- Withdrawn --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Subject --></label>
+        <name>Subject__c</name>
+    </fields>
+    <fields>
+        <label><!-- Test Phase --></label>
+        <name>Test_Phase__c</name>
+        <picklistValues>
+            <masterLabel>Client Team QA</masterLabel>
+            <translation><!-- Client Team QA --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Integration Test</masterLabel>
+            <translation><!-- Integration Test --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Migration Test</masterLabel>
+            <translation><!-- Migration Test --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Peer Review</masterLabel>
+            <translation><!-- Peer Review --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Regression Test</masterLabel>
+            <translation><!-- Regression Test --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>System Test</masterLabel>
+            <translation><!-- System Test --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>UAT</masterLabel>
+            <translation><!-- UAT --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Unit Test</masterLabel>
+            <translation><!-- Unit Test --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Testing Type --></label>
+        <name>Testing_Type__c</name>
+        <picklistValues>
+            <masterLabel>Integration Test</masterLabel>
+            <translation><!-- Integration Test --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Regression Test</masterLabel>
+            <translation><!-- Regression Test --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>System Test</masterLabel>
+            <translation><!-- System Test --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>UAT</masterLabel>
+            <translation><!-- UAT --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Unit Test</masterLabel>
+            <translation><!-- Unit Test --></translation>
+        </picklistValues>
+    </fields>
+    <layouts>
+        <layout>Defect Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Defect Analysis --></label>
+            <section>Defect Analysis</section>
+        </sections>
+        <sections>
+            <label><!-- Detailed Description --></label>
+            <section>Detailed Description</section>
+        </sections>
+        <sections>
+            <label><!-- Developer Information --></label>
+            <section>Developer Information</section>
+        </sections>
+        <sections>
+            <label><!-- Retesting Information --></label>
+            <section>Retesting Information</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

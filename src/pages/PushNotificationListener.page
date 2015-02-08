@@ -1,0 +1,27 @@
+<apex:page >
+    <apex:includeScript value="/support/console/25.0/integration.js"/>
+    <script type="text/javascript">
+        var eventHandler = function (result) {
+            alert('There is a push notification of object: ' + result.Id);
+        };
+         
+        window.onload = function(){ 
+            alert('** Loaded Onload **');
+            if (sforce.console.isInConsole()) {
+                alert('In Console');
+                sforce.console.addPushNotificationListener(['Handyman_License__c', 'Account'], eventHandler);
+            }
+        };
+        
+        function loadListener(){
+            alert('** Loaded **');
+            if (sforce.console.isInConsole()) {
+                alert('In Console');
+                sforce.console.addPushNotificationListener(['Handyman_License__c', 'Account'], eventHandler);
+            }
+        }
+    </script>
+    <apex:form >
+        <apex:commandButton value="Test" onclick="loadListener();"/>
+    </apex:form>
+</apex:page>

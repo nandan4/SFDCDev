@@ -1,0 +1,20 @@
+<apex:page controller="ProfileUpdateController" >
+  <apex:form id="form">
+  <apex:selectList value="{!selectedSObject}" id="ObjectList" multiselect="False" size="1">
+  <apex:selectOptions value="{!objectList}" >
+  </apex:selectOptions>
+  </apex:selectList>
+  <apex:pageMessages id="messages"/>
+   {!seconds } seconds since the action poller was called !!
+<!-- <apex:actionPoller action="{!checkAsyncRequest}" interval="5" rerender="form"  rendered="{!NOT(ISNULL(results))}/> -->
+<apex:actionPoller action="{!checkAsyncRequest}" interval="15" rerender="form" id="one" rendered="{!NOT(ISNULL(asyncresultid))}" /> 
+  <apex:commandButton value="metadata check" action="{!Updatemetadata}" rerender="one">
+  
+  </apex:commandButton>
+  
+  <apex:dataTable value="{!profilelist}" var="p" id="DB1">
+  <apex:column value="{!p}"/>
+  </apex:dataTable>
+  
+  </apex:form>
+</apex:page>

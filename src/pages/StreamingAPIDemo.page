@@ -1,0 +1,110 @@
+<!--<apex:page >
+<apex:includeScript value="{!$Resource.json2_js}"/>
+<apex:includeScript value="{!URLFOR($Resource.cometd, 'dojo/dojo.js')}"/>
+<apex:includeScript value="{!$Resource.demo_js}"/>
+<apex:stylesheet value="{!$Resource.demo_css}"/>
+<script>var token = '{!$Api.Session_ID}';</script>
+<div id="demo">
+<div id="datastream"></div>
+<div id="input">
+<div id="join">
+<table>
+<tbody>
+<tr>
+<td>&nbsp;</td>
+<td> Enter Topic Name </td>
+<td>
+<input id="topic" type="text" />
+</td>
+<td>
+<button id="subscribeButton"
+class="button">Subscribe</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="joined">
+<table>
+<tbody>
+<tr>
+<td>
+<button id="leaveButton"
+class="button">Unsubscribe</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</apex:page>
+
+<apex:page>
+    <apex:includeScript value="{!$Resource.cometd}"/>
+    <apex:includeScript value="{!$Resource.JQueryStringExternalizer}"/>
+    <apex:includeScript value="{!$Resource.json2_js}"/>
+    <apex:includeScript value="{!$Resource.cometd}"/>
+    <script type="text/javascript">
+    (function($){
+        $(document).ready(function() {
+            // Connect to the CometD endpoint
+            $.cometd.init({
+               url: window.location.protocol+'//'+window.location.hostname+'/cometd/24.0/',
+               requestHeaders: { Authorization: 'OAuth {!$Api.Session_ID}'}
+           });
+
+           // Subscribe to a topic. JSON-encoded update will be returned
+           // in the callback
+           $.cometd.subscribe('/topic/InvoiceStatementUpdates', function(message) {
+               $('#content').append('<p>Notification: ' +
+                    'Channel: ' + JSON.stringify(message.channel) + '<br>' +
+                    'Record name: ' + JSON.stringify(message.data.sobject.Name) +
+                    '<br>' + 'ID: ' + JSON.stringify(message.data.sobject.Id) + 
+                    '<br>' + 'Event type: ' + JSON.stringify(message.data.event.type)+
+                    '<br>' + 'Created: ' + JSON.stringify(message.data.event.createdDate) + 
+                    '</p>');
+            });
+        });
+    })(jQuery)
+    </script>
+    <body>
+    <div id="content">
+    <h1>Streaming API Test Page</h1>
+    <p>This is a demonstration page for Streaming API. Notifications from the 
+       InvoiceStatementUpdates channel will appear here...</p>
+    
+    </div>
+    </body>
+</apex:page> -->
+
+
+<apex:page standardStyleSheets="false" showHeader="false" sidebar="false">
+    <apex:includeScript value="{!URLFOR($Resource.Streaming, '/js/cometd.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.Streaming, '/js/jquery-1.5.1.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.Streaming, '/js/jquery.cometd.js')}"/>
+
+    <script type="text/javascript">
+    (function($){
+        $(document).ready(function() {
+            // Handshake
+            $.cometd.init({
+               url: window.location.protocol+'//'+window.location.hostname+'/cometd/24.0/',
+               requestHeaders: { Authorization: 'OAuth {!$Api.Session_ID}'}
+           });
+
+           // Subscription
+           $.cometd.subscribe('/topic/PositionOpen', function(message) {
+               $('ul').append('<li>' + message.data.sobject.Name + '</li>');
+            });
+        });   
+    })(jQuery)
+   
+</script>
+   
+    <body>
+        <h1> Open Positions </h1>
+        <ul>
+        </ul>
+    </body>
+</apex:page>

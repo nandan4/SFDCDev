@@ -1,0 +1,112 @@
+<!-- 
+    Author          : Nandan Narasappa
+    Date Created    : 11/18/2012
+    Description     : VisualForce Page for String Externalizer
+ -->
+<apex:page id="SE_pg" controller="VFC_StringExternalize" sidebar="false">
+    <apex:includeScript value="{!URLFOR($Resource.JQueryStringExternalizer)}" />
+    <script>
+        $(function(){
+            $('.lookupInput').wrap('<div class="requiredInput">').before('<div class="requiredBlock"></div>');
+        }
+        );
+        <!-- Script for Calling Controller Method and Pop Message if Apex Class not Selected -->
+        function dispCode()
+        {
+            var cls = document.getElementById('ac').value;
+            if(cls.length == 0)
+            {
+                alert("Please Select the Apex Class");
+            }
+            else
+            {
+                var classId = document.getElementById('ac_lkid').value;
+                codeDisplay(classId);
+            }
+        }
+        
+        function userGuide()
+        {
+            var res = "{!$Resource.StringExternalizerGuide}";
+            window.open(res);
+        }
+         
+    </script>
+    <apex:pageMessages />
+    <apex:form id="form">
+        <apex:actionFunction name="codeDisplay" action="{!externalizeString}" reRender="cd_panel">
+             <apex:param name="firstParam" assignTo="{!classId}" value=""/>
+        </apex:actionFunction>       
+        <div style="margin-top: 7px; padding: 10px 2px;padding-bottom: 10px;">
+            <table>
+                    <tr>
+                        <td> <h1 style="font-size:30px;">String Externalizer</h1> </td>
+                        <td>
+                            <div class="links" style="padding: 12px 0 2px;padding-left: 800px">
+                                <a href="javascript:userGuide();" title="Help for this Page (New Window)">
+                                    <span  class="helpLink">Help for this Page</span>
+                                    <img src="/s.gif" alt=""  class="helpIcon"/>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+        </div>       
+        <div style="font-size:15px; padding-bottom: 1px;padding: 10px 2px"> Remove the Hardcoded Strings from an Apex Code </div>
+        <apex:pageBlock id="SE_pgblk" title="Please Select the Apex Class ">        	           	
+            <table>
+                <tr>
+                    <td> <span style="font-size:15px;padding:8px 80px"> Apex Class </span> </td>
+                    <td>
+                        <div style="padding-left: -100px;">
+                            <input type="hidden" name="ac_lkid" id="ac_lkid" value="000000000000000"/>
+                            <input type="hidden" name="ac_lkold" id="ac_lkold" value="null" />
+                            <input type="hidden" name="ac_lktp" id="ac_lktp" value="01p" />
+                            <input type="hidden" name="ac_lspf" id="ac_lspf" value="0" />
+                            <input type="hidden" name="ac_lspfsub" id="ac_lspfsub" value="0" />
+                            <input type="hidden" name="ac_mod" id="ac_mod" value="0" />
+                            <span class="lookupInput">
+                                <input  id="ac" maxlength="255" name="ac" onchange="getElementByIdCS('ac_lkid').value='';getElementByIdCS('ac_mod').value='1';" size="20" type="text"/>
+                                <a href="javascript:%20openLookup%28%27%2F_ui%2Fcommon%2Fdata%2FLookupPage%3Flkfm%3DeditPage%26lknm%3Dac%26lktp%3D%27%20%2B%20getElementByIdCS%28%27ac_lktp%27%29.value%2C670%2C%271%27%2C%27%26lksrch%3D%27%20%2B%20escapeUTF%28getElementByIdCS%28%27ac%27%29.value.substring%280%2C%2080%29%29%29" id="ac_lkwgt" onclick="setLastMousePosition(event);" title="Apex Class Lookup (New Window)">
+                                    <img src="/s.gif" alt="Apex Class Lookup (New Window)"  class="lookupIcon" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" title="Apex Class Lookup (New Window)"/>
+                                </a>
+                            </span>
+                        </div>                       
+                    </td> 
+                    <td>
+                        <apex:commandButton value="Externalize String" oncomplete="dispCode();" reRender="cd_panel"/> 
+                    </td>
+                </tr>
+            </table>
+        </apex:pageBlock> 
+        <apex:outputPanel id="cd_panel">
+            <apex:pageBlock id="cd_block" title="Apex Code" rendered="{!showBody}"> 
+                <apex:pageBlockSection id="cd_consoleCode" columns="1" title="Code for Creating Custom Settings">
+                    <apex:outputpanel id="cd_panelCode">
+                        <apex:repeat id="tet" value="{!codeBlock}" var="cBlock">
+                            <apex:outputText value="{!cBlock}"/> <br/>
+                        </apex:repeat>
+                     </apex:outputpanel>
+                </apex:pageBlockSection> 
+                <apex:pageBlockSection id="cd_section" columns="2" title="Apex Class">
+                    <apex:pageBlockSectionItem id="cd_sectionItemBefore">
+                        <apex:outputpanel id="cd_panelBefore">
+                            <apex:outputLabel value="Code Before String Externalize" style="font-weight:bold;font-size:20px"/> <br/> <br/>
+                            <apex:repeat id="tet" value="{!classBody}" var="cls">
+                                <apex:outputText value="{!cls}"/> <br/>
+                            </apex:repeat> 
+                        </apex:outputpanel>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem id="cd_sectionItemAfter">                        
+                        <apex:outputpanel id="cd_panelAfter">
+                            <apex:outputLabel value="Code After String Externalize" style="font-weight:bold;font-size:20px"/> <br/> <br/>
+                            <apex:repeat id="tet" value="{!extClass}" var="ex">
+                                <apex:outputText value="{!ex}"/> <br/>
+                            </apex:repeat> 
+                        </apex:outputpanel>
+                    </apex:pageBlockSectionItem>                    
+                </apex:pageBlockSection>                
+            </apex:pageBlock>
+        </apex:outputpanel>          
+    </apex:form>
+</apex:page>

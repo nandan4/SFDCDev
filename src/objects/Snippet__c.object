@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>EffortSaving__c</fullName>
+        <label>Effort Saving (mins)</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>SnippetId__c</fullName>
+        <label>Snippet Id</label>
+        <length>80</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Snippy__c</fullName>
+        <label>Snippy</label>
+        <referenceTo>Snippy__c</referenceTo>
+        <relationshipLabel>Snippets</relationshipLabel>
+        <relationshipName>Snippets</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <type>MasterDetail</type>
+    </fields>
+    <label>Snippet</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>SnippetId__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>SNP-{0000}</displayFormat>
+        <label>Snippets Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Snippets</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

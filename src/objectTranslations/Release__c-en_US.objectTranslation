@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>Release</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Releases</value>
+    </caseValues>
+    <fields>
+        <label><!-- Support --></label>
+        <name>Adapt_Ongoing_Support__c</name>
+    </fields>
+    <fields>
+        <label><!-- Build End Date --></label>
+        <name>Build_End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Build Start Date --></label>
+        <name>Build_Start_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Build --></label>
+        <name>Build_Unit_Test__c</name>
+    </fields>
+    <fields>
+        <label><!-- Deploy End Date --></label>
+        <name>Deploy_End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Deploy Start Date --></label>
+        <name>Deploy_Start_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Description --></label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Design End Date --></label>
+        <name>Design_End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Design Start Date --></label>
+        <name>Design_Start_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Design --></label>
+        <name>Design__c</name>
+    </fields>
+    <fields>
+        <help><!-- Owner of this release. --></help>
+        <label><!-- Owner --></label>
+        <name>Owner__c</name>
+        <relationshipLabel><!-- Releases --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Test --></label>
+        <name>PMT2009_SIT__c</name>
+    </fields>
+    <fields>
+        <label><!-- Deploy --></label>
+        <name>PMT2009_Train_Deploy__c</name>
+    </fields>
+    <fields>
+        <label><!-- UAT --></label>
+        <name>PMT2009_UAT__c</name>
+    </fields>
+    <fields>
+        <help><!-- Select an existing release to which the current release is related to. --></help>
+        <label><!-- Parent Release --></label>
+        <name>Parent_Release__c</name>
+        <relationshipLabel><!-- Releases --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Plan End Date --></label>
+        <name>Plan_End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Plan Start Date --></label>
+        <name>Plan_Start_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Release Actual End Date --></label>
+        <name>Release_Actual_End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Release Planned End Date --></label>
+        <name>Release_Planned_End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Release Start Date --></label>
+        <name>Release_Start_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Release # --></label>
+        <name>Release__c</name>
+    </fields>
+    <fields>
+        <label><!-- Plan --></label>
+        <name>Requirements_Gathering__c</name>
+    </fields>
+    <fields>
+        <help><!-- Release status update --></help>
+        <label><!-- Comments --></label>
+        <name>Status_Update__c</name>
+    </fields>
+    <fields>
+        <help><!-- Green: Milestone completion on target
+Yellow: Milestone completion at risk
+Red: Milestone completion planned to be missed or missed --></help>
+        <label><!-- Status --></label>
+        <name>Status__c</name>
+        <picklistValues>
+            <masterLabel>Green</masterLabel>
+            <translation><!-- Green --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Red</masterLabel>
+            <translation><!-- Red --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Yellow</masterLabel>
+            <translation><!-- Yellow --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Support End Date --></label>
+        <name>Support_End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Support Start Date --></label>
+        <name>Support_Start_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Test End Date --></label>
+        <name>Test_End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Test Start Date --></label>
+        <name>Test_Start_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Support --></label>
+        <name>Total_Adapt_Ongoing_Support_Capacity__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Available Capacity --></label>
+        <name>Total_Available_Capacity__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Build --></label>
+        <name>Total_Build_Capacity__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Deploy --></label>
+        <name>Total_Deploy_Capacity__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Design --></label>
+        <name>Total_Design_Capacity__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Estimate --></label>
+        <name>Total_Estimate__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Plan --></label>
+        <name>Total_Plan_Capacity__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Test --></label>
+        <name>Total_Test_Capacity__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total UAT --></label>
+        <name>Total_UAT__c</name>
+    </fields>
+    <fields>
+        <label><!-- UAT End Date --></label>
+        <name>UAT_End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- UAT Start Date --></label>
+        <name>UAT_Start_Date__c</name>
+    </fields>
+    <layouts>
+        <layout>Releases Page Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Total Available Capacity --></label>
+            <section>Total Available Capacity</section>
+        </sections>
+        <sections>
+            <label><!-- Total Level of Effort (Days) --></label>
+            <section>Total Level of Effort (Days)</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Releases Tab Layout Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Estimate Summary --></label>
+            <section>Estimate Summary</section>
+        </sections>
+        <sections>
+            <label><!-- Release --></label>
+            <section>Release</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Actual end date should not be greater  than today&apos;s date --></errorMessage>
+        <name>Release_Actual_End_Date_Validation</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Release Start/End Date should be later than Release Start Date. --></errorMessage>
+        <name>Releases_Date_Validation</name>
+    </validationRules>
+</CustomObjectTranslation>

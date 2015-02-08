@@ -1,0 +1,37 @@
+<apex:page standardcontroller="case" recordSetVar="cases" showHeader="false">
+<apex:form >
+<apex:actionStatus id="status" startText="Processing..."/> 
+<apex:includeScript value="/support/console/20.0/integration.js"/>
+<script>
+    var counter = 0;
+</script>
+<apex:actionFunction name="callNextCase" 
+  status="status" oncomplete="OpenConsole();" rerender="panelId">
+</apex:actionFunction>
+
+
+
+<script>
+    
+    window.onload = function() {
+        alert('here');
+       if(counter == 0){
+           callNextCase();
+           counter = 1;
+       }
+    }
+            
+    function OpenConsole() {
+          counter = counter+1;  
+          alert('hi'+'{!cases}');
+         parent.parent.frames.location.replace('/console');
+     }
+     
+     
+</script>
+  
+      <apex:outputPanel id="panelId">
+          <apex:pageMessages />
+      </apex:outputPanel>
+ </apex:form>  
+</apex:page>

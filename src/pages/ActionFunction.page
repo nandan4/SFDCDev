@@ -1,0 +1,16 @@
+<apex:page controller="ActionFunction">
+    <apex:form >
+    <apex:actionFunction action="{!actionfuntion}" name="action"/> 
+    
+    <apex:commandButton onclick="clickme();"/>
+    </apex:form>
+    <apex:outputtext value="Rendered" rendered="{!showMSG}"/>
+    
+    <Script>
+        function clickme(){
+            alert('Clicked');
+            action();
+        }
+    </script>
+    
+</apex:page>

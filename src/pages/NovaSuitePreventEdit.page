@@ -1,0 +1,8 @@
+<apex:page id="page" standardcontroller="NovaRun__c" extensions="NovaSuitePreventController" action="{!preventNovaRunEdit}" sidebar="false">     
+    <apex:form id="form">
+        <apex:pagemessages id="pgMsgs"/>
+        <center>
+            <apex:commandButton value="Back" action="{!cancel}"/>
+        </center>
+    </apex:form>
+</apex:page>

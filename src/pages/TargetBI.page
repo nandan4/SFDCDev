@@ -1,0 +1,9 @@
+<apex:page >
+  <!--<script type="text/JavaScript" src="//nexus.ensighten.com/target/Bootstrap.js"></script>-->
+    <apex:includeScript value="{!$Resource.jquery}"/>
+    <script type="text/javascript">
+        (typeof(ensightenOptions) === 'undefined') && $.getScript('//nexus.ensighten.com/target/Bootstrap.js');
+        var s_account = 'targetcomprod' //route the image request to production ("targetcom") at live server
+    </script>
+
+</apex:page>

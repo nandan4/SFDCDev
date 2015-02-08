@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>CurrentGenerators__c</fullName>
+        <label>Current Generator(s)</label>
+        <length>100</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>DeliveryInstallationStatus__c</fullName>
+        <label>Delivery/Installation Status</label>
+        <picklist>
+            <controllingField>Status_Final__c</controllingField>
+            <picklistValues>
+                <fullName>In progress</fullName>
+                <controllingFieldValues>Start</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Yet to begin</fullName>
+                <controllingFieldValues>Start</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Completed</fullName>
+                <controllingFieldValues>Close</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>LOB__c</fullName>
+        <label>LOB</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Auto</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Fire</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Life</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Health</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Mutual Funds</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Loan_Number__c</fullName>
+        <label>Loan Number</label>
+        <length>10</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>MPUID__c</fullName>
+        <label>MPUID</label>
+        <referenceTo>MPUID__c</referenceTo>
+        <relationshipLabel>Opportunities</relationshipLabel>
+        <relationshipName>Opportunities</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>MainCompetitors__c</fullName>
+        <label>Main Competitor(s)</label>
+        <length>100</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>OpportunityOriginator__c</fullName>
+        <label>Opportunity Originator</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Sales Professional</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Aggregator</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Propensity Score</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Statefarm.com</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Customer Care Network</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Converted Lead</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Opportunity_External_Id__c</fullName>
+        <externalId>true</externalId>
+        <label>Opportunity External Id</label>
+        <length>30</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Opportunity_Status__c</fullName>
+        <description>Field Used for Batch Apex</description>
+        <label>Opportunity Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Open</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>OrderNumber__c</fullName>
+        <label>Order Number</label>
+        <length>8</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>QuoteDuplicate__c</fullName>
+        <defaultValue>false</defaultValue>
+        <label>Quote Duplicate</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>QuoteReceivedDate__c</fullName>
+        <label>Quote Received Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>RequestId__c</fullName>
+        <label>Request Id</label>
+        <length>11</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>RiskInformation__c</fullName>
+        <label>Risk Information</label>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>SaveAndRetrieve__c</fullName>
+        <label>Save And Retrieve</label>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Status_Detail__c</fullName>
+        <label>Status Detail</label>
+        <picklist>
+            <controllingField>Sub_Status__c</controllingField>
+            <picklistValues>
+                <fullName>Initial -1</fullName>
+                <controllingFieldValues>Started</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Initial -2</fullName>
+                <controllingFieldValues>Started</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Started -1</fullName>
+                <controllingFieldValues>In Progress</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Started -2</fullName>
+                <controllingFieldValues>In Progress</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Won - Happy</fullName>
+                <controllingFieldValues>Won</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Won - Satisfactory</fullName>
+                <controllingFieldValues>Won</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Rejected - Not Interested</fullName>
+                <controllingFieldValues>Rejected</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Rejected - Other</fullName>
+                <controllingFieldValues>Rejected</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Status_Final__c</fullName>
+        <label>Status Final</label>
+        <picklist>
+            <controllingField>Status_Detail__c</controllingField>
+            <picklistValues>
+                <fullName>Start</fullName>
+                <controllingFieldValues>Initial -1</controllingFieldValues>
+                <controllingFieldValues>Initial -2</controllingFieldValues>
+                <controllingFieldValues>Started -1</controllingFieldValues>
+                <controllingFieldValues>Started -2</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Close</fullName>
+                <controllingFieldValues>Rejected - Not Interested</controllingFieldValues>
+                <controllingFieldValues>Rejected - Other</controllingFieldValues>
+                <controllingFieldValues>Won - Happy</controllingFieldValues>
+                <controllingFieldValues>Won - Satisfactory</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Sub_Status__c</fullName>
+        <label>Sub Status</label>
+        <picklist>
+            <controllingField>Opportunity_Status__c</controllingField>
+            <picklistValues>
+                <fullName>Started</fullName>
+                <controllingFieldValues>Open</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>In Progress</fullName>
+                <controllingFieldValues>Open</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Rejected</fullName>
+                <controllingFieldValues>Closed</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Won</fullName>
+                <controllingFieldValues>Closed</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>TrackingNumber__c</fullName>
+        <label>Tracking Number</label>
+        <length>12</length>
+        <type>Text</type>
+    </fields>
+    <webLinks>
+        <fullName>DeliveryStatus</fullName>
+        <availability>online</availability>
+        <displayType>link</displayType>
+        <hasMenubar>true</hasMenubar>
+        <hasScrollbars>true</hasScrollbars>
+        <hasToolbar>true</hasToolbar>
+        <height>600</height>
+        <isResizable>true</isResizable>
+        <linkType>url</linkType>
+        <masterLabel>Delivery Status</masterLabel>
+        <openType>newWindow</openType>
+        <position>none</position>
+        <protected>false</protected>
+        <showsLocation>true</showsLocation>
+        <showsStatus>true</showsStatus>
+        <url>http://www.fedex.com/cgi-bin/tracking?tracknumbers={!Opportunity_Tracking_Number}&amp;action=track&amp;language=english&amp;cntry_code=us</url>
+    </webLinks>
+    <webLinks>
+        <fullName>New_Custom</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>url</linkType>
+        <masterLabel>New Custom</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>/006/e?opp4_lkid={!Account.Id}&amp;opp4={!Account.Name}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Test</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Test</masterLabel>
+        <openType>sidebar</openType>
+        <page>VFP_OppButon</page>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+    </webLinks>
+    <webLinks>
+        <fullName>TestDB</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Test</masterLabel>
+        <openType>sidebar</openType>
+        <page>VFP_OppDButton</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

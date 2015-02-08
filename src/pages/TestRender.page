@@ -1,0 +1,18 @@
+<apex:page standardController="Opportunity">
+    <apex:form >
+        <apex:actionFunction name="test" reRender="panel"/>
+        <apex:pageblock >
+            <apex:pageblocksection >
+                <apex:inputField value="{!Opportunity.StageName}" onchange="test();">                    
+                </apex:inputField>
+            </apex:pageblocksection>
+        
+        
+        <apex:outputPanel id="panel">
+            <apex:pageblocksection id="pbSection" rendered="{!Opportunity.StageName == 'Needs Analysis'}">
+                <apex:outputText value="Test Rendered"/>
+            </apex:pageblocksection>
+        </apex:outputPanel>
+        </apex:pageblock>
+    </apex:form>
+</apex:page>

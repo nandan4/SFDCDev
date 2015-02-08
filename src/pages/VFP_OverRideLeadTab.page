@@ -1,0 +1,3 @@
+<apex:page standardController="Lead" extensions="VFC_OverRideLead" recordSetVar="leads">
+  <apex:listViews type="Lead"/>
+</apex:page>

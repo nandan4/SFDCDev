@@ -1,0 +1,69 @@
+<!--
+    @Author      : candidate@408970advdev.org
+    @Name        : HandymanLicenses
+    @Date        : 28/12/2014
+    @Description : UI to display available handyman licenses for the user and to update the contractor id
+--> 
+<apex:page showHeader="false" sidebar="false" standardStylesheets="true" standardcontroller="User" extensions="HandymanExtension" id="page">
+
+    <apex:form id="form">
+        <apex:actionFunction name="refresh" action="{!refresh}" id="loadMthd" rerender="detailBlock" status="loadStatus"/>
+        <apex:pageBlock id="headerBlock">
+            <apex:pageBlockSection id="headerSection" columns="1">
+                <apex:pageBlockSectionItem id="usrHeadSecItem" dataStyle="text-align:center;">
+                    <apex:outputPanel id="headerPanel">
+                        <apex:outputText value="Handyman Licenses" id="usrHead" style="font-weight:bold;"/>  
+                        <apex:outputText value=" - {!user.Name}" id="usrName"/>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>                
+            </apex:pageBlockSection>                        
+        </apex:pageBlock>
+        
+        <apex:pageBlock id="detailBlock">
+            <apex:pagemessages id="pageMsgs"/>
+            <apex:pageBlockSection id="updateSection">
+                <apex:pageBlockSectionItem id="usrIdItem" dataStyle="text-align:center;">                   
+                    <apex:outputLabel value="Contract ID" for="contId" id="contIdLabel"/>
+                    <apex:inputField value="{!user.Contractor_ID__c}" id="inContId"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem id="btnSecItem">
+                    <apex:commandButton value="Update" id="updateBtn" action="{!updateData}" disabled="{!!isEditable}" rerender="detailBlock" status="loadStatus"/>                    
+                </apex:pageBlockSectionItem>
+                <apex:actionStatus startText="Loading..." id="loadStatus"/>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection id="detailSection" columns="2" rendered="{!IF(user.Contractor_ID__c == NULL,false,true)}">
+                <apex:pageBlockSectionItem id="imgSecItem" dataStyle="width:5%">
+                    <apex:image value="{!$Resource.HandymanLicenseBadge}" />
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="licSecItem"> 
+                    <apex:outputPanel id="licDetPanel">
+                        <apex:dataTable id="licTable" value="{!licenseList}" var="lic" columns="2" width="75%" rendered="{!showDetail}">
+                            <apex:column headerValue="License" value="{!lic.License__c}" id="licName"/>                            
+                            <apex:column headerValue="License Date" value="{!lic.License_Date__c}" id="licDate" width="25%"/>
+                        </apex:dataTable> 
+                        <br/>
+                        <apex:outputPanel id="refPanel">                        
+                            <apex:commandButton value="Refresh" id="refreshBtn" action="{!refresh}" rerender="detailBlock" status="loadStatus"/>
+                            <apex:outputText value="  Last Refreshed: {0,date,MMMM dd,yyyy}" id="usrName">
+                                <apex:param value="{!user.Refresh_Date__c}" />
+                            </apex:outputText>
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem> 
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+    
+    <!-- apex:includeScript value="//code.jquery.com/jquery-1.11.2.min.js"/> -->
+    <!-- <apex:includeScript value="{!$Resource.refreshLicenses}" id="refScript"/> -->
+    <script type="text/javascript" src="{!$Resource.refreshLicenses}"/>
+    <script type="text/javascript">
+        var contractorId = '{!JSENCODE(user.Contractor_ID__c)}' ;   // variable to store the contractor id of the user encoded using JSENCODE
+        var refreshDate = '{!user.Refresh_Date__c}';                // variable to store last refresh date of the user
+        //$(document).ready(function(){
+            window.onload = refreshLicenses();
+        //});
+    </script>
+</apex:page>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>Capability</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Capabilities</value>
+    </caseValues>
+    <fields>
+        <label><!-- Capability Detail --></label>
+        <name>Capability_Detail__c</name>
+    </fields>
+    <fields>
+        <label><!-- Release --></label>
+        <name>Release__c</name>
+        <relationshipLabel><!-- Capabilities --></relationshipLabel>
+    </fields>
+    <layouts>
+        <layout>Capability Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

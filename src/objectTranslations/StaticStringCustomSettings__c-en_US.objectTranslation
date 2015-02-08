@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>CS001_StaticStrings</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>CS001_StaticStrings</value>
+    </caseValues>
+    <fields>
+        <help><!-- Where it is used/ Referenced --></help>
+        <label><!-- Reference --></label>
+        <name>Reference__c</name>
+    </fields>
+    <fields>
+        <help><!-- value to be used --></help>
+        <label><!-- Static String Value --></label>
+        <name>StaticStringValue__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

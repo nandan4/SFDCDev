@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>29.0</apiVersion>
+    <description>&lt;img src=&quot;{!$Resource.Cloud}&quot; id=&quot;cloud&quot;/&gt;
+        &lt;img src=&quot;{!$Resource.VF}&quot; id=&quot;vf&quot;/&gt;
+        &lt;img src=&quot;{!$Resource.Field}&quot; id=&quot;field&quot;/&gt;
+        &lt;img src=&quot;{!$Resource.Workflow}&quot; id=&quot;flow&quot;/&gt;</description>
+    <label>Object360View</label>
+</ApexPage>

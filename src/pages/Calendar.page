@@ -1,0 +1,16 @@
+<apex:page sidebar="false">
+    <apex:includeScript value="{!$Resource.JQueryStringExternalizer}"/>
+    <apex:includeScript value="{!$Resource.EventCalendar}"/>
+    <apex:stylesheet value="{!$Resource.EventCalendarCSS}"/>
+    <apex:stylesheet value="{!$Resource.EventCalendarResponsiveCSS}"/>
+  
+    <div id="eventCalendarDefault" ></div>
+   
+    <script>  
+        $(document).ready(function() {  
+            $("#eventCalendarDefault").eventCalendar({
+                eventsjson: 'json/events.json.php' // link to events json
+            });  
+        });  
+    </script> 
+</apex:page>

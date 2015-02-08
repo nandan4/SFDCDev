@@ -1,0 +1,656 @@
+<apex:page standardController="Contact"
+    extensions="UniqueEntry.uniqueContactExtension" action="{!seekDupes}">
+
+    <apex:styleSheet value="{!URLFOR($Resource.UniqueEntry__uniqueEntryResources, 'uniqueStyle.css')}" />
+
+    <apex:includeScript value="{!$Resource.UniqueEntry__jQuery}" />
+    <apex:includeScript value="{!URLFOR($Resource.UniqueEntry__uniqueEntryResources, 'vampire.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.UniqueEntry__uniqueEntryResources, 'json2.js')}" />
+    <script src="../../soap/ajax/24.0/connection.js" type="text/javascript"></script>
+    <script src="{!$Site.prefix}/support/console/28.0/integration.js"
+        type="text/javascript"></script>
+
+    <script
+        src="https://online.qas.com/SalesforceV4/Scripts/all_sf_without_jQuery-2.0.min.js"> </script>
+    <script>
+    QASNA.typedown.sfdc._isEditMode = function _isEditMode() { return true; };  //Override the isEditMode function to always return true
+    //jQuery.noConflict();
+    
+    //jQuery(document).ready(function () { //Make sure that the DOM is loaded 
+    //   initializeTypedown();
+    //});
+
+    
+    function initializeTypedown() {
+        var sys  = QASNA.system;
+        var td   = QASNA.typedown;
+        var xd = QASNA.typedown.XD;
+        var sfdc = QASNA.typedown.sfdc;
+        
+        td.jQuery = jQuery;         //Tell typedown which jQuery to use.
+        
+        sforce.connection.sessionId = '{!$Api.Session_ID}'; //Initialize the sforce connection session
+ 
+        var settings = {};
+        settings[xd.Proxy.ProxyUrlParameterKey]           =  "{!URLFOR('/apex/QASTypedownProxy')}"; //Url to the Salesforce proxy page.
+        settings[xd.PostMessage.TargetDomainParameterKey] = location.protocol + "//" + document.domain;         //Best practices for work in progress not really used right now.
+        settings[xd.ISDTP] = "mn";      //Tell Typedown to load the proxy page without home page components on the left.
+        settings["typedownURL"] = "https://online.qas.com/SalesforceV4TD/RapidSearch.html";
+        settings["emailPhoneURL"] = "https://online.qas.com/SalesforceV4EmailPhone/EmailPhoneJsonValidator.aspx";
+            
+        var configurations = getConfigurations();   //Create configuration.
+        
+        var typedownSettings = { CanEditFinalAddressLines: "True" };
+        
+        window.typedownClient = new sfdc.Client(configurations, settings, typedownSettings );  //Create and initialize the typedown.
+        
+        window.typedownClient.initialize(true); 
+    }
+    
+    function fixTypedownValidationStatuses() {
+        var sys  = QASNA.system;
+      
+        if(!sys.isNull(typedownClient)) { window.typedownClient.fixValidationStatus(); };
+    };
+    
+    function getConfigurations () {
+        var td = QASNA.typedown;
+        var dmId = QASNA.typedown.sfdc.DetailModeId;
+        var configurations = [];
+     
+        var config = new td.Configuration();
+        config.isUpperCase = false;
+        config.addressValidationKey = "{!HTMLENCODE(JSENCODE(JSINHTMLENCODE(URLENCODE(QASTypedownSessionToken))))}"; 
+       
+        var street = $('textarea[id$="FIELD-MailingStreet"]').attr('id');
+        var city = $('input[id$="FIELD-MailingCity"]').attr('id');
+        var state = $('input[id$="FIELD-MailingState"]').attr('id');
+        var zip = $('input[id$="FIELD-MailingPostalCode"]').attr('id');
+        var country = $('input[id$="FIELD-MailingCountry"]').attr('id');  
+        var validationStatus    = $('input[id$="FIELD-ValidationStatus_MailingAddress__c"]').attr('id');
+        var validationTimestamp = $('input[id$="FIELD-ValidationTimestamp_MailingAddress__c"]').attr('id');
+       
+        config.addOutputMapping(street, [td.DeliveryLine1, td.AddressLine2]);
+        config.addOutputMapping(city, td.City);
+        config.addOutputMapping(state, td.StateOrProvince);
+        config.addOutputMapping(zip, td.ZIPPlus4OrPostalCode);
+        config.addOutputMapping(country, td.TwocharacterISOcountrycode);
+        config.addOutputMapping(validationStatus, td.ValidationStatus);
+        config.addOutputMapping(validationTimestamp, td.LastValidated);
+           
+        configurations.push(config);
+        
+        
+        var config2 = new td.Configuration();
+        config2.isUpperCase = false;
+        config2.addressValidationKey = "{!HTMLENCODE(JSENCODE(JSINHTMLENCODE(URLENCODE(QASTypedownSessionToken))))}"; 
+       
+        var street2 = $('textarea[id$="FIELD-OtherStreet"]').attr('id');
+        var city2 = $('input[id$="FIELD-OtherCity"]').attr('id');
+        var state2 = $('input[id$="FIELD-OtherState"]').attr('id');
+        var zip2 = $('input[id$="FIELD-OtherPostalCode"]').attr('id');
+        var country2 = $('input[id$="FIELD-OtherCountry"]').attr('id');  
+        var validationStatus2    = $('input[id$="FIELD-ValidationStatus_OtherAddress__c"]').attr('id');
+        var validationTimestamp2 = $('input[id$="FIELD-ValidationTimestamp_OtherAddress__c"]').attr('id');
+       
+        config2.addOutputMapping(street2, [td.DeliveryLine1, td.AddressLine2]);
+        config2.addOutputMapping(city2, td.City);
+        config2.addOutputMapping(state2, td.StateOrProvince);
+        config2.addOutputMapping(zip2, td.ZIPPlus4OrPostalCode);
+        config2.addOutputMapping(country2, td.TwocharacterISOcountrycode);
+        config2.addOutputMapping(validationStatus2, td.ValidationStatus);
+        config2.addOutputMapping(validationTimestamp2, td.LastValidated);
+           
+        configurations.push(config2);
+        
+      
+        return configurations;
+    };
+</script>
+
+    <!-- END EXPERIANQAS SECTION -->
+
+    <script type="text/javascript">
+    
+        //sforce.connection.sessionId = '{!$Api.Session_ID}';
+        var showingDupes = false;
+        var showingMessages = false;
+        var obj = 'Contact';
+        var saveAndNew = false;
+        var savingInProgress = false;
+        var lastPotentialDuplicatesString = '';
+        var potentialDuplicatesString = '';
+
+        function addLogo(){      
+            var logoURL = "{!URLFOR($Resource.uniqueEntryResources, 'ringlead_ue_logo.png')}";
+            //$(".pageDescription").append('<span id="seekStatus" style="float:right;margin:3px 10% 0 0;font-style:italic;font-size:8pt;font-family:arial;color:rgb(88,88,90);">seeking duplicates...</span>');
+            $(".ptBody").append('<a title="Duplicate Prevention Powered by RingLead" href="http://www.ringlead.com" target="_blank"><img alt="RingLead - Prevent Duplicates in Salesforce" style="float:right;margin:3px 20px 0 0;border:0;" src="' + logoURL + '"/></a>');
+            
+            //seekStatusOff();
+        }
+        
+        function addSearchStatus() {
+            $(".pageDescription").append('<span id="seekStatus" style="float:right;margin:3px 10% 0 0;font-style:italic;font-size:8pt;font-family:arial;color:rgb(88,88,90);">seeking duplicates...</span>');
+            seekStatusOff();
+        }
+        
+        function addToOnload(fn){
+            var old = window.onload;
+            window.onload = function(){
+                old(); fn();
+            }
+        }
+        var seekStatus;
+        function seekStatusOn(){
+            $("#seekStatus").show();
+            seekStatus = true;
+        }
+        
+        function seekStatusOff(){
+            $("#seekStatus").hide();
+            seekStatus = false;
+        }
+        
+        addToOnload(addSearchStatus);
+        {!IF(systemSettings.hide_logo__c, '', 'addToOnload(addLogo);')}   
+            
+        var elementIds = new Array();
+        var mappingElementIds = new Array();
+        function fetchKeyFieldIds(){
+            elementIds = new Array();
+            mappingElementIds = new Array();
+            $("input[id*='KEYFIELD-']").each(
+                function(thing){
+                    elementIds.push($(this).attr("Id"));
+                }
+            );
+            $("select[id*='KEYFIELD-']").each(
+                function(thing){
+                    elementIds.push($(this).attr("Id"));
+                }
+            );
+            $("textarea[id*='KEYFIELD-']").each(
+                function(thing){
+                    elementIds.push($(this).attr("Id"));
+                }
+            );
+            
+            $("input[id*='MAPPINGFIELD-']").each(
+                function(thing){
+                    mappingElementIds.push($(this).attr("Id"));
+                }
+            );
+            $("select[id*='MAPPINGFIELD-']").each(
+                function(thing){
+                    mappingElementIds.push($(this).attr("Id"));
+                }
+            );
+            $("textarea[id*='MAPPINGFIELD-']").each(
+                function(thing){
+                    mappingElementIds.push($(this).attr("Id"));
+                }
+            );
+            
+            lowStart();
+        }
+        
+        function mailLink(){
+        
+            var $mailSt = $("textarea[id$='FIELD-MailingStreet']");
+            var $othaSt = $("textarea[id$='FIELD-OtherStreet']");
+
+            if($mailSt.size()>0 && $othaSt.size()>0){
+        
+                var $mailSection = $mailSt.parent().parent().parent().parent().parent().parent();
+                var $othaSection = $othaSt.parent().parent().parent().parent().parent().parent();
+
+                if($mailSection.attr("Id") == $othaSection.attr("Id")){
+                    if($mailSection.children().first().hasClass("pbSubheader")){
+                        $mailSection.children().first().append('<a onclick="copyAddress()" style="font-weight:bold;font-size:90%;float:right;cursor:pointer;margin-right:10px;">Copy Mailing Address to Other Address</a>');
+                    }
+                }
+            }
+        }
+
+        addToOnload(mailLink);
+        addToOnload(fetchKeyFieldIds);
+        
+        //EXPERIAN QAS
+        if({!QASInstalled})
+            addToOnload(initializeTypedown); 
+                
+        function copyAddress(){
+            $("textarea[id$='FIELD-OtherStreet']").attr("value",$("textarea[id$='FIELD-MailingStreet']").val());
+            $("input[id$='FIELD-OtherCity']").attr("value",$("input[id$='FIELD-MailingCity']").val());
+            $("input[id$='FIELD-OtherState']").attr("value",$("input[id$='FIELD-MailingState']").val());
+            $("input[id$='FIELD-OtherPostalCode']").attr("value",$("input[id$='FIELD-MailingPostalCode']").val());
+            $("input[id$='FIELD-OtherCountry']").attr("value",$("input[id$='FIELD-MailingCountry']").val());
+            
+            $("select[id$='FIELD-OtherCountryCode']").attr("value",$("select[id$='FIELD-MailingCountryCode']").val());
+            $("select[id$='FIELD-OtherCountryCode']").trigger("change");
+            $("select[id$='FIELD-OtherStateCode']").attr("value", $("select[id$='FIELD-MailingStateCode']").val());
+            
+        }
+        
+        function enterKey(){
+            $("input[id*='saveButton']").first().click();
+        }
+        
+        function saveAndNewClick(){
+            saveAndNew = true;
+            saveClick();
+        }
+
+        function saveClick(){
+            $("input[id*='Button_ue']").each(
+                function(thing){
+                    $(this).attr('class','btnDisabled');
+                    $(this).attr('value','Saving...');
+                    $(this).attr('disabled','disabled');
+                }
+            );
+            
+            
+            savingInProgress = true;
+            
+            //If Searching is in progress
+            if(seekStatus){
+                //Do nothing and just wait for the results to come in before doing anything else
+            }
+            //If no search is in progress
+            else{
+                if(keyFieldsChanged()){
+                    //Doing another search before we proceed. Saving should wait until we do another check.
+                    seekStatusOn();
+                    lastDeltaString = deltaString;
+                    lastMappingFieldsJSON = mappingFieldsJSON;
+                    sporadicDupeCheck(deltaString, mappingFieldsJSON);
+                }else{
+                    //No changes in the delta string.  Continuting the save process!
+                    saveRecord();
+                }
+            }
+            
+        }
+        function keyFieldsChanged(){
+            elementIds = new Array();
+            mappingElementIds = new Array();
+            
+            $("input[id*='KEYFIELD-']").each(
+                function(thing){
+                    elementIds.push($(this).attr("Id"));
+                }
+            );
+            
+            $("input[id*='MAPPINGFIELD-']").each(
+                function(thing){
+                    mappingElementIds.push($(this).attr("Id"));
+                }
+            );
+                
+            delta = new Object();
+            mappingFields = new Object();
+        
+            for(var x=0; x<elementIds.length; x++){
+                delta[elementIds[x].substring(elementIds[x].indexOf('KEYFIELD-')+9,elementIds[x].length)] =     document.getElementById(elementIds[x]).value;
+            }
+            
+            for(var x=0; x<mappingElementIds.length; x++){
+                mappingFields[elementIds[x].substring(mappingElementIds[x].indexOf('MAPPINGFIELD-')+13,mappingElementIds[x].length)] =     document.getElementById(mappingElementIds[x]).value;
+            }
+        
+            deltaString = JSON.stringify(delta);
+            mappingFieldsJSON = JSON.stringify(mappingFields);
+            
+            return (deltaString != lastDeltaString || mappingFieldsJSON != lastMappingFieldsJSON);
+        }
+        function checkResults(){
+
+            if(savingInProgress==true){
+
+                if(lastPotentialDuplicatesString != potentialDuplicatesString && potentialDuplicatesString!=''){                       
+                    var continueSaving = confirm('New possible duplicate records have been identified. Click "OK" to continue saving anyway or "Cancel" if you would like to review the results.');
+                    console.log('The value of continueSaving ' + continueSaving);
+                    if(continueSaving){
+                        saveRecord();
+                    }else{
+                        saveAndNew = false;
+                        savingInProgress = false;
+                        reinstateButtons();
+                        //User cancelled Saving! Do nothing!
+                    }
+                }else{
+                    saveRecord();
+                }
+    
+            }
+            
+        }
+        
+        function saveRecord(){
+            if(saveAndNew){
+                onSaveAndNew();
+            }else{
+                onSave();
+            }
+        }
+                
+        function cancelClick(){
+            $("input[id*='Button_ue']").each(
+                function(thing){
+                    $(this).attr('class','btnDisabled');
+                    $(this).attr('value','Canceling...');
+                    if(thing.id != null){
+                        if(thing.id.indexOf('save') > -1){
+                            $(this).attr('disabled','disabled');
+                        }
+                    }
+                }
+            );
+        }
+        
+        function reinstateButtons(){
+            $("input[id*='Button_ue']").attr('class','btn');
+            $("input[id*='Button_ue']").removeAttr('disabled');
+            $("input[id*='saveButton_ue']").attr('value','Save');
+            $("input[id*='saveNewButton_ue']").attr('value','Save & New');
+            $("input[id*='cancelButton_ue']").attr('value','Cancel');
+        }
+            
+        function newWindowOrTab(url, recordId){
+        
+            if( (typeof sforce.one != 'undefined') && (sforce.one != null) ){
+                if(recordId != null && recordId != ''){
+                    sforce.one.navigateToSObject(recordId);
+                }
+            } else if(sforce.console.isInConsole()){
+                sforce.console.openPrimaryTab(null, url, true);
+                    
+            } else {
+                window.open(url);
+            }
+        }
+        
+        
+        function nameTheTab(){
+            if(sforce.console.isInConsole()){
+                sforce.console.setTabTitle('New Unique {!$ObjectType.Contact.Label}');
+            }
+        }
+        addToOnload(nameTheTab);
+        
+        function goToEdiPage(recordId, urlWindow){
+            if( (typeof sforce.one != 'undefined') && (sforce.one != null) ){
+                sforce.one.editRecord(recordId);
+                
+                //sforce.one.navigateToURL('/' + recordId);
+                
+            } else{
+                window.location.href = urlWindow;                                           
+            }
+        }
+        
+    
+    </script>
+
+    <apex:form >
+        <apex:outputPanel id="dupes">
+            <apex:pageBlock mode="detail">
+                <apex:pageBlockSection title="Duplicated Leads & Contacts"
+                    rendered="{!OR(leadDupesFound,contactDupesFound)}" columns="1">
+                    <apex:outputPanel rendered="{!contactDupesFound}">
+                        <apex:outputText value="Contact [{!contactDupes.size}]" />
+                        <apex:outputPanel >
+                            <apex:pageBlockTable style="table-layout:fixed;"
+                                id="contactDupes" value="{!contactDupes}" var="d"
+                                styleClass="dupeTable"
+                                onRowMouseOver="this.style.background='white';"
+                                onRowMouseOut="this.style.background='';">
+                                <apex:repeat var="fieldName" value="{!selectedContactFields}">
+                                    <apex:column headerValue="{!IF(AND($ObjectType.Contact.Fields[fieldName].type='reference',RIGHT($ObjectType.Contact.Fields[fieldName].Label,3)=' ID'),LEFT($ObjectType.Contact.Fields[fieldName].Label,LEN($ObjectType.Contact.Fields[fieldName].Label)-3),$ObjectType.Contact.Fields[fieldName].Label)}"
+                                        style="width:{!100/(selectedContactFields.size)}%"
+                                        rendered="{!fieldName == 'name'}">
+                                        <!-- Displays if User has access to Record -->
+                                        <apex:outputPanel rendered="{!d.readable}">
+                                            <a title="View (New Window)" href="#"
+                                                onclick="newWindowOrTab('{!URLFOR($Action.Contact.View,d.contact.Id)}', '{!d.contact.Id}');">
+                                                <apex:outputText escape="true">
+                                                    {!d.contact.Name}
+                                                </apex:outputText>
+                                            </a>
+                                        </apex:outputPanel>
+                                        <!-- Displays if User does NOT have access to Record -->
+                                        <apex:outputPanel rendered="{!NOT(d.readable)}">
+                                            <a title="View (New Window)"
+                                                style="cursor: pointer; text-decoration: underline"
+                                                onclick="alert('You do not have access to view this record.\nYou should contact the owner(s) with any questions.');">
+                                                <apex:outputText escape="true">
+                                                    {!d.contact.Name}
+                                                </apex:outputText>
+                                            </a>
+                                        </apex:outputPanel>
+                                    </apex:column>
+
+                                    <apex:column headerValue="{!IF(AND($ObjectType.Contact.Fields[fieldName].type='reference',RIGHT($ObjectType.Contact.Fields[fieldName].Label,3)=' ID'),LEFT($ObjectType.Contact.Fields[fieldName].Label,LEN($ObjectType.Contact.Fields[fieldName].Label)-3),$ObjectType.Contact.Fields[fieldName].Label)}"
+                                        style="width:{!100/(selectedContactFields.size)}%"
+                                        rendered="{!fieldName == 'ownerid'}">
+                                        <!-- Displays for Queue Owner -->
+                                        <apex:outputText escape="true"
+                                            rendered="{!LEFT(d.contact.OwnerId,3)<>'005'}">
+                                            {!d.contact.Owner.Name}
+                                        </apex:outputText>
+                                        <!-- Displays when Owner is NOT a Queue -->
+                                        <apex:outputPanel rendered="{!LEFT(d.contact.OwnerId,3)='005'}">
+                                            <a title="View (New Window)" href="#"
+                                                onclick="newWindowOrTab('{!$Site.prefix}/{!d.contact.ownerId}', '{!d.contact.ownerId}');">
+                                                <apex:outputText escape="true">
+                                                    {!d.contact.Owner.Name}
+                                                </apex:outputText>
+                                            </a>
+                                        </apex:outputPanel>
+                                        <!-- Displays when Owner NOT a Queue AND NOT the current user -->
+                                        <apex:outputPanel rendered="{!AND(LEFT(d.contact.OwnerId,3)='005',d.contact.OwnerId<>$User.Id)}">
+                                            <a title="Send Email" href="mailto:{!d.contact.owner.email}"
+                                                target="_blank"> <apex:image value="{!URLFOR($Resource.UniqueEntry__uniqueEntryResources, 'envelope.jpg')}"
+                                                    alt="Send Email" styleClass="littleIcons" />
+                                            </a>
+                                        </apex:outputPanel>
+                                    </apex:column>
+
+                                    <apex:column headerValue="{!IF(AND($ObjectType.Contact.Fields[fieldName].type='reference',RIGHT($ObjectType.Contact.Fields[fieldName].Label,3)=' ID'),LEFT($ObjectType.Contact.Fields[fieldName].Label,LEN($ObjectType.Contact.Fields[fieldName].Label)-3),$ObjectType.Contact.Fields[fieldName].Label)}"
+                                        style="width:{!100/(selectedContactFields.size)}%; white-space: normal; overflow: hidden; text-overflow: ellipsis;"
+                                        rendered="{!fieldName != 'name' && fieldName != 'ownerid'}">
+                                        <span style="width: 100px;"> <!--{!if(OR(settings.Security_Level__c='low',d.readable),d.contact[fieldName],'••••••••••')}-->
+                                            <apex:outputField value="{!d.contact[fieldName]}"
+                                                rendered="{!OR(settings.UniqueEntry__Contact_Security_Level__c='low',d.readable)}" />
+                                            <apex:outputText value="••••••••••"
+                                                rendered="{!NOT(OR(settings.UniqueEntry__Contact_Security_Level__c='low',d.readable))}" />
+                                        </span>
+                                    </apex:column>
+                                </apex:repeat>
+
+                            </apex:pageBlockTable>
+
+                        </apex:outputPanel>
+
+                        <apex:outputPanel rendered="{!moreContacts}"
+                            styleClass="dupeMoreLink" layout="block">
+                            <br />
+                            {!currentContactDisplay}
+                            <apex:commandLink action="{!showMoreContacts}" reRender="dupes" immediate="true">
+                                show more...
+                            </apex:commandLink>
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                    <apex:outputPanel >
+                        <apex:outputPanel rendered="{!leadDupesFound}">
+                            <apex:outputText value="Lead [{!leadDupes.size}]" />
+                            <apex:pageBlockTable style="table-layout:fixed;" id="leadDupes"
+                                value="{!leadDupes}" var="d" styleClass="dupeTable"
+                                onRowMouseOver="this.style.background='white';"
+                                onRowMouseOut="this.style.background='';">
+
+                                <apex:repeat var="fieldName" value="{!selectedLeadFields}">
+                                    <apex:column headerValue="{!IF(AND($ObjectType.Lead.Fields[fieldName].type='reference',RIGHT($ObjectType.Lead.Fields[fieldName].Label,3)=' ID'),LEFT($ObjectType.Lead.Fields[fieldName].Label,LEN($ObjectType.Lead.Fields[fieldName].Label)-3),$ObjectType.Lead.Fields[fieldName].Label)}"
+                                        style="width:{!98/(selectedLeadFields.size)}%"
+                                        rendered="{!fieldName == 'name'}">
+                                        <!-- Displays if User has access to Record -->
+                                        <apex:outputPanel rendered="{!d.readable}">
+                                            <a title="View (New Window)" href="#"
+                                                onclick="newWindowOrTab('{!URLFOR($Action.Lead.View,d.lead.Id)}', '{!d.lead.Id}');">
+                                                <apex:outputText escape="true">
+                                                    {!d.lead.Name}
+                                                </apex:outputText>
+                                            </a>
+                                        </apex:outputPanel>
+                                        <!-- Displays if User does NOT have access to Record -->
+                                        <apex:outputPanel rendered="{!NOT(d.readable)}">
+                                            <a title="View (New Window)"
+                                                style="cursor: pointer; text-decoration: underline"
+                                                onclick="alert('You do not have access to view this record.\nYou should contact the owner(s) with any questions.');">
+                                                <apex:outputText escape="true">
+                                                    {!d.lead.Name}
+                                                </apex:outputText>
+                                            </a>
+                                        </apex:outputPanel>
+                                    </apex:column>
+
+                                    <apex:column headerValue="{!IF(AND($ObjectType.Lead.Fields[fieldName].type='reference',RIGHT($ObjectType.Lead.Fields[fieldName].Label,3)=' ID'),LEFT($ObjectType.Lead.Fields[fieldName].Label,LEN($ObjectType.Lead.Fields[fieldName].Label)-3),$ObjectType.Lead.Fields[fieldName].Label)}"
+                                        style="width:{!98/(selectedLeadFields.size)}%"
+                                        rendered="{!fieldName == 'ownerid'}">
+                                        <!-- Displays for Queue Owner -->
+                                        <apex:outputText escape="true"
+                                            rendered="{!LEFT(d.lead.OwnerId,3)<>'005'}">
+                                            {!d.lead.Owner.Name}
+                                        </apex:outputText>
+                                        <!-- Displays when Owner is NOT a Queue -->
+                                        <apex:outputPanel rendered="{!LEFT(d.lead.OwnerId,3)='005'}">
+                                            <a title="View (New Window)" href="#"
+                                                onclick="newWindowOrTab('{!$Site.prefix}/{!d.lead.ownerId}', '{!d.lead.ownerId}');">
+                                                <apex:outputText escape="true">
+                                                    {!d.lead.Owner.Name}
+                                                </apex:outputText>
+                                            </a>
+                                        </apex:outputPanel>
+                                        <!-- Displays when Owner NOT a Queue AND NOT the current user -->
+                                        <apex:outputPanel rendered="{!AND(LEFT(d.lead.OwnerId,3)='005',d.lead.OwnerId<>$User.Id)}">
+                                            <a title="Send Email" href="mailto:{!d.lead.owner.email}"
+                                                target="_blank"> <apex:image value="{!URLFOR($Resource.UniqueEntry__uniqueEntryResources, 'envelope.jpg')}"
+                                                    alt="Send Email" styleClass="littleIcons" />
+                                            </a>
+                                        </apex:outputPanel>
+                                    </apex:column>
+
+                                    <apex:column headerValue="{!IF(AND($ObjectType.Lead.Fields[fieldName].type='reference',RIGHT($ObjectType.Lead.Fields[fieldName].Label,3)=' ID'),LEFT($ObjectType.Lead.Fields[fieldName].Label,LEN($ObjectType.Lead.Fields[fieldName].Label)-3),$ObjectType.Lead.Fields[fieldName].Label)}"
+                                        style="width:{!98/(selectedLeadFields.size)}%; white-space: normal; overflow: hidden; text-overflow: ellipsis;"
+                                        rendered="{!fieldName != 'name' && fieldName != 'ownerid'}">
+                                        <span style="width: 100px;"> <!--{!if(OR(settings.Security_Level__c='low',d.readable),d.lead[fieldName],'••••••••••')}-->
+                                            <apex:outputField value="{!d.lead[fieldName]}"
+                                                rendered="{!OR(settings.UniqueEntry__Lead_Security_Level__c='low',d.readable)}" />
+                                            <apex:outputText value="••••••••••"
+                                                rendered="{!NOT(OR(settings.UniqueEntry__Lead_Security_Level__c='low',d.readable))}" />
+                                        </span>
+                                    </apex:column>
+                                </apex:repeat>
+
+                            </apex:pageBlockTable>
+
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!moreLeads}"
+                            styleClass="dupeMoreLink" layout="block">
+                            {!currentLeadDisplay}
+                            <apex:commandLink action="{!showMoreLeads}"
+                                reRender="dupes" immediate="true">
+                                show more...
+                            </apex:commandLink>
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+
+                    <apex:outputPanel rendered="{!pAccDupesFound}">
+                        <apex:outputText value="Person Account [{!pAccDupes.size}]" />
+                        <apex:dataTable style="table-layout:fixed;" id="pAccDupes"
+                            value="{!pAccDupes}" var="d" styleClass="dupeTable"
+                            onRowMouseOver="this.style.background='white';"
+                            onRowMouseOut="this.style.background='';">
+
+                            <apex:repeat var="fieldName"
+                                value="{!selectedPersonAccountFields}">
+                                <apex:column headerValue="{!IF(AND($ObjectType.Account.Fields[fieldName].type='reference',RIGHT($ObjectType.Account.Fields[fieldName].Label,3)=' ID'),LEFT($ObjectType.Account.Fields[fieldName].Label,LEN($ObjectType.Account.Fields[fieldName].Label)-3),$ObjectType.Account.Fields[fieldName].Label)}"
+                                    style="width:{!98/(selectedPersonAccountFields.size)}%"
+                                    rendered="{!fieldName == 'name'}">
+                                    <!-- Displays if User has access to Record -->
+                                    <apex:outputPanel rendered="{!d.readable}">
+                                        <a title="View (New Window)" href="#"
+                                            onclick="newWindowOrTab('{!URLFOR($Action.Account.View,d.account.Id)}', '{!d.account.Id}');">
+                                            <apex:outputText escape="true">
+                                                {!d.account.Name}
+                                            </apex:outputText>
+                                        </a>
+                                    </apex:outputPanel>
+                                    <!-- Displays if User does NOT have access to Record -->
+                                    <apex:outputPanel rendered="{!NOT(d.readable)}">
+                                        <a title="View (New Window)"
+                                            style="cursor: pointer; text-decoration: underline"
+                                            onclick="alert('You do not have access to view this record.\nYou should account the owner(s) with any questions.');">
+                                            <apex:outputText escape="true">
+                                                {!d.account.Name}
+                                            </apex:outputText>
+                                        </a>
+                                    </apex:outputPanel>
+                                </apex:column>
+
+                                <apex:column headerValue="{!IF(AND($ObjectType.Account.Fields[fieldName].type='reference',RIGHT($ObjectType.Account.Fields[fieldName].Label,3)=' ID'),LEFT($ObjectType.Account.Fields[fieldName].Label,LEN($ObjectType.Account.Fields[fieldName].Label)-3),$ObjectType.Account.Fields[fieldName].Label)}"
+                                    style="width:{!98/(selectedPersonAccountFields.size)}%"
+                                    rendered="{!fieldName == 'ownerid'}">
+                                    <!-- Displays for Queue Owner -->
+                                    <apex:outputText escape="true"
+                                        rendered="{!LEFT(d.account.OwnerId,3)<>'005'}">
+                                        {!d.account.Owner.Name}
+                                    </apex:outputText>
+                                    <!-- Displays when Owner is NOT a Queue -->
+                                    <apex:outputPanel rendered="{!LEFT(d.account.OwnerId,3)='005'}">
+                                        <a title="View (New Window)" href="#"
+                                            onclick="newWindowOrTab('{!$Site.prefix}/{!d.account.ownerId}', '{!d.account.ownerId}');">
+                                            <apex:outputText escape="true">
+                                                {!d.account.Owner.Name}
+                                            </apex:outputText>
+                                        </a>
+                                    </apex:outputPanel>
+                                    <!-- Displays when Owner NOT a Queue AND NOT the current user -->
+                                    <apex:outputPanel rendered="{!AND(LEFT(d.account.OwnerId,3)='005',d.account.OwnerId<>$User.Id)}">
+                                        <a title="Send Email" href="mailto:{!d.account.owner.email}"
+                                            target="_blank"> <apex:image value="{!URLFOR($Resource.UniqueEntry__uniqueEntryResources, 'envelope.jpg')}"
+                                                alt="Send Email" styleClass="littleIcons" />
+                                        </a>
+                                    </apex:outputPanel>
+                                </apex:column>
+
+                                <apex:column headerValue="{!IF(AND($ObjectType.Account.Fields[fieldName].type='reference',RIGHT($ObjectType.Account.Fields[fieldName].Label,3)=' ID'),LEFT($ObjectType.Account.Fields[fieldName].Label,LEN($ObjectType.Account.Fields[fieldName].Label)-3),$ObjectType.Account.Fields[fieldName].Label)}"
+                                    style="width:{!98/(selectedPersonAccountFields.size)}%; white-space: normal; overflow: hidden; text-overflow: ellipsis;"
+                                    rendered="{!fieldName != 'name' && fieldName != 'ownerid'}">
+                                    <!--<apex:outputfield value="{!d.account[fieldName]}"/>-->
+                                    <span style="width: 100px;"> <!--{!if(OR(settings.Security_Level__c='low',d.readable),d.account[fieldName],'••••••••••')}-->
+                                        <apex:outputField value="{!d.account[fieldName]}"
+                                            rendered="{!OR(settings.UniqueEntry__Account_Security_Level__c='low',d.readable)}" />
+                                        <apex:outputText value="••••••••••"
+                                            rendered="{!NOT(OR(settings.UniqueEntry__Account_Security_Level__c='low',d.readable))}" />
+                                    </span>
+                                </apex:column>
+                            </apex:repeat>
+
+                        </apex:dataTable>
+
+                        <apex:outputPanel rendered="{!morePersonAccounts}"
+                            styleClass="dupeMoreLink" layout="block">
+                            {!currentPersonAccountDisplay}
+                            <apex:commandLink action="{!showMorePersonAccounts}" reRender="dupes"
+                                immediate="true">
+                                show more...
+                            </apex:commandLink>
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

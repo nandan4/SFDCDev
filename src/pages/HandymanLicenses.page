@@ -1,0 +1,96 @@
+<!--
+    @Author      :  candidate@408970advdev.org
+    @Name        :  HandymanLicenses
+    @Date        :  28/12/2014
+    @Description :  UI available as a tab in chatter profile page of a user where contractor id of user can be updated and
+                    the handyman licenses available for the user are displayed. Also a feature to manually refresh
+                    the licenses detail for a user from Handyman Site. 
+--> 
+<apex:page showHeader="false" sidebar="false" standardcontroller="User" extensions="HandymanExtension" id="page">
+    <apex:form id="form">
+        <!-- 
+            As the scenario to fetch licenses when User has contractor id and refresh date is blank includes DML operation,
+            it cannot be achieved through constructor and since action attribute in page is better suited for conditional 
+            redirecting, actionfunction component is used to fetch licenses which is invoked through javascript on pageload.
+        -->
+        <apex:actionFunction name="refresh" action="{!refreshLicenses}" id="loadMthd" rerender="detailBlock" status="loadStatus"/>
+        <!-- PageBlock to display section for contractor id update and handyman licenses for user. -->
+        <apex:pageBlock id="detailBlock" mode="maindetail">
+            <apex:pageBlockSection id="headerSection" columns="1">
+                <!--  Texts in the components are aligned center using dataStyle attribute -->
+                <apex:pageBlockSectionItem id="usrHeadSecItem" dataStyle="text-align:center;">
+                    <apex:outputPanel id="headerPanel">
+                        <apex:outputText value="{!$Label.Handyman_Licenses} " id="usrHead" style="font-weight:bold;"/>  
+                        <apex:outputText value=" {!user.Name}" id="usrName"/>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>                
+            </apex:pageBlockSection>  
+            <!-- Header Section Ends -->
+            
+            <!-- 
+                Section display Contractor Id of user and a button to update for system administrator and 
+                if viewed user is same as running user.
+            -->
+            <apex:pageBlockSection id="updateSection" columns="1">
+                <!-- Pagemessages component to display informational or error messages based on the scenario -->
+                <apex:pagemessages id="pageMsgs"/>
+                
+                <!--  texts in the components are aligned center using dataStyle attribute -->
+                <apex:pageBlockSectionItem id="usrIdItem" dataStyle="text-align:center;">
+                    <apex:outputPanel id="contIdPanel">
+                        <apex:outputLabel value="{!$ObjectType.User.fields.Contractor_ID__c.label} " for="contId" id="contIdLabel"/>
+                        <apex:inputText value="{!user.Contractor_ID__c}" id="contId" disabled="{!!isEditable}" maxlength="18"/>
+                        <!-- 
+                            Button to update contractor id, which invokes updateData method in extension and rerenders detailBlock. 
+                            Button is enabled for system administrator and if the contractor id is blank and running user is same
+                            as the viewed user.
+                        -->
+                        <apex:commandButton value=" {!$Label.Update}" id="updateBtn" action="{!updateData}" disabled="{!!isEditable}" rerender="detailBlock" status="loadStatus"/>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>    
+            
+                <!-- Status message during the method call to fetch licenses for user. -->
+                <apex:actionStatus startText="{!$Label.Loading_Status}" id="loadStatus"/>
+            </apex:pageBlockSection>
+            <!-- Update Section Ends -->
+            
+            <!-- Section to display Handyman Licenses for the user -->
+            <apex:pageBlockSection id="detailSection" columns="2" rendered="{!showDetail}">
+                <apex:pageBlockSectionItem id="imgSecItem" dataStyle="width:40%;">
+                    <apex:image value="{!$Resource.HandymanLicenseBadge}" id="imgBadge" alt="{!$Label.Handyman_License_Badge}"/>
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem id="licSecItem" dataStyle="width:60%;"> 
+                    <!-- Panel to contain licenses table and the refresh button in same column. -->
+                    <apex:outputPanel id="licDetPanel">
+                        <apex:dataTable id="licTable" value="{!licenseList}" var="lic" columns="2" rendered="{!showDetail}" width="100%" align="center">
+                            <apex:column headerValue="{!$ObjectType.Handyman_License__c.fields.License__c.label}" value="{!lic.licenseName}" id="licName"/>                            
+                            <apex:column headerValue="{!$ObjectType.Handyman_License__c.fields.License_Date__c.label}" value="{!lic.licenseDate}" id="licDate"/>
+                        </apex:dataTable> 
+                        
+                        <br/>
+                        
+                        <!-- Panel to contain refresh button & last refresh date for user in same row. -->
+                        <apex:outputPanel id="refPanel">   
+                            <!-- Button to manually refresh the license details for the user, rerenders detail block on complete. -->
+                            <apex:commandButton value="{!$Label.Refresh}" id="refreshBtn" action="{!refresh}" rerender="detailBlock" status="loadStatus"/>
+                            <!-- Output Text with param component to display Date in format like "January 01,1900" -->
+                            <apex:outputText value=" {!$Label.Last_Refreshed}  {0,date,MMMM dd, yyyy} " id="usrRefDate">
+                                <apex:param value="{!user.Refresh_Date__c}" id="refDateParam"/>
+                            </apex:outputText>
+                        </apex:outputPanel>
+                        
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem> 
+                
+            </apex:pageBlockSection>
+            <!-- Detail Section ends -->
+        </apex:pageBlock>
+        <!-- Pageblock ends -->
+    </apex:form>
+       
+    <script type="text/javascript">
+        window.onload = refresh();          // action function refresh is invoked on page load
+    </script>
+    
+</apex:page>

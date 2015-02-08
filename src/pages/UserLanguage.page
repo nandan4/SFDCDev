@@ -1,0 +1,10 @@
+<apex:page >
+    <script>
+        alert('--browserLanguage--'+window.browserLanguage);
+        alert('--systemLanguage--'+window.systemLanguage);
+        alert('--userLanguage--'+window.navigator.userLanguage);
+        alert('--language--'+window.navigator.language);
+        alert('--language--'+window.navigator.browserLanguage);
+    </script>
+
+</apex:page>

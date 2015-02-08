@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>Request</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Requests</value>
+    </caseValues>
+    <fields>
+        <help><!-- Number of days estimated for Adaptation and Ongoing Support. --></help>
+        <label><!-- Adapt &amp; Ongoing Support --></label>
+        <name>Adapt__c</name>
+    </fields>
+    <fields>
+        <help><!-- Number of days estimated to complete Build and Unit Test phase. --></help>
+        <label><!-- Build --></label>
+        <name>BUT__c</name>
+    </fields>
+    <fields>
+        <label><!-- Build Total --></label>
+        <name>Build_Total__c</name>
+    </fields>
+    <fields>
+        <help><!-- Value is calculated by the selection of the Business Benefit field: 
+High = 3 
+Medium = 2 
+Low = 1 --></help>
+        <label><!-- Business Benefit Value --></label>
+        <name>Business_Benefit_Value__c</name>
+    </fields>
+    <fields>
+        <help><!-- Low: Does Not Drive Revenue or Reduce Costs 
+Medium: Drives Revenue or Reduces Costs (quantify amount, if possible) 
+High: Drives Revenue and Reduces Costs (quantify amount for both, if possible) --></help>
+        <label><!-- Business Benefit --></label>
+        <name>Business_Benefit__c</name>
+        <picklistValues>
+            <masterLabel>High</masterLabel>
+            <translation><!-- High --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Low</masterLabel>
+            <translation><!-- Low --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Medium</masterLabel>
+            <translation><!-- Medium --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Capability --></label>
+        <name>Capability__c</name>
+        <relationshipLabel><!-- Requests --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- Emergency: A known error in existing functionality 
+Feature/Function: Enhancement or modification to an existing functionality 
+New Capability: New functionality to support process 
+Ongoing Maintenance: Activities that need to be performed regularly --></help>
+        <label><!-- Capacity Type --></label>
+        <name>Capacity_Type__c</name>
+        <picklistValues>
+            <masterLabel>Emergency</masterLabel>
+            <translation><!-- Emergency --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Feature/Function</masterLabel>
+            <translation><!-- Feature/Function --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>New Capability</masterLabel>
+            <translation><!-- New Capability --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Ongoing Maintenance</masterLabel>
+            <translation><!-- Ongoing Maintenance --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Client Request ID --></label>
+        <name>Client_Request_ID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Reason Closed/Deferred --></label>
+        <name>Closed_Deferred__c</name>
+        <picklistValues>
+            <masterLabel>Closed: Architecturally Not Recommended</masterLabel>
+            <translation><!-- Closed: Architecturally Not Recommended --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Closed: Business Process</masterLabel>
+            <translation><!-- Closed: Business Process --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Closed: Canceled by Business</masterLabel>
+            <translation><!-- Closed: Canceled by Business --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Closed: Duplicate</masterLabel>
+            <translation><!-- Closed: Duplicate --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Closed: Existing Functionality</masterLabel>
+            <translation><!-- Closed: Existing Functionality --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Closed: Technically Not Feasible</masterLabel>
+            <translation><!-- Closed: Technically Not Feasible --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Deferred: Product Enhancement Request</masterLabel>
+            <translation><!-- Deferred: Product Enhancement Request --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Deferred: Waiting Approval</masterLabel>
+            <translation><!-- Deferred: Waiting Approval --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Deferred: Waiting Architecture Availabiity</masterLabel>
+            <translation><!-- Deferred: Waiting Architecture Availabiity --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Comments --></label>
+        <name>Comments__c</name>
+    </fields>
+    <fields>
+        <help><!-- Overall Contingency allowed in percentage. --></help>
+        <label><!-- Overall Contingency(%) --></label>
+        <name>Cont__c</name>
+    </fields>
+    <fields>
+        <help><!-- Number of days estimated for the Design phase. --></help>
+        <label><!-- Design --></label>
+        <name>Des__c</name>
+    </fields>
+    <fields>
+        <label><!-- Design Total --></label>
+        <name>Design_Total__c</name>
+    </fields>
+    <fields>
+        <label><!-- Estimate Assumption --></label>
+        <name>Estimate_Assumption__c</name>
+    </fields>
+    <fields>
+        <help><!-- Include information about the impacts the functionality will have to the end user. Specifically, what they will see on the interface, how often the data will be updated, etc. --></help>
+        <label><!-- Functional Description --></label>
+        <name>Functional_Description__c</name>
+    </fields>
+    <fields>
+        <help><!-- Value is calculated by the Level of Effort formula field. 
+High = 1 
+Medium = 2 
+Low = 3 --></help>
+        <label><!-- Level of Effort Value --></label>
+        <name>Level_of_Effort_Value__c</name>
+    </fields>
+    <fields>
+        <help><!-- Low: Requires Less Than 8 Days of Work Effort 
+Medium: Requires 8.01 - 20 Days of Work Effort 
+High: Requires More Than 20.01 Days of Work Effort --></help>
+        <label><!-- Level of Effort --></label>
+        <name>Level_of_Effort__c</name>
+    </fields>
+    <fields>
+        <help><!-- Value is calculated based on the value in the Total Priority Ranking field: 
+High = Any value greater than or equal to 2.50 
+Medium = Any value between 1.50 and 2.49 
+Low = Any value less than 1.50 --></help>
+        <label><!-- Overall Priority --></label>
+        <name>Overall_Priority__c</name>
+    </fields>
+    <fields>
+        <help><!-- This is the suggested release in which the requirement should be deployed. --></help>
+        <label><!-- Planned Release --></label>
+        <name>Planned_Release__c</name>
+        <relationshipLabel><!-- Requests (Planned Release) --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- A request can only be a quick hit if the IT level of effort is “low”, Business priority is “high”, the urgency of having the request is immediate, and the request can be implemented without impacting integration. --></help>
+        <label><!-- Quick Hit --></label>
+        <name>Quick_Hit__c</name>
+    </fields>
+    <fields>
+        <help><!-- Regions that get impacted due to this requirement. --></help>
+        <label><!-- Regions Impacted --></label>
+        <name>Regions_Impacted__c</name>
+        <picklistValues>
+            <masterLabel>Africa</masterLabel>
+            <translation><!-- Africa --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia Pacific</masterLabel>
+            <translation><!-- Asia Pacific --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe</masterLabel>
+            <translation><!-- Europe --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Global</masterLabel>
+            <translation><!-- Global --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Latin America</masterLabel>
+            <translation><!-- Latin America --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>North America</masterLabel>
+            <translation><!-- North America --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Regions Requesting --></label>
+        <name>Regions_Requesting__c</name>
+        <picklistValues>
+            <masterLabel>Africa</masterLabel>
+            <translation><!-- Africa --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Asia Pacific</masterLabel>
+            <translation><!-- Asia Pacific --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Europe</masterLabel>
+            <translation><!-- Europe --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Global</masterLabel>
+            <translation><!-- Global --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Latin America</masterLabel>
+            <translation><!-- Latin America --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>North America</masterLabel>
+            <translation><!-- North America --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <help><!-- Use this field to link duplicate requirements together or to group similar requirements. --></help>
+        <label><!-- Related Request --></label>
+        <name>Related_Request__c</name>
+        <relationshipLabel><!-- Requests --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- The release in which the request will actually be deployed. If the requirement has not been approved for a release, there should not be a value in this field. --></help>
+        <label><!-- Committed Release --></label>
+        <name>Release__c</name>
+        <relationshipLabel><!-- Requests (Committed Release) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Removed From Release --></label>
+        <name>Removed_From_Release__c</name>
+        <relationshipLabel><!-- Requests (Removed From Release) --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- Indicate that a Request was removed from a Release only if it is removed after Design is complete. --></help>
+        <label><!-- Removed from Release --></label>
+        <name>Removed_Release__c</name>
+    </fields>
+    <fields>
+        <help><!-- Number of days estimated for Requirement Gathering. --></help>
+        <label><!-- Plan --></label>
+        <name>Req__c</name>
+    </fields>
+    <fields>
+        <help><!-- Detailed Summary* 
+Screen(s) Impacted* 
+Field Name(s) &amp; Type(s)* 
+Picklist Values 
+Calculation 
+Dependency 
+Workflow/Approval Rules 
+Interfacing System Updates 
+Interface Frequency 
+Data Volumes 
+*Indicates information required for all requests! --></help>
+        <label><!-- Request Description --></label>
+        <name>Request_Description__c</name>
+    </fields>
+    <fields>
+        <help><!-- Captures the requirement title --></help>
+        <label><!-- Request Title --></label>
+        <name>Request_Title__c</name>
+    </fields>
+    <fields>
+        <help><!-- If you are unsure of the type of request you are submitting, please select Unknown. --></help>
+        <label><!-- Request Type --></label>
+        <name>Request_Type__c</name>
+        <picklistValues>
+            <masterLabel>Configuration</masterLabel>
+            <translation><!-- Configuration --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Custom Code</masterLabel>
+            <translation><!-- Custom Code --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Data Access</masterLabel>
+            <translation><!-- Data Access --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Data Migration</masterLabel>
+            <translation><!-- Data Migration --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Integration</masterLabel>
+            <translation><!-- Integration --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Unknown</masterLabel>
+            <translation><!-- Unknown --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <help><!-- Name of the person originally submitting the request. --></help>
+        <label><!-- Requestor --></label>
+        <name>Requestor__c</name>
+        <relationshipLabel><!-- Requests --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- Number of days estimated for completing SIT. --></help>
+        <label><!-- Test --></label>
+        <name>SIT__c</name>
+    </fields>
+    <fields>
+        <label><!-- Status --></label>
+        <name>Status__c</name>
+        <picklistValues>
+            <masterLabel>Approve: Approved to Deploy</masterLabel>
+            <translation><!-- Approve: Approved to Deploy --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Close: Deployed</masterLabel>
+            <translation><!-- Close: Deployed --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Close: Duplicate</masterLabel>
+            <translation><!-- Close: Duplicate --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Close: Rejected</masterLabel>
+            <translation><!-- Close: Rejected --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Consolidate: Approve to Estimate</masterLabel>
+            <translation><!-- Consolidate: Approve to Estimate --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Consolidate: Level of Effort Complete</masterLabel>
+            <translation><!-- Consolidate: Level of Effort Complete --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Identify: Deferred</masterLabel>
+            <translation><!-- Identify: Deferred --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Identify: New Requirement</masterLabel>
+            <translation><!-- Identify: New Requirement --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Identify: Submit for Business Review</masterLabel>
+            <translation><!-- Identify: Submit for Business Review --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Release: Build</masterLabel>
+            <translation><!-- Release: Build --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Release: Build Production</masterLabel>
+            <translation><!-- Release: Build Production --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Release: Design</masterLabel>
+            <translation><!-- Release: Design --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Release: SIT</masterLabel>
+            <translation><!-- Release: SIT --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Release: Test</masterLabel>
+            <translation><!-- Release: Test --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Release: Test Production</masterLabel>
+            <translation><!-- Release: Test Production --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Release: UAT</masterLabel>
+            <translation><!-- Release: UAT --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <help><!-- Systems that get impacted due to this requirement. --></help>
+        <label><!-- Systems Impacted --></label>
+        <name>System_Impacted__c</name>
+        <picklistValues>
+            <masterLabel>Insert Values</masterLabel>
+            <translation><!-- Insert Values --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Technical Description --></label>
+        <name>Technical_Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Test Case --></label>
+        <name>Test_Case__c</name>
+    </fields>
+    <fields>
+        <label><!-- Test Total --></label>
+        <name>Test_Total__c</name>
+    </fields>
+    <fields>
+        <help><!-- Total estimated value. --></help>
+        <label><!-- Total Estimate (Top Down) --></label>
+        <name>TotEst__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Actual Level of Effort --></label>
+        <name>Total_Actual_Level_of_Effort__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Effort Variance --></label>
+        <name>Total_Effort_Variance__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Estimate (Bottom Up) --></label>
+        <name>Total_Estimate_Bottom_Up__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Priority Ranking --></label>
+        <name>Total_Priority_Ranking__c</name>
+    </fields>
+    <fields>
+        <help><!-- Total number of days estimated. --></help>
+        <label><!-- Total --></label>
+        <name>Total__c</name>
+    </fields>
+    <fields>
+        <help><!-- Number of days estimated for Training and Deploying. --></help>
+        <label><!-- Deploy --></label>
+        <name>TrnDep__c</name>
+    </fields>
+    <fields>
+        <help><!-- Number of days estimated to complete UAT. --></help>
+        <label><!-- UAT --></label>
+        <name>UAT__c</name>
+    </fields>
+    <fields>
+        <help><!-- Value is calculated by the selection of the Urgency of Request field: 
+High = 3 
+Medium = 2 
+Low = 1 --></help>
+        <label><!-- Urgency of Request Value --></label>
+        <name>Urgency_of_Request_Value__c</name>
+    </fields>
+    <fields>
+        <help><!-- Low: Not required within the next 90 days to enable a business process 
+Medium: Required within the next 46 – 90 days to enable a business process 
+High: Required within the next 30 – 45 days to enable a business process --></help>
+        <label><!-- Urgency of Request --></label>
+        <name>Urgency_of_Request__c</name>
+        <picklistValues>
+            <masterLabel>High</masterLabel>
+            <translation><!-- High --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Low</masterLabel>
+            <translation><!-- Low --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Medium</masterLabel>
+            <translation><!-- Medium --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <help><!-- Value is calculated by the User Impact of Change field: 
+High = 1 
+Medium = 2 
+Low = 3 --></help>
+        <label><!-- User Impact of Change Value --></label>
+        <name>User_Impact_of_Change_Value__c</name>
+    </fields>
+    <fields>
+        <help><!-- Low: Will Significantly Impact Users (high degree of adoption with significant effort) 
+Medium: Will Moderately Impact Users (high degree of adoption with moderate effort) 
+High: Will Minimally Impact Users (high degree of adoption with minimal effort) --></help>
+        <label><!-- User Impact of Change --></label>
+        <name>User_Impact_of_Change__c</name>
+        <picklistValues>
+            <masterLabel>High</masterLabel>
+            <translation><!-- High --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Low</masterLabel>
+            <translation><!-- Low --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Medium</masterLabel>
+            <translation><!-- Medium --></translation>
+        </picklistValues>
+    </fields>
+    <layouts>
+        <layout>Request Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Design and Test Enablement --></label>
+            <section>Design and Test Enablement</section>
+        </sections>
+        <sections>
+            <label><!-- Priority Ranking --></label>
+            <section>Priority Ranking</section>
+        </sections>
+        <sections>
+            <label><!-- Request Summary --></label>
+            <section>Request Summary</section>
+        </sections>
+        <sections>
+            <label><!-- Requirement Summary --></label>
+            <section>Requirement Summary</section>
+        </sections>
+        <sections>
+            <label><!-- SaaS Total Level of Effort - Bottom Up Estimate --></label>
+            <section>SaaS Total Level of Effort - Bottom Up Estimate</section>
+        </sections>
+        <sections>
+            <label><!-- SaaS Total Level of Effort - Top Down Estimate --></label>
+            <section>SaaS Total Level of Effort - Top Down Estimate</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Please enter a value greater than 0 for fields under Total Level of Effort. --></errorMessage>
+        <name>Positive_Effort</name>
+    </validationRules>
+</CustomObjectTranslation>

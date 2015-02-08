@@ -1,0 +1,10 @@
+<apex:page sidebar="false" controller="NovaSuiteLastScanController" tabStyle="Project__c">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockTable value="{!projectList}" var="project" cellpadding="1" cellspacing="1" border="1" columns="2">
+                <apex:column value="{!project.Name}"/>
+                <apex:column value="{!project.Last_Scan_Date__c}"/>
+            </apex:pageBlockTable>    
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

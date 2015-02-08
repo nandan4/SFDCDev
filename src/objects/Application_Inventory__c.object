@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>TOOLKIT: Provides application component detailed related to customer requests.</description>
+    <enableActivities>true</enableActivities>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Build_1__c</fullName>
+        <defaultValue>0</defaultValue>
+        <label>Build</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Build_2__c</fullName>
+        <defaultValue>0</defaultValue>
+        <label>Build_2</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Build_Complete__c</fullName>
+        <label>Build % Complete</label>
+        <precision>5</precision>
+        <scale>2</scale>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Build_Owner__c</fullName>
+        <label>Build Owner</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Application Inventories (Build Owner)</relationshipLabel>
+        <relationshipName>Application_Inventories1</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Comments__c</fullName>
+        <label>Comments</label>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Complexity_1__c</fullName>
+        <label>Complexity</label>
+        <picklist>
+            <controllingField>Type_1__c</controllingField>
+            <picklistValues>
+                <fullName>Simple</fullName>
+                <controllingFieldValues>Configuration</controllingFieldValues>
+                <controllingFieldValues>Customization</controllingFieldValues>
+                <controllingFieldValues>Data Migration</controllingFieldValues>
+                <controllingFieldValues>Integration (Batch)</controllingFieldValues>
+                <controllingFieldValues>Integration (Real-Time)</controllingFieldValues>
+                <controllingFieldValues>Reports &amp; Dashboards</controllingFieldValues>
+                <controllingFieldValues>User Administration</controllingFieldValues>
+                <controllingFieldValues>Workflow or Approval</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Medium</fullName>
+                <controllingFieldValues>Configuration</controllingFieldValues>
+                <controllingFieldValues>Customization</controllingFieldValues>
+                <controllingFieldValues>Data Migration</controllingFieldValues>
+                <controllingFieldValues>Integration (Batch)</controllingFieldValues>
+                <controllingFieldValues>Integration (Real-Time)</controllingFieldValues>
+                <controllingFieldValues>Reports &amp; Dashboards</controllingFieldValues>
+                <controllingFieldValues>User Administration</controllingFieldValues>
+                <controllingFieldValues>Workflow or Approval</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Complex</fullName>
+                <controllingFieldValues>Configuration</controllingFieldValues>
+                <controllingFieldValues>Customization</controllingFieldValues>
+                <controllingFieldValues>Data Migration</controllingFieldValues>
+                <controllingFieldValues>Integration (Batch)</controllingFieldValues>
+                <controllingFieldValues>Integration (Real-Time)</controllingFieldValues>
+                <controllingFieldValues>Reports &amp; Dashboards</controllingFieldValues>
+                <controllingFieldValues>User Administration</controllingFieldValues>
+                <controllingFieldValues>Workflow or Approval</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Very Complex</fullName>
+                <controllingFieldValues>Configuration</controllingFieldValues>
+                <controllingFieldValues>Workflow or Approval</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Complexity_2__c</fullName>
+        <label>Complexity_2</label>
+        <picklist>
+            <controllingField>Type_2__c</controllingField>
+            <picklistValues>
+                <fullName>Simple</fullName>
+                <controllingFieldValues>Configuration</controllingFieldValues>
+                <controllingFieldValues>Customization</controllingFieldValues>
+                <controllingFieldValues>Data Migration</controllingFieldValues>
+                <controllingFieldValues>Integration (Batch)</controllingFieldValues>
+                <controllingFieldValues>Integration (Real-Time)</controllingFieldValues>
+                <controllingFieldValues>Reports &amp; Dashboards</controllingFieldValues>
+                <controllingFieldValues>User Administration</controllingFieldValues>
+                <controllingFieldValues>Workflow or Approval</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Medium</fullName>
+                <controllingFieldValues>Configuration</controllingFieldValues>
+                <controllingFieldValues>Customization</controllingFieldValues>
+                <controllingFieldValues>Data Migration</controllingFieldValues>
+                <controllingFieldValues>Integration (Batch)</controllingFieldValues>
+                <controllingFieldValues>Integration (Real-Time)</controllingFieldValues>
+                <controllingFieldValues>Reports &amp; Dashboards</controllingFieldValues>
+                <controllingFieldValues>User Administration</controllingFieldValues>
+                <controllingFieldValues>Workflow or Approval</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Complex</fullName>
+                <controllingFieldValues>Configuration</controllingFieldValues>
+                <controllingFieldValues>Customization</controllingFieldValues>
+                <controllingFieldValues>Data Migration</controllingFieldValues>
+                <controllingFieldValues>Integration (Batch)</controllingFieldValues>
+                <controllingFieldValues>Integration (Real-Time)</controllingFieldValues>
+                <controllingFieldValues>Reports &amp; Dashboards</controllingFieldValues>
+                <controllingFieldValues>User Administration</controllingFieldValues>
+                <controllingFieldValues>Workflow or Approval</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Very Complex</fullName>
+                <controllingFieldValues>Configuration</controllingFieldValues>
+                <controllingFieldValues>Workflow or Approval</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <label>Description</label>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Design_1__c</fullName>
+        <defaultValue>0</defaultValue>
+        <label>Design</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Design_2__c</fullName>
+        <defaultValue>0</defaultValue>
+        <label>Design_2</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Design_Complete__c</fullName>
+        <label>Design % Complete</label>
+        <precision>5</precision>
+        <scale>2</scale>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Design_Owner__c</fullName>
+        <label>Design Owner</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Application Inventories</relationshipLabel>
+        <relationshipName>Application_Inventories</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Request__c</fullName>
+        <label>Request</label>
+        <referenceTo>Request__c</referenceTo>
+        <relationshipLabel>Application Inventories</relationshipLabel>
+        <relationshipName>Application_Inventories</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <type>MasterDetail</type>
+    </fields>
+    <fields>
+        <fullName>SIT_Complete__c</fullName>
+        <label>SIT % Complete</label>
+        <precision>5</precision>
+        <scale>2</scale>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>SIT_Owner__c</fullName>
+        <label>SIT Owner</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Application Inventories (SIT Owner)</relationshipLabel>
+        <relationshipName>Application_Inventories2</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <label>Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Estimate</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Design</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Build</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SIT</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>UAT</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Deploy</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Test_1__c</fullName>
+        <defaultValue>0</defaultValue>
+        <label>Test</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Test_2__c</fullName>
+        <defaultValue>0</defaultValue>
+        <label>Test_2</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Build__c</fullName>
+        <formula>Build_1__c  +  Build_2__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Build</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Design__c</fullName>
+        <formula>Design_1__c + Design_2__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Design</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Test__c</fullName>
+        <formula>Test_1__c + Test_2__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Test</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Type_1__c</fullName>
+        <label>Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Configuration</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Workflow or Approval</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>User Administration</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Reports &amp; Dashboards</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Customization</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Data Migration</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Integration (Real-Time)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Integration (Batch)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Type_2__c</fullName>
+        <label>Type_2</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Configuration</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Workflow or Approval</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>User Administration</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Reports &amp; Dashboards</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Customization</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Data Migration</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Integration (Real-Time)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Integration (Batch)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <label>Application Inventory</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>AI-{0000}</displayFormat>
+        <label>Application Inventory #</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Application Inventory</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

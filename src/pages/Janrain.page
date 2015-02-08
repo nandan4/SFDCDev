@@ -1,0 +1,83 @@
+<apex:page controller="JanrainController">
+<apex:includeScript value="{!$Resource.jquery}"/>
+ <script src="/soap/ajax/30.0/connection.js"></script>
+<script type="text/javascript">
+    var sessionId = "{!$Api.Session_ID}";
+(function() {
+    if (typeof window.janrain !== 'object') window.janrain = {};
+    if (typeof window.janrain.settings !== 'object') window.janrain.settings = {};
+    
+    janrain.settings.tokenUrl = 'https://nand-dev-ed.my.salesforce.com/apex/MobileDemo';
+    //janrain.settings.tokenUrl = 'https://login.salesforce.com/services/authcallback/00D90000000eAkDEAU/Janrain?flowtype=link';
+    //janrain.settings.tokenAction = 'event';
+ 
+    function isReady() { janrain.ready = true; };
+    if (document.addEventListener) {
+      document.addEventListener("DOMContentLoaded", isReady, false);
+    } else {
+      window.attachEvent('onload', isReady);
+    }
+
+    var e = document.createElement('script');
+    e.type = 'text/javascript';
+    e.id = 'janrainAuthWidget';
+
+    if (document.location.protocol === 'https:') {
+      e.src = 'https://rpxnow.com/js/lib/nandan/engage.js';
+    } else {
+      e.src = 'http://widget-cdn.rpxnow.com/js/lib/nandan/engage.js';
+    }
+
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(e, s);
+    
+})();
+
+</script>
+
+<script>
+    var sessionId = "{!$Api.Session_ID}";
+    function janrainWidgetOnload() {
+      janrain.events.onProviderLoginToken.addHandler(function(response) {
+        alert('** Response Token ==>'+ response.token);        
+        
+        /*
+        alert('** Session Id ==>'+sessionId);
+        sforce.connection.sessionId = sessionId;
+        sforce.connection.remoteFunction({
+           url : "https://nandan.rpxnow.com/salesforce/callback",           
+           requestData: "token="+response.token,
+           method: "POST",
+           onSuccess : function(response) {
+              alert("** result ==>" + response);
+              var messageContainer = document.getElementById('messageContainer');
+              var name = JSON.parse(response).profile.displayName;
+              messageContainer.innerHTML = '<h1>Welcome, ' + name + '</h3>';
+           },
+           onFailure : function(response) {
+              alert("** Failed ==>" + response)
+           } ,
+           timeout: 10000  
+       });
+       */ 
+        /*
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.JanrainController.fetchData}', 
+            response.token, 
+            function(result, event){
+                var messageContainer = document.getElementById('messageContainer');
+                var name = JSON.parse(response).profile.displayName;
+                messageContainer.innerHTML = '<h1>Welcome, ' + name + '</h3>';                
+            }, 
+            {escape: true}
+        );
+        */      
+      });
+    }
+</script>
+
+<body>
+    <div id="janrainEngageEmbed"></div>
+    <div id="messageContainer"></div>
+</body>
+</apex:page>

@@ -1,0 +1,186 @@
+<!-- 
+    Author          : Nandan Narasappa
+    Date Created    : 26/06/2013
+    Description     : Create and Edit Page for Filter Criteria
+-->
+<apex:page standardController="FilterCriteria__c" id="page" extensions="VFC_FilterCriteria">
+    <apex:sectionHeader id="secHeader" title="Filter Criteria Edit" subtitle="{!if(ISNULL(FilterCriteria__c.Name),'New Filter Criteria',FilterCriteria__c.Name)}"/>
+    <apex:form id="form">
+        <apex:pageBlock id="block" title="Filter Criteria Edit" mode="Edit">        
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!save}"/>
+                <apex:commandButton value="Save & New" action="{!save}"/>
+                <apex:commandButton value="Cancel" action="{!cancel}"/>            
+            </apex:pageBlockButtons>   
+            
+            <apex:pageblocksection showHeader="true" title="Information">                
+                <apex:pageblocksectionItem >
+                    <apex:outputlabel value="Ignore Case"/>
+                    <apex:inputfield value="{!FilterCriteria__c.IgnoreCase__c}"/>
+                </apex:pageblocksectionItem>
+                
+                <apex:pageblocksectionItem >
+                    <apex:outputlabel value="Show Message"/>
+                    <apex:inputfield value="{!FilterCriteria__c.ShowMessage__c}"/>
+                </apex:pageblocksectionItem>
+                
+                <apex:pageblocksectionItem >
+                    <apex:outputlabel value="User Message"/>
+                    <apex:inputfield value="{!FilterCriteria__c.UserMessage__c}" style="width:300px;"/>
+                </apex:pageblocksectionItem>
+                
+                <apex:pageBlockSectionItem />
+                                
+                <apex:pageblockSectionItem >
+                    <apex:outputlabel value="Object"/>
+                    <apex:SelectList value="{!selObjName}" size="1" >
+                      <apex:selectOptions value="{!objList}" ></apex:selectOptions>
+                      <apex:actionSupport event="onchange" rerender="fields"/>
+                    </apex:SelectList>
+                </apex:pageblockSectionItem>
+                
+                <apex:pageblocksectionItem >
+                    <apex:outputlabel value="Action"/>
+                    <apex:inputfield value="{!FilterCriteria__c.Action__c}"/>
+                </apex:pageblocksectionItem>
+            </apex:pageblocksection>     
+            <br/><br/>
+            <apex:pageblockSection columns="4" id="first">
+                <apex:pageblockSectionItem >
+                    <apex:outputlabel value="Field"/>
+                    <apex:SelectList value="{!selfieldName}" size="1" id="fields">
+                      <apex:selectOptions value="{!fieldList}"></apex:selectOptions>
+                    </apex:SelectList>  
+                </apex:pageblockSectionItem> 
+                
+                <apex:pageblocksectionItem >
+                    <apex:outputlabel value="Value"/>
+                    <apex:inputfield value="{!FilterCriteria__c.UserMessage__c}" />
+                </apex:pageblocksectionItem>
+                
+                <input type="button" class="classname" value="+" onclick="showSecond();"/>
+                
+                <apex:pageBlockSectionItem />
+            </apex:pageblockSection>                 
+            <apex:pageblockSection columns="4" id="second">
+                <apex:pageblockSectionItem >
+                    <apex:outputlabel value="Field"/>
+                    <apex:SelectList value="{!selfieldName}" size="1" id="fields">
+                      <apex:selectOptions value="{!fieldList}"></apex:selectOptions>
+                    </apex:SelectList>  
+                </apex:pageblockSectionItem> 
+                
+                <apex:pageblocksectionItem >
+                    <apex:outputlabel value="Value"/>
+                    <apex:inputfield value="{!FilterCriteria__c.UserMessage__c}" />
+                </apex:pageblocksectionItem>
+                
+                <input type="button" class="classname" value="+" onclick="showThird();"/>
+                
+                <apex:pageBlockSectionItem />
+            </apex:pageblockSection> 
+            <apex:pageblockSection columns="4" id="third">
+                <apex:pageblockSectionItem >
+                    <apex:outputlabel value="Field"/>
+                    <apex:SelectList value="{!selfieldName}" size="1" id="fields">
+                      <apex:selectOptions value="{!fieldList}"></apex:selectOptions>
+                    </apex:SelectList>  
+                </apex:pageblockSectionItem> 
+                
+                <apex:pageblocksectionItem >
+                    <apex:outputlabel value="Value"/>
+                    <apex:inputfield value="{!FilterCriteria__c.UserMessage__c}" />
+                </apex:pageblocksectionItem>
+                
+                <input type="button" class="classname" value="+" onclick="showFourth();"/>
+                
+                <apex:pageBlockSectionItem />
+            </apex:pageblockSection> 
+            <apex:pageblockSection columns="4" id="fourth">
+                <apex:pageblockSectionItem >
+                    <apex:outputlabel value="Field"/>
+                    <apex:SelectList value="{!selfieldName}" size="1" id="fields">
+                      <apex:selectOptions value="{!fieldList}"></apex:selectOptions>
+                    </apex:SelectList>  
+                </apex:pageblockSectionItem> 
+                
+                <apex:pageblocksectionItem >
+                    <apex:outputlabel value="Value"/>
+                    <apex:inputfield value="{!FilterCriteria__c.UserMessage__c}" />
+                </apex:pageblocksectionItem>
+                
+                <input type="button" class="classname" value="+" onclick="showFifth();"/>
+                
+                <apex:pageBlockSectionItem />
+            </apex:pageblockSection> 
+            <apex:pageblockSection columns="4" id="fifth">
+                <apex:pageblockSectionItem >
+                    <apex:outputlabel value="Field"/>
+                    <apex:SelectList value="{!selfieldName}" size="1" id="fields">
+                      <apex:selectOptions value="{!fieldList}"></apex:selectOptions>
+                    </apex:SelectList>  
+                </apex:pageblockSectionItem> 
+                
+                <apex:pageblocksectionItem >
+                    <apex:outputlabel value="Value"/>
+                    <apex:inputfield value="{!FilterCriteria__c.UserMessage__c}" />
+                </apex:pageblocksectionItem>
+                
+                <apex:pageBlockSectionItem />
+                <apex:pageBlockSectionItem />
+            </apex:pageblockSection> 
+        </apex:pageBlock>
+    </apex:form>
+    <script>
+        window.onload = function(){
+            document.getElementById('page:form:block:second').style.display = "none";
+            document.getElementById('page:form:block:third').style.display = "none";
+            document.getElementById('page:form:block:fourth').style.display = "none";
+            document.getElementById('page:form:block:fifth').style.display = "none";
+        }
+        function showSecond(){
+            document.getElementById('page:form:block:second').style.display = "inline";
+        }
+        function showThird(){
+            document.getElementById('page:form:block:third').style.display = "inline";
+        }
+        function showFourth(){
+            document.getElementById('page:form:block:fourth').style.display = "inline";
+        }
+        function showFifth(){
+            document.getElementById('page:form:block:fifth').style.display = "inline";
+        }
+    </script>
+    <style type="text/css">
+        .classname {
+            -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+            -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+            box-shadow:inset 0px 1px 0px 0px #ffffff;
+            background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+            background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+            background-color:#ededed;
+            -moz-border-radius:6px;
+            -webkit-border-radius:6px;
+            border-radius:6px;
+            border:1px solid #dcdcdc;
+            display:inline-block;
+            color:#777777;
+            font-family:arial;
+            font-size:15px;
+            font-weight:bold;
+            padding:6px 24px;
+            text-decoration:none;
+            text-shadow:1px 1px 0px #ffffff;
+        }.classname:hover {
+            background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+            background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+            background-color:#dfdfdf;
+        }.classname:active {
+            position:relative;
+            top:1px;
+        }
+        
+</style>
+</apex:page>

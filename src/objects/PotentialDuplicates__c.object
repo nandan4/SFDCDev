@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>DuplicateLog__c</fullName>
+        <label>Duplicate Log</label>
+        <referenceTo>DuplicateLog__c</referenceTo>
+        <relationshipLabel>Potential Duplicates</relationshipLabel>
+        <relationshipName>PotentialDuplicate</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <type>MasterDetail</type>
+    </fields>
+    <fields>
+        <fullName>DuplicateRecord__c</fullName>
+        <label>Duplicate Record</label>
+        <length>18</length>
+        <required>true</required>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>RulesFired__c</fullName>
+        <label>Rules Fired</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+    </fields>
+    <label>Potential Duplicate</label>
+    <nameField>
+        <displayFormat>PD-{0000}</displayFormat>
+        <label>PD</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Potential Duplicate</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

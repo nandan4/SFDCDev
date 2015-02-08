@@ -1,0 +1,4 @@
+<apex:page sidebar="false" standardController="Account" showHeader="false">
+  <apex:canvasApp applicationName="Client360" width="900px" height="600px" parameters="{mdmId : '{!Account.Account_External_ID__c}'}"/>
+  <!--<apex:canvasApp applicationName="yahooo" width="1024px" height="600px" parameters="{mdmId : '{!Account.Account_External_ID__c}'}"/>-->
+</apex:page>

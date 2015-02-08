@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>27.0</apiVersion>
+    <description>rendered=&quot;{!IF(AllSearchUsers.size !=null &amp;&amp; AllSearchUsers.size &gt; 0 , true , false)} &quot;</description>
+    <label>Pagination</label>
+</ApexPage>

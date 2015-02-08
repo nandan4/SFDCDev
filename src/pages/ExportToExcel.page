@@ -1,0 +1,31 @@
+<apex:page standardController="Account" recordSetVar="acc" cache="true" extensions="ExportToExcel" id="page" >  
+    <apex:outputtext value="{!filterId}" rendered="false"/>
+    <apex:form id="form">
+    <apex:inputHidden value="{!pageSize}" id="PageSize"/>
+    <apex:actionFunction name="refresh_list" rerender="form"/>
+    <apex:pageblock id="block">
+        <apex:pageBlockTable value="{!if((accList.size > 0 ),accList,acc)}" var="ac" id="acc_table" rows="50" >
+            <apex:column value="{!ac.name}"/>
+            <apex:column value="{!ac.Phone}"/>
+            <apex:column value="{!ac.OwnerId}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    </apex:form>
+    <!--
+    <apex:enhancedList type="Account" height="50"/>
+     <apex:listViews type="Account"/>
+    <apex:listViews type="Account"/> 
+    <apex:pagemessages />
+    <apex:form id="form">        
+        <apex:outputText value="Watch this counter: {!NOT(ISNULL(AsyncResult))}" id="counter"/>
+        <apex:actionPoller action="{!checkAsyncRequest}" reRender="counter" interval="5" rendered="{!NOT(ISNULL(AsyncResult))}" oncomplete="createSR();"/> 
+        <apex:actionfunction action="{!createStaticResource}" name="createSR" oncomplete="getSR();"/>        
+        <apex:actionfunction action="{!displayResource}" name="getSR" />        
+        <apex:outputText value="{!body}"/>               
+    </apex:form> 
+    -->
+    <script type='text/javascript'>
+        document.getElementById('page:form:PageSize').value = 50;
+        refresh_list();
+</script>
+</apex:page>

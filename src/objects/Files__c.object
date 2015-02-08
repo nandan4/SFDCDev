@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Actual_File_Name__c</fullName>
+        <formula>LEFT(Name, FIND(&quot;@&quot;, Name)-1)</formula>
+        <label>Actual File Name</label>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Average_CCN__c</fullName>
+        <description>It provides the average of CCN values.</description>
+        <label>Average CCN</label>
+        <precision>5</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>NovaRun__c</fullName>
+        <label>NovaRun</label>
+        <referenceTo>NovaRun__c</referenceTo>
+        <relationshipLabel>Files</relationshipLabel>
+        <relationshipName>Files</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <type>MasterDetail</type>
+    </fields>
+    <fields>
+        <fullName>TotalViolations__c</fullName>
+        <label>Total Violations</label>
+        <summaryForeignKey>Violation__c.Files__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Total_CCN__c</fullName>
+        <description>It provides the total CCN value.</description>
+        <label>Total CCN</label>
+        <precision>5</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Methods__c</fullName>
+        <description>It provides the total number of methods</description>
+        <label>Total Methods</label>
+        <precision>5</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Violations__c</fullName>
+        <label>Total Violations</label>
+        <precision>5</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <label>Files</label>
+    <nameField>
+        <label>Novarun File Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Files</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

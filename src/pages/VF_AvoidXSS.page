@@ -1,0 +1,66 @@
+<!--
+    @Author      : ATL Team
+    @Name        : VF_AvoidXSS
+    @Date        : 09/23/2012
+    @Description : Page shows the bad practice of making page vulnerable to 
+                   XSS attack
+-->
+<apex:page standardController="Account">
+    
+    <!-- Bad Practice : User input is not escaping HTML characters -->
+    <apex:outputText escape="false" value="{!$CurrentPage.Parameters.Id}"/>
+    
+    <!-- Bad Practice : User input is passed to include script which makes page vulnerable to XSS -->
+    <apex:includeScript value="{!$CurrentPage.parameters.userInput}" />
+    
+    <!-- Bad Practice : Script taking User input without encoding which makes page vulnerable to XSS -->
+    <script>
+        var recId = '{!$CurrentPage.Parameters.Id}';
+    </script>
+    
+    <!-- Bad Practice : Script taking query parameters from URL making page vulnerable to XSS -->
+    <script> 
+        var locSearch = location.search; 
+        document.write(locSearch); 
+    </script>
+    
+    <!-- Bad Practice : Unescaped tag making page vulnerable to XSS -->    
+    {!$Request.title}
+    
+    <!-- Bad Practice : Stored XSS example where Script in account name 
+                        will be executed everytime link is clicked.
+     -->
+    <script>
+        function clickMe(){
+            var accName = '{!Account.Name}' ;
+        }
+    </script>
+    <apex:form >
+        <apex:commandLink value="Click me" onClick="clickMe();" />
+    </apex:form> 
+    <!-------------------------------------------------------------->
+    
+    <!-- Good Practice : Script taking User input and encoding it avoiding XSS issue -->
+    <script>
+        var recId = '{!JSINHTMLENCODE($CurrentPage.Parameters.Id)}';
+    </script>
+    
+    <!-- Good Practice : User input escaping HTML characters -->
+    <apex:outputText escape="true" value="{!$CurrentPage.Parameters.Id}"/>
+    
+    
+    <!-- Good Practice : Encoding tag to avoid XSS issue -->    
+    {!HTMLENCODE($Request.title)}
+    
+    <!-- Good Practice : Encoding the variable to avoid Stored XSS issue -->
+    <script>
+        function clickMe(){
+            var accName = '{!JSENCODE(Account.Name)}' ;
+        }
+    </script>
+    <apex:form >
+        <apex:commandLink value="Click me" onClick="clickMe();" />
+    </apex:form> 
+    <!-------------------------------------------------------------->
+    
+</apex:page>

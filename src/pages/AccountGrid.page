@@ -1,0 +1,68 @@
+<apex:page controller="GridController" showHeader="false" sidebar="false">
+    
+    <apex:stylesheet value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/dhtmlxgrid.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/skins/dhtmlxgrid_dhx_skyblue.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/dhtmlxcommon.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/dhtmlxgrid.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/dhtmlxgridcell.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.dhtmlxTreeGrid, 'dhtmlxTreeGrid/codebase/dhtmlxtreegrid.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/ext/dhtmlxgrid_json.js')}"/>
+    
+    <script type="text/javascript">
+        function init(){            
+            var accList = new Array();
+            var size ='{!accSize}';
+            var js;                 
+            Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.GridController.accountList}',
+                function(result, event) {
+                    accList= result;  
+                    var j = {rows:[]};
+                    for(var i in result){
+                        var ac = result[i];
+                        j.rows.push({
+                            "id": ac.Id,
+                            "data": [ac.Name,ac.NumberOfEmployees,ac.AnnualRevenue]
+                        });
+                    }
+                                        
+                    var mygrid;
+                    mygrid = new dhtmlXGridObject('gridbox');
+                    mygrid.selMultiRows = true;
+                    mygrid.setImagePath("{!URLFOR($Resource.dhtmlxGrid, '/dhtmlxGrid/codebase/imgs/csh_bluebooks/')}");
+                    mygrid.setHeader("Account Name, Number of Employees, Annual Revenue");
+                    mygrid.setColAlign("justify,justify,justify");
+                    mygrid.setColTypes("ed,ed,ed"); 
+                    mygrid.setColVAlign("middle,middle,middle"); 
+                    mygrid.enableAutoWidth(true);
+                    mygrid.enableAutoHeight(true);
+                    mygrid.setSkin("dhx_skyblue");           
+                    mygrid.init();     
+                    mygrid.parse(j,"json");
+                    mygrid.attachEvent("onEditCell",doOnEditCell);
+                    function doOnEditCell(stage,rowId,cellIndex,newValue,oldValue){
+                        if ((stage==2)&&(newValue!=oldValue)){
+                            alert("Cell with id="+rowId+" and index="+cellIndex+" was edited from "+oldValue+" with Value "+newValue);
+                            var upACC = mygrid.cellById(rowId,cellIndex);
+                            console.log(upACC);
+                            updateACC(upACC);   
+                            return true;
+                        }                        
+                        return true;
+                    }
+                } 
+                
+            );                                              
+        }
+        
+        function updateACC(acc){
+            Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.GridController.updateAccount}',acc,
+                                function(result, event) {
+                                    alert('Success');
+                                }
+            ); 
+        }
+        window.onload = init;    
+    </script>
+    
+    <div id="gridbox" width="570px" height="150px"></div>   
+</apex:page>

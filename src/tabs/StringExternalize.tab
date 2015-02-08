@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>String Externalizer Tab</description>
+    <label>String Externalize</label>
+    <mobileReady>true</mobileReady>
+    <motif>Custom34: Insect</motif>
+    <page>VFP_StringExternalize</page>
+</CustomTab>

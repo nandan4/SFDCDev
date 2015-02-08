@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>Exception Log</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Exception Logs</value>
+    </caseValues>
+    <fields>
+        <label><!-- Apex Trigger --></label>
+        <name>ApexTrigger__c</name>
+    </fields>
+    <fields>
+        <label><!-- Application Name --></label>
+        <name>Application__c</name>
+    </fields>
+    <fields>
+        <label><!-- Class Name --></label>
+        <name>ClassName__c</name>
+    </fields>
+    <fields>
+        <label><!-- Context User --></label>
+        <name>ContextUser__c</name>
+        <relationshipLabel><!-- Exception Logs --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Converted To Defect --></label>
+        <name>ConvertedToDefect__c</name>
+    </fields>
+    <fields>
+        <label><!-- Exception Code --></label>
+        <name>ExceptionCode__c</name>
+    </fields>
+    <fields>
+        <label><!-- Exception Description --></label>
+        <name>ExceptionDescription__c</name>
+    </fields>
+    <fields>
+        <label><!-- Exception Details --></label>
+        <name>ExceptionDetails__c</name>
+    </fields>
+    <fields>
+        <label><!-- ExceptionLog Timestamp --></label>
+        <name>ExceptionLogTimestamp__c</name>
+    </fields>
+    <fields>
+        <label><!-- Exception Type --></label>
+        <name>ExceptionType__c</name>
+    </fields>
+    <fields>
+        <label><!-- Method Name --></label>
+        <name>MethodName__c</name>
+    </fields>
+    <fields>
+        <label><!-- Number of Times Occured --></label>
+        <name>NumberOfTimesOccured__c</name>
+    </fields>
+    <fields>
+        <label><!-- Organization Id --></label>
+        <name>OrgId__c</name>
+    </fields>
+    <fields>
+        <label><!-- Severity --></label>
+        <name>Severity__c</name>
+    </fields>
+    <fields>
+        <label><!-- WS CallingApplication --></label>
+        <name>WSCallingApplication__c</name>
+    </fields>
+    <fields>
+        <label><!-- WS CallingArea --></label>
+        <name>WSCallingArea__c</name>
+    </fields>
+    <fields>
+        <label><!-- WS TransactionID --></label>
+        <name>WSTransactionID__c</name>
+    </fields>
+    <fields>
+        <label><!-- Is Handled --></label>
+        <name>isHandled__c</name>
+    </fields>
+    <layouts>
+        <layout>Exception_Log Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

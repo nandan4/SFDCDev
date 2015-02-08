@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Contractor_ID__c</fullName>
+        <caseSensitive>true</caseSensitive>
+        <externalId>true</externalId>
+        <label>Contractor ID</label>
+        <length>18</length>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>ET_Password__c</fullName>
+        <label>ET Password</label>
+        <length>100</length>
+        <maskChar>asterisk</maskChar>
+        <maskType>all</maskType>
+        <type>EncryptedText</type>
+    </fields>
+    <fields>
+        <fullName>ET_Username__c</fullName>
+        <label>ET Username</label>
+        <length>100</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Refresh_Date__c</fullName>
+        <description>This field contains the date in which Handyman License records were last successfully refreshed from the Handyman site for this user.</description>
+        <inlineHelpText>This field contains the date in which Handyman License records were last successfully refreshed from the Handyman site for this user.</inlineHelpText>
+        <label>Refresh Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>User_External_Id__c</fullName>
+        <externalId>true</externalId>
+        <label>User External Id</label>
+        <length>30</length>
+        <type>Text</type>
+    </fields>
+    <webLinks>
+        <fullName>ExactTarget_Login</fullName>
+        <availability>online</availability>
+        <displayType>link</displayType>
+        <hasScrollbars>true</hasScrollbars>
+        <height>600</height>
+        <isResizable>true</isResizable>
+        <linkType>url</linkType>
+        <masterLabel>ExactTarget Login</masterLabel>
+        <openType>newWindow</openType>
+        <position>none</position>
+        <protected>false</protected>
+        <url>https://members.exacttarget.com/login.aspx?username={!User.ET_Username__c}&amp;password={!User.ET_Password__c}&amp;entityType=email</url>
+    </webLinks>
+</CustomObject>

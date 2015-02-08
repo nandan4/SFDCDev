@@ -1,0 +1,4 @@
+<apex:page >
+    <c:TestComp ></c:TestComp>
+    
+</apex:page>

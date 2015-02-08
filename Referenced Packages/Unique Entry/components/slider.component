@@ -1,0 +1,33 @@
+<apex:component >
+    <apex:attribute name="sliderId" type="String" description="Slider Id"/>
+    <apex:attribute name="value" type="String" description="Value"/>
+    <apex:attribute name="object" type="String" description="object"/>
+    <apex:attribute name="disabled" type="Boolean" description="disabled"/>
+    
+    <!-- Because apex:inputHidden tag require a literal id value, we need to wrap it by a div tag -->
+    <div id="wrapper{!sliderId}">
+        <apex:inputHidden value="{!value}"/>
+    </div>
+    <div style="width: 200px" id="slider{!sliderId}" />
+    
+    <style>
+    	.ui-slider-horizontal .ui-slider-handle {
+    		margin-left: -0.6em;
+    		top: -3px !important;
+    	}
+    </style>
+    
+    <script type="text/javascript">
+        $j("#slider{!sliderId}").slider({
+        		disabled: {!disabled},
+                min: 10,
+                max: 100,
+                step: 10,
+                value: {!value},
+                slide: function( event, ui ) {
+                    $j("#wrapper{!sliderId} input").val( ui.value );
+                    onChange();
+                }
+         });
+    </script>
+</apex:component>

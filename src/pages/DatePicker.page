@@ -1,0 +1,25 @@
+<apex:page >
+    <apex:includeScript value="{!$Resource.JQueryStringExternalizer}"/>
+    <span id="hideThisHomePageComp"></span>
+    <script type="text/javascript">
+        $j = jQuery.noConflict();
+        $j(document).ready(function() {
+            var startYear=1930;
+            var endYear=1995;
+            var htmlStr='';
+            var dftDate ='';
+            var dob = "{!$Component.pg.form.pB.dobSec.dobSecItem.dob}";
+            if(startYear<endYear){
+                            for(i=startYear;i<endYear+1;i++){
+                                            htmlStr += "<option value=\""+i+"\">"+i+"</option>";
+                            }   
+                            $j('#calYearPicker').html(htmlStr);                         
+            }
+        
+            dftDate = '<a href="javascript:DatePicker.insertDate(\'01/01/1980\',\'pg:form:pB:dobSec:dobSecItem:dob\', true);">01/01/1980</a>';                   
+            $j('span.dateFormat').html(dftDate); 
+        
+            $j('#sidebarDiv #hideThisHomePageComp').parent().parent().hide();            
+        });    
+    </script>
+</apex:page>

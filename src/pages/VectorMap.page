@@ -1,0 +1,39 @@
+<apex:page controller="VectorMapController">
+    <apex:stylesheet value="{!URLFOR($Resource.jqvmap, 'jqvmap/jqvmap.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.jquery)}"/>
+    <apex:includeScript value="{!URLFOR($Resource.jqvmap, 'jqvmap/jquery.vmap.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.jqvmap, 'jqvmap/jquery.vmap.sampledata.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.jqvmap, 'jqvmap/jquery.vmap.world.js')}"/>
+    
+    <script type="text/javascript">        
+        /*
+        //var sample_data = {!pretty};
+        */
+        //var sample_data = {"al":"mstr","af":"lcl"};
+        var sample_data = {"in":"11.58","af":"16.63"};
+        alert(sample_data.toSource());
+        jQuery(document).ready(function() {
+            jQuery('#vmap').vectorMap({
+
+                map: 'world_en',
+                backgroundColor: 'grey',
+                borderColor: '#818181',
+                borderOpacity: 0.25,
+                borderWidth: 1,
+                color: '#ffffff',
+                hoverColor: '#c9dfaf',
+                hoverOpacity: null,
+                normalizeFunction: 'linear',                
+                enableZoom: true,
+                showTooltip: true,
+                values: sample_data,
+                scaleColors: ['#005ace','#b6d6ff'],
+                
+            });
+        });
+    </script>
+
+    <body>
+        <div id="vmap" style="width: 600px; height: 400px;"></div>
+    </body>
+</apex:page>

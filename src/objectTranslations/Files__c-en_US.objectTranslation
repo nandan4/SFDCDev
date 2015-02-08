@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>Files</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Files</value>
+    </caseValues>
+    <fields>
+        <label><!-- Actual File Name --></label>
+        <name>Actual_File_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Average CCN --></label>
+        <name>Average_CCN__c</name>
+    </fields>
+    <fields>
+        <label><!-- NovaRun --></label>
+        <name>NovaRun__c</name>
+        <relationshipLabel><!-- Files --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Total Violations --></label>
+        <name>TotalViolations__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total CCN --></label>
+        <name>Total_CCN__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Methods --></label>
+        <name>Total_Methods__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Violations --></label>
+        <name>Total_Violations__c</name>
+    </fields>
+    <layouts>
+        <layout>Files Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

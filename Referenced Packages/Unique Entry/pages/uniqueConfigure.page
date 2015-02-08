@@ -1,0 +1,876 @@
+<apex:page setup="true" controller="UniqueEntry.uniqueConfigureController">
+
+    <apex:includeScript value="{!URLFOR($Resource.UniqueEntry__jQueryUI, 'jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.UniqueEntry__jQueryUI, 'jquery-ui.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.UniqueEntry__jQueryUI, 'jquery-ui.css')}" />
+    <apex:styleSheet value="{!URLFOR($Resource.UniqueEntry__uniqueEntryResources, 'uniqueStyle.css')}" />
+
+    <script type="text/javascript">
+        $j = jQuery.noConflict();
+    </script>
+    <script>
+        var helpMsgs = {"customFieldMapping" : "Lead Custom Field Mapping Help Message"};
+        function showComponent(id) {
+            $j("[id$=" + id + "]").css("visibility", "visible");
+        }
+        function hideComponent(id) {
+            $j("[id$=" + id + "]").css("visibility", "hidden");
+        }
+        function showHelpPop() {
+            $j("#overlay").css("visibility", "visible");
+            $j("#helpMessagePop").css("visibility", "visible");
+        }
+        function hideHelpPop() {
+            $j("#overlay").css("visibility", "hidden");
+            $j("#helpMessagePop").css("visibility", "hidden");
+        }
+        function showSavePagePop() {
+            $j("#overlay").css("visibility", "visible");
+            $j("#savePageMessagePop").css("visibility", "visible");
+        }
+        function hideSavePagePop() {
+            $j("#overlay").css("visibility", "hidden");
+            $j("#savePageMessagePop").css("visibility", "hidden");
+        }
+        function showDeletePop() {
+            $j("#overlay").css("visibility", "visible");
+            $j("#deleteConfigMessagePop").css("visibility", "visible");
+        }
+        function hideDeletePop() {
+            $j("#overlay").css("visibility", "hidden");
+            $j("#deleteConfigMessagePop").css("visibility", "hidden");
+        }
+        function showQuitPop() {
+            $j("#overlay").css("visibility", "visible");
+            $j("#quitPopup").css("visibility", "visible");
+        }
+        function hideQuitPop() {
+            $j("#overlay").css("visibility", "hidden");
+            $j("#quitPopup").css("visibility", "hidden");
+        }
+        
+        function showSaveNamePopup(objName) {
+            $j("#overlay").css("visibility", "visible");
+            
+            if (objName == "account") {
+                $j("#saveAccountConfigurationName").css("visibility", "visible");
+            } else if (objName == "personAccount") {
+                $j("#savePersonAccountConfigurationName").css("visibility", "visible");
+            } else if (objName == "contact") {
+                $j("#saveContactConfigurationName").css("visibility", "visible");
+            } else if (objName == "lead") {
+                $j("#saveLeadConfigurationName").css("visibility", "visible");
+            }
+        }
+        
+        function hideSaveNamePopup(objName) {
+            $j("#overlay").css("visibility", "hidden");
+            if (objName == "account") {
+                $j("#saveAccountConfigurationName").css("visibility", "hidden");
+            } else if (objName == "personAccount") {
+                $j("#savePersonAccountConfigurationName").css("visibility", "hidden");
+            } else if (objName == "contact") {
+                $j("#saveContactConfigurationName").css("visibility", "hidden");
+            } else if (objName == "lead") {
+                $j("#saveLeadConfigurationName").css("visibility", "hidden");
+            }
+        }
+        
+        function showMessagePop() {
+            $j("#overlay").css("visibility", "visible");
+            $j("#messagePop").css("visibility", "visible");
+        }
+
+        function hideMessagePop() {
+            $j("#overlay").css("visibility", "hidden");
+            $j("#messagePop").css("visibility", "hidden");
+        }
+        
+        function onCancel() {
+                window.top.location = "/0A3?setupid=ImportedPackage";
+        }
+
+        function addToOnload(fn) {
+            var old = window.onload;
+            window.onload = function() {
+                old();
+                fn();
+            }
+        }
+
+        function moveMoreFields() {
+
+            var $leadSelect = $j("table[id*='leadPanel']").find(
+                    "select[id*='leftList']");
+            var $leadMoreSelect = $j("select[id*='moreLeadFields']");
+            $leadMoreSelect.find('option').clone().appendTo($leadSelect);
+
+            var $personAccountSelect = $j("table[id*='personAccountPanel']")
+                    .find("select[id*='leftList']");
+            var $personAccountMoreSelect = $j("select[id*='morePersonAccountFields']");
+            $personAccountMoreSelect.find('option').clone().appendTo(
+                    $personAccountSelect);
+
+            var $accountSelect = $j("table[id*='accountPanel']").find(
+                    "select[id*='leftList']");
+            var $accountMoreSelect = $j("select[id*='moreAccountFields']");
+            $accountMoreSelect.find('option').clone().appendTo($accountSelect);
+
+            var $contactSelect = $j("table[id*='contactPanel']").find(
+                    "select[id*='leftList']");
+            var $contactMoreSelect = $j("select[id*='moreContactFields']");
+            $contactMoreSelect.find('option').clone().appendTo($contactSelect);
+        }
+
+        addToOnload(moveMoreFields);
+    </script>
+
+    <apex:form >
+        <apex:actionFunction name="onChange" action="{!onChange}" oncomplete=""/>
+        <apex:actionFunction name="accountInitialized" action="{!getFieldOptions}" oncomplete="" rerender="accountBlock">
+        	<apex:param name="activeAccount" value="account" assignTo="{!currentTab}"/>
+        </apex:actionFunction>
+        <apex:actionFunction name="personAccountInitialized" action="{!getFieldOptions}" oncomplete="" rerender="personAccountBlock">
+        	<apex:param name="activePersonAccount" value="personAccount" assignTo="{!currentTab}"/>
+        </apex:actionFunction>
+        <apex:actionFunction name="contactInitialized" action="{!getFieldOptions}" oncomplete="" rerender="contactBlock">
+        	<apex:param name="activeContact" value="contact" assignTo="{!currentTab}"/>
+        </apex:actionFunction>
+        <apex:actionFunction name="leadInitialized" action="{!getFieldOptions}" oncomplete="" rerender="leadBlock">
+        	<apex:param name="activeLead" value="lead" assignTo="{!currentTab}"/>
+        </apex:actionFunction>
+        <apex:pageBlock mode="edit"> 
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!onSave}"
+                    rerender="savePageMessagePop" oncomplete="showSavePagePop();" >
+                    <apex:param name="configSaved" value="configSaved" assignTo="{!helpMessage}"/>
+                </apex:commandButton>
+                <apex:commandButton value="Cancel" action="{!onCancel}" rerender="quitPopup"
+                    oncomplete="{!IF(notSaved, 'showQuitPop()', 'onCancel()')}"/>
+            </apex:pageBlockButtons>
+
+            <apex:tabPanel switchType="client" value="{!currentTab}" id="setting">
+                <apex:tab label="Accounts" name="account" id="account">
+
+                    <apex:pageBlock mode="edit" id="accountBlock">
+                        <apex:pageBlockSection title="Security Setting" columns="1">
+                            <apex:selectRadio layout="pageDirection" onchange="onChange()"
+                                value="{!settings.UniqueEntry__Account_Security_Level__c}" label="">
+                                <apex:selectOption itemValue="high"
+                                    itemLabel="HIGH - Possible duplicate record searches are limited to records the user has access to view." />
+                                <apex:selectOption itemValue="medium"
+                                    itemLabel="MEDIUM - Possible duplicate records the user doesn't normally have access to view are displayed but with all fields hidden except Name and Owner." />
+                                <apex:selectOption itemValue="low"
+                                    itemLabel="LOW - Duplicate search includes and displays all possible duplicates regardless of whether the user has access to view that record or not." />
+                            </apex:selectRadio>
+                        </apex:pageBlockSection>
+
+                        <apex:pageBlockSection title="Display Settings" columns="1">
+                            <apex:outputText >Select up to seven fields to display when Accounts are displayed in the duplicate warning box and select the order in which they will show.</apex:outputText>
+                            <apex:panelGrid columns="2"
+                                columnClasses="labelColumn,fieldColumn" styleClass="optionGrid"
+                                cellpadding="6" id="accountPanel">
+
+                                <c:MultiselectPicklist leftLabel="Available {!$ObjectType.Account.Label} Fields"
+                                    leftOptions="{!allAccountFields}"
+                                    rightLabel="Selected {!$ObjectType.Account.Label} Fields"
+                                    rightOptions="{!selectedAccountFields}" size="14" width="150px" />
+
+                            </apex:panelGrid>
+                        </apex:pageBlockSection>
+
+                        <apex:pageBlockSection title="Fields Used to Detect Duplicates" columns="1">
+                            <apex:outputText >You can customize which fields are utilized when 
+                            Unique Entry seeks duplicates and tell us how important each field 
+                            is to your organization for identifying duplicates using the accompanying 
+                            slider. Don't feel like messing around? Just select from our list of 
+                            preset configurations instead.</apex:outputText>
+
+                            <apex:panelGrid columns="4" id="presetAndSavedAccountConfig" styleClass="presetConfiguration">
+                                <apex:outputText >Preset and Saved Configurations</apex:outputText>
+                                <apex:selectList size="1" id="savedAccountConfigurations" value="{!accountSFTable.configuration.id}"
+                                    onchange="changeAccountConfigOption()" style="margin-left:20px;">
+                                    <apex:selectOptions value="{!accountSFTable.availableConfigurations}"/>
+                                </apex:selectList>
+                                <apex:commandButton value="Save Configuration As..." action="{!saveConfigurationAs}" oncomplete="showSaveNamePopup('account')"
+                                        rerender="savedAccountConfigurations, scannedAccountFieldList, configAccountName, saveAccountConfigurationName">
+                                    <apex:param name="accountSFTable.configuration.Name" value="" assignTo="{!accountSFTable.configuration.Name}" />
+                                    <apex:param name="saveAccountConfigAsAction" value="saveAs" assignTo="{!action}" />
+                                    <apex:param name="saveAccountConfig" value="account" assignTo="{!objectName}" />
+                                </apex:commandButton>
+                               
+                                <apex:commandLink value="Delete Configuration" action="{!onChange}" style="text-decoration: none; color: grey; vertical-align: middle;"
+                                    rerender="presetAndSavedAccountConfig, scannedAccountFieldList, addAccountLink" title="Delete this configuration"
+                                    rendered="{! !accountSFTable.configuration.isPreset__c}" onclick="showDeletePop();">
+                                    <apex:param name="saveAccountConfig" value="account" assignTo="{!objectName}" />
+                                </apex:commandLink>
+                                
+                                <apex:actionFunction name="changeAccountConfigOption" action="{!onSelectConfig}" 
+                                        rerender="presetAndSavedAccountConfig, scannedAccountFieldList, configAccountName, addAccountLink">
+                                    <apex:param name="changeAccountConfigOptionParam" value="account" assignTo="{!objectName}" />
+                                </apex:actionFunction>
+                            </apex:panelGrid>
+
+                            <apex:dataTable value="{!accountSFTable.table}"
+                                var="scannedField" id="scannedAccountFieldList" cellspacing="10" styleClass="presetConfiguration">
+                                <apex:column style="text-align: left; vertical-align: middle; padding-right:5px;">
+                                    <apex:commandLink action="{!removeRow}" value="X" style="text-decoration: none;"
+                                            rerender="scannedAccountFieldList" title="Remove this row" rendered="{! !accountSFTable.configuration.isPreset__c}">
+                                        <apex:param name="accountRowId" value="{!scannedField.id}"
+                                            assignTo="{!rowId}" />
+                                        <apex:param name="objectName" value="account" assignTo="{!objectName}"/>
+                                    </apex:commandLink>
+                                </apex:column>
+                                <apex:column headerValue="Field">
+                                    <apex:selectList size="1" value="{!scannedField.selectedField}" onchange="refreshScannedAccountFields()"
+                                        style="margin-right:20px;" disabled="{!accountSFTable.configuration.UniqueEntry__isPreset__c}">
+                                        <apex:selectOptions value="{!scannedField.allFields}" />
+                                    </apex:selectList>
+                                </apex:column>
+                                <apex:column headerValue="Match Type">
+                                    <apex:selectList size="1" onchange="refreshScannedAccountFields()"
+                                        value="{!scannedField.selectedMatchType}" disabled="{!accountSFTable.configuration.UniqueEntry__isPreset__c}"
+                                        style="margin-right:20px;">
+                                        <apex:selectOptions value="{!scannedField.matchTypes}" />
+                                    </apex:selectList>
+                                </apex:column>
+                                <apex:column headerValue="Importance" >
+                                    <c:slider sliderId="{!scannedField.id}" rendered="{!scannedField.selectedMatchType != 'mustMatchExactly'}"
+                                        value="{!scannedField.importance}" object="account" disabled="{!accountSFTable.configuration.UniqueEntry__isPreset__c}"/> 
+                                </apex:column>
+                            </apex:dataTable>
+
+                            <apex:commandLink id="addAccountLink" action="{!addRow}" style="text-decoration: none; color: blue;" title="Add a new field"
+                                rerender="scannedAccountFieldList, helpMessagePop" oncomplete="{!IF(action == 'addAccountFail', 'showHelpPop()', '')}" >
+                                <apex:param name="addAccount" value="account" assignTo="{!objectName}" />
+                                <apex:outputText rendered="{! !accountSFTable.configuration.isPreset__c}">Add Fields... </apex:outputText>
+                            </apex:commandLink>
+                            
+                            <apex:actionFunction name="refreshScannedAccountFields" action="{!onChangeRow}" rerender="scannedAccountFieldList">
+                                <apex:param name="objectName" value="account" assignTo="{!objectName}"/>
+                            </apex:actionFunction>
+                        </apex:pageBlockSection>
+                    </apex:pageBlock>
+                </apex:tab>
+                <apex:tab label="Person Accounts" name="personAccount" rendered="{!isPersonAccountsEnabled}"
+                    id="personAccount">
+                    <apex:pageBlock mode="edit" id="personAccountBlock">
+                        <apex:pageBlockSection title="Security Setting" columns="1">
+                            <apex:selectRadio layout="pageDirection" onchange="onChange()"
+                                value="{!settings.UniqueEntry__Person_Account_Security_Level__c}" label="">
+                                <apex:selectOption itemValue="high"
+                                    itemLabel="HIGH - Possible duplicate record searches are limited to records the user has access to view." />
+                                <apex:selectOption itemValue="medium"
+                                    itemLabel="MEDIUM - Possible duplicate records the user doesn't normally have access to view are displayed but with all fields hidden except Name and Owner." />
+                                <apex:selectOption itemValue="low"
+                                    itemLabel="LOW - Duplicate search includes and displays all possible duplicates regardless of whether the user has access to view that record or not." />
+                            </apex:selectRadio>
+                        </apex:pageBlockSection>
+
+                        <apex:pageBlockSection title="Display Settings" columns="1">
+                            <apex:outputText >Select up to seven fields to display when Person Accounts are displayed in the duplicate warning box and select the order in which they will show.</apex:outputText>
+                            <apex:panelGrid columns="2"
+                                columnClasses="labelColumn,fieldColumn" styleClass="optionGrid"
+                                cellpadding="6" id="personAccountPanel">
+
+                                <c:MultiselectPicklist leftLabel="Available Person Account Fields"
+                                    leftOptions="{!allPersonAccountFields}"
+                                    rightLabel="Selected Person Account Fields"
+                                    rightOptions="{!selectedPersonAccountFields}" size="14"
+                                    width="150px" />
+
+                            </apex:panelGrid>
+                        </apex:pageBlockSection>
+
+                        <apex:pageBlockSection title="Fields Used to Detect Duplicates"
+                            columns="1">
+                            <apex:outputText >You can customize which fields are utilized when 
+                            Unique Entry seeks duplicates and tell us how important each field 
+                            is to your organization for identifying duplicates using the accompanying 
+                            slider. Don't feel like messing around? Just select from our list of 
+                            preset configurations instead.</apex:outputText>
+
+                            <apex:panelGrid columns="4" id="presetAndSavedPAccConfig" styleClass="presetConfiguration">
+                                <apex:outputText >Preset and Saved Configurations</apex:outputText>
+                                <apex:selectList size="1" id="savedPersonAccountConfigurations" value="{!personAccountSFTable.configuration.id}"
+                                    onchange="changePersonAccountConfigOption()" style="margin-left:20px;">
+                                    <apex:selectOptions value="{!personAccountSFTable.availableConfigurations}"/>
+                                </apex:selectList>
+                                
+                                <apex:commandButton value="Save Configuration As..." action="{!saveConfigurationAs}" oncomplete="showSaveNamePopup('personAccount')"
+                                        rerender="savedPersonAccountConfigurations, scannedPersonAccountFieldList, configPersonAccountName, savePersonAccountConfigurationName">
+                                    <apex:param name="personAccountSFTable.configuration.Name" value="" assignTo="{!personAccountSFTable.configuration.Name}" />
+                                    <apex:param name="savePersonAccountConfigAsAction" value="saveAs" assignTo="{!action}" />
+                                    <apex:param name="savePersonAccountConfig" value="personAccount" assignTo="{!objectName}" />
+                                </apex:commandButton>
+                                
+                                <apex:commandLink value="Delete Configuration" action="{!onChange}" style="text-decoration: none; color: grey;"
+                                    rerender="presetAndSavedPAccConfig, scannedPersonAccountFieldList, addPersonAccountLink" title="Delete this configuration"
+                                    rendered="{! !personAccountSFTable.configuration.isPreset__c}" onclick="showDeletePop();">
+                                    <apex:param name="savePersonAccountConfig" value="personAccount" assignTo="{!objectName}" />
+                                </apex:commandLink>
+                                
+                                <apex:actionFunction name="changePersonAccountConfigOption" action="{!onSelectConfig}" 
+                                    rerender="presetAndSavedPAccConfig, scannedPersonAccountFieldList, configPersonAccountName, addPersonAccountLink">
+                                    <apex:param name="changePersonAccountConfigOptionParam" value="personAccount" assignTo="{!objectName}" />
+                                </apex:actionFunction>
+                            </apex:panelGrid>
+
+                            <apex:dataTable value="{!personAccountSFTable.table}"
+                                var="scannedField" id="scannedPersonAccountFieldList" cellspacing="10" styleClass="presetConfiguration">
+                                <apex:column style="text-align: left; vertical-align: middle; padding-right:5px;">
+                                    <apex:commandLink action="{!removeRow}" value="X" style="text-decoration: none;" rendered="{! !personAccountSFTable.configuration.isPreset__c}"
+                                                        rerender="scannedPersonAccountFieldList"  title="Remove this row">
+                                        <apex:param name="personAccountRowId"
+                                            value="{!scannedField.id}" assignTo="{!rowId}" />
+                                        <apex:param name="objectName" value="personAccount" assignTo="{!objectName}"/>
+                                    </apex:commandLink>
+                                </apex:column>
+                                <apex:column headerValue="Field">
+                                    <apex:selectList size="1" value="{!scannedField.selectedField}" onchange="refreshScannedPersonAccountFields()"
+                                        style="margin-right:20px;" disabled="{!personAccountSFTable.configuration.UniqueEntry__isPreset__c}">
+                                        <apex:selectOptions value="{!scannedField.allFields}" />
+                                    </apex:selectList>
+                                </apex:column>
+                                <apex:column headerValue="Match Type">
+                                    <apex:selectList size="1" onchange="refreshScannedPersonAccountFields()"
+                                        value="{!scannedField.selectedMatchType}" disabled="{!personAccountSFTable.configuration.UniqueEntry__isPreset__c}"
+                                        style="margin-right:20px;">
+                                        <apex:selectOptions value="{!scannedField.matchTypes}" />
+                                    </apex:selectList>
+                                </apex:column>
+                                <apex:column headerValue="Importance">
+                                    <c:slider sliderId="{!scannedField.id}"  rendered="{!scannedField.selectedMatchType != 'mustMatchExactly'}"
+                                        value="{!scannedField.importance}" object="personAccount" disabled="{!personAccountSFTable.configuration.UniqueEntry__isPreset__c}"/>
+                                </apex:column>
+                            </apex:dataTable>
+                            
+                            <apex:commandLink id="addPersonAccountLink" action="{!addRow}" style="text-decoration: none; color: blue;" title="Add a new field"
+                                rerender="scannedPersonAccountFieldList, helpMessagePop" oncomplete="{!IF(action == 'addPersonAccountFail', 'showHelpPop()', '')}">
+                                <apex:param name="addPersonAccount" value="personAccount" assignTo="{!objectName}" />
+                                <apex:outputText rendered="{! !personAccountSFTable.configuration.isPreset__c}">Add Fields... </apex:outputText>
+                            </apex:commandLink>
+                            
+                            <apex:actionFunction name="refreshScannedPersonAccountFields" action="{!onChangeRow}" rerender="scannedPersonAccountFieldList">
+                                <apex:param name="objectName" value="personAccount" assignTo="{!objectName}"/>
+                            </apex:actionFunction>
+                            <apex:actionFunction name="saveScannedPersonAccountFields"
+                                action="{!saveConfiguration}" rerender="messagePop"
+                                oncomplete="showMessagePop()">
+                                <apex:param name="savePersonAccounts" value="personAccount"
+                                    assignTo="{!objectName}" />
+                            </apex:actionFunction>
+                        </apex:pageBlockSection>
+
+                    </apex:pageBlock>
+                </apex:tab>
+                <apex:tab label="Contacts" name="contact" id="contact">
+                    <apex:pageBlock mode="edit" id="contactBlock">
+                        <apex:pageBlockSection title="Security Setting" columns="1">
+                            <apex:selectRadio layout="pageDirection" onchange="onChange()"
+                                value="{!settings.UniqueEntry__Contact_Security_Level__c}" label="">
+                                <apex:selectOption itemValue="high"
+                                    itemLabel="HIGH - Possible duplicate record searches are limited to records the user has access to view." />
+                                <apex:selectOption itemValue="medium"
+                                    itemLabel="MEDIUM - Possible duplicate records the user doesn't normally have access to view are displayed but with all fields hidden except Name and Owner." />
+                                <apex:selectOption itemValue="low"
+                                    itemLabel="LOW - Duplicate search includes and displays all possible duplicates regardless of whether the user has access to view that record or not." />
+                            </apex:selectRadio>
+                        </apex:pageBlockSection>
+
+                        <apex:pageBlockSection title="Display  Settings" columns="1">
+                            <apex:outputText >Select up to seven fields to display when Contacts are displayed in the duplicate warning box and select the order in which they will show.</apex:outputText>
+                            <apex:panelGrid columns="1"
+                                columnClasses="labelColumn,fieldColumn" styleClass="optionGrid"
+                                cellpadding="6" id="contactPanel" style="text-align: left !important;">
+
+                                <c:MultiselectPicklist leftLabel="Available {!$ObjectType.Contact.Label}  Fields"
+                                    leftOptions="{!allContactFields}"
+                                    rightLabel="Selected {!$ObjectType.Contact.Label}  Fields"
+                                    rightOptions="{!selectedContactFields}" size="14" width="150px" />
+
+                                <apex:outputPanel rendered="{!camp}">
+                                    Campaign lookup field on {!$ObjectType.Contact.Label} entry pages
+                                </apex:outputPanel>
+                                <apex:selectList value="{!settings.UniqueEntry__Contact_Campaign_Lookup_Field__c}"
+                                    multiselect="false" size="1" rendered="{!camp}">
+                                    <apex:selectOption itemValue="required"
+                                        itemLabel="Display as required" />
+                                    <apex:selectOption itemValue="optional"
+                                        itemLabel="Display as optional" />
+                                    <apex:selectOption itemValue="hidden"
+                                        itemLabel="Do not display" />
+                                </apex:selectList>
+
+                            </apex:panelGrid>
+                        </apex:pageBlockSection>
+
+                        <apex:pageBlockSection title="Fields Used to Detect Duplicates" columns="1">
+                            <apex:outputText >You can customize which fields are utilized when 
+                            Unique Entry seeks duplicates and tell us how important each field 
+                            is to your organization for identifying duplicates using the accompanying 
+                            slider. Don't feel like messing around? Just select from our list of 
+                            preset configurations instead.</apex:outputText>
+
+                            <apex:panelGrid columns="4" id="presetAndSavedContactConfig" styleClass="presetConfiguration">
+                                <apex:outputText >Preset and Saved Configurations</apex:outputText>
+                                <apex:selectList size="1" id="savedContactConfigurations" value="{!contactSFTable.configuration.id}"
+                                    onchange="changeContactConfigOption()" style="margin-left:20px;">
+                                    <apex:selectOptions value="{!contactSFTable.availableConfigurations}"/>
+                                </apex:selectList>
+                                
+                                <apex:commandButton value="Save Configuration As..." action="{!saveConfigurationAs}" oncomplete="showSaveNamePopup('contact')"
+                                        rerender="savedContactConfigurations, scannedContactFieldList, configContactName, saveContactConfigurationName">
+                                    <apex:param name="contactSFTable.configuration.Name" value="" assignTo="{!contactSFTable.configuration.Name}" />
+                                    <apex:param name="saveContactConfigAsAction" value="saveAs" assignTo="{!action}" />
+                                    <apex:param name="saveContactConfig" value="contact" assignTo="{!objectName}" />
+                                </apex:commandButton>
+                                
+                                <apex:commandLink value="Delete Configuration" action="{!onChange}" style="text-decoration: none; color: grey;"
+                                    rerender="presetAndSavedContactConfig, scannedContactFieldList, addContactLink" title="Delete this configuration"
+                                    rendered="{! !contactSFTable.configuration.isPreset__c}" onclick="showDeletePop();">
+                                    <apex:param name="saveContactConfig" value="contact" assignTo="{!objectName}" />
+                                </apex:commandLink>
+                                
+                                <apex:actionFunction name="changeContactConfigOption" action="{!onSelectConfig}" 
+                                    rerender="presetAndSavedContactConfig, scannedContactFieldList, configContactName, addContactLink">
+                                    <apex:param name="changeContactConfigOptionParam" value="contact" assignTo="{!objectName}" />
+                                </apex:actionFunction>
+                            </apex:panelGrid>
+
+                            <apex:dataTable value="{!contactSFTable.table}"
+                                var="scannedField" id="scannedContactFieldList" cellspacing="10" styleClass="presetConfiguration">
+                                <apex:column style="text-align: left; vertical-align: middle; padding-right:5px;">
+                                    <apex:commandLink action="{!removeRow}" value="X" style="text-decoration: none;"
+                                                        rerender="scannedContactFieldList" title="Remove this row" rendered="{! !contactSFTable.configuration.isPreset__c}">
+                                        <apex:param name="contactRowId" value="{!scannedField.id}"
+                                            assignTo="{!rowId}" />
+                                        <apex:param name="objectName" value="contact" assignTo="{!objectName}"/>
+                                    </apex:commandLink>
+                                </apex:column>
+                                <apex:column headerValue="Field">
+                                    <apex:selectList size="1" value="{!scannedField.selectedField}" onchange="refreshScannedContactFields()"
+                                        style="margin-right:20px;" disabled="{!contactSFTable.configuration.UniqueEntry__isPreset__c}">
+                                        <apex:selectOptions value="{!scannedField.allFields}" />
+                                    </apex:selectList>
+                                </apex:column>
+                                <apex:column headerValue="Match Type">
+                                    <apex:selectList size="1" onchange="refreshScannedContactFields()"
+                                        value="{!scannedField.selectedMatchType}" disabled="{!contactSFTable.configuration.UniqueEntry__isPreset__c}"
+                                        style="margin-right:20px;">
+                                        <apex:selectOptions value="{!scannedField.matchTypes}" />
+                                    </apex:selectList>
+                                </apex:column>
+                                <apex:column headerValue="Importance">
+                                    <c:slider sliderId="{!scannedField.id}" rendered="{!scannedField.selectedMatchType != 'mustMatchExactly'}"
+                                        value="{!scannedField.importance}" object="contact" disabled="{!contactSFTable.configuration.UniqueEntry__isPreset__c}"/>
+                                </apex:column>
+                            </apex:dataTable>
+
+                            <apex:commandLink id="addContactLink" action="{!addRow}" style="text-decoration: none; color: blue;" title="Add a new field" 
+                                rerender="scannedContactFieldList, helpMessagePop" oncomplete="{!IF(action == 'addContactFail', 'showHelpPop()', '')}">
+                                <apex:param name="addContact" value="contact" assignTo="{!objectName}" />
+                                <apex:outputText rendered="{! !contactSFTable.configuration.isPreset__c}">Add Fields... </apex:outputText>
+                            </apex:commandLink>
+
+                            <apex:actionFunction name="refreshScannedContactFields" action="{!onChangeRow}" rerender="scannedContactFieldList">
+                                <apex:param name="objectName" value="contact" assignTo="{!objectName}"/>
+                            </apex:actionFunction>
+                            <apex:actionFunction name="saveScannedContactFields"
+                                action="{!saveConfiguration}" rerender="messagePop"
+                                oncomplete="showMessagePop()">
+                                <apex:param name="saveContacts" value="contact"
+                                    assignTo="{!objectName}" />
+                            </apex:actionFunction>
+                        </apex:pageBlockSection>
+                    </apex:pageBlock>
+                </apex:tab>
+                <apex:tab label="Leads" name="lead" id="lead">
+                    <apex:pageBlock mode="edit" id="leadBlock">
+                        <apex:pageBlockSection title="Security Setting" columns="1">
+                            <apex:selectRadio layout="pageDirection" onchange="onChange()"
+                                value="{!settings.UniqueEntry__Lead_Security_Level__c}" label="">
+                                <apex:selectOption itemValue="high"
+                                    itemLabel="HIGH - Possible duplicate record searches are limited to records the user has access to view." />
+                                <apex:selectOption itemValue="medium"
+                                    itemLabel="MEDIUM - Possible duplicate records the user doesn't normally have access to view are displayed but with all fields hidden except Name and Owner." />
+                                <apex:selectOption itemValue="low"
+                                    itemLabel="LOW - Duplicate search includes and displays all possible duplicates regardless of whether the user has access to view that record or not." />
+                            </apex:selectRadio>
+                        </apex:pageBlockSection>
+
+                        <apex:pageBlockSection title="Display Settings"
+                            columns="1">
+                            <apex:outputText >Select up to seven fields to display when Leads are displayed in the duplicate warning box and select the order in which they will show.</apex:outputText>    
+                            <apex:panelGrid columns="1"
+                                columnClasses="labelColumn,fieldColumn" styleClass="optionGrid"
+                                cellpadding="6" id="leadPanel">
+
+                                <c:MultiselectPicklist leftLabel="Available {!$ObjectType.Lead.Label} Fields"
+                                    leftOptions="{!allLeadFields}"
+                                    rightLabel="Selected {!$ObjectType.Lead.Label} Fields"
+                                    rightOptions="{!selectedLeadFields}" size="14" width="150px" />
+
+                                <apex:outputPanel >
+                            "Assign Using Assignment Rules" Checkbox on {!$ObjectType.Lead.Label} entry pages
+                        </apex:outputPanel>
+                                <apex:selectList value="{!settings.UniqueEntry__Lead_Assignment_Checkbox__c}"
+                                    multiselect="false" size="1">
+                                    <apex:selectOption itemValue="checked"
+                                        itemLabel="Display, checked by default" />
+                                    <apex:selectOption itemValue="unchecked"
+                                        itemLabel="Display, unchecked by default" />
+                                    <apex:selectOption itemValue="hidden"
+                                        itemLabel="Do not display" />
+                                </apex:selectList>
+
+                                <apex:outputPanel rendered="{!camp}">
+                            Campaign lookup field on {!$ObjectType.Lead.Label} entry pages
+                        </apex:outputPanel>
+                                <apex:selectList value="{!settings.UniqueEntry__Campaign_Lookup_Field__c}"
+                                    multiselect="false" size="1" rendered="{!camp}">
+                                    <apex:selectOption itemValue="required"
+                                        itemLabel="Display as required" />
+                                    <apex:selectOption itemValue="optional"
+                                        itemLabel="Display as optional" />
+                                    <apex:selectOption itemValue="hidden"
+                                        itemLabel="Do not display" />
+                                </apex:selectList>
+
+                            </apex:panelGrid>
+                        </apex:pageBlockSection>
+
+                        <apex:pageBlockSection title="Fields Used to Detect Duplicates" columns="1">
+                            <apex:outputText >You can customize which fields are utilized when 
+                                Unique Entry seeks duplicates and tell us how important each field 
+                                is to your organization for identifying duplicates using the accompanying 
+                                slider. Don't feel like messing around? Just select from our list of
+                                preset configurations instead.</apex:outputText>
+
+                            <apex:panelGrid columns="4" id="presetAndSavedLeadConfig" styleClass="presetConfiguration">
+                                <apex:outputText >Preset and Saved Configurations</apex:outputText>
+                                <apex:selectList size="1" id="savedLeadConfigurations" value="{!leadSFTable.configuration.id}"
+                                    onchange="changeLeadConfigOption()" style="margin-left:20px;">
+                                    <apex:selectOptions value="{!leadSFTable.availableConfigurations}"/>
+                                </apex:selectList>
+                                <apex:commandButton value="Save Configuration As..." action="{!saveConfigurationAs}" oncomplete="showSaveNamePopup('lead')"
+                                        rerender="savedLeadConfigurations, scannedLeadFieldList, configLeadName, saveLeadConfigurationName">
+                                    <apex:param name="leadSFTable.configuration.Name" value="" assignTo="{!leadSFTable.configuration.Name}" />
+                                    <apex:param name="saveLeadConfigAsAction" value="saveAs" assignTo="{!action}" />
+                                    <apex:param name="saveLeadConfig" value="lead" assignTo="{!objectName}" />
+                                </apex:commandButton>
+                                
+                                <apex:commandLink value="Delete Configuration" action="{!onChange}" style="text-decoration: none; color: grey;"
+                                    rerender="presetAndSavedLeadConfig, scannedLeadFieldList, addLeadLink" title="Delete this configuration"
+                                    rendered="{! !leadSFTable.configuration.isPreset__c}" onclick="showDeletePop();">
+                                    <apex:param name="saveLeadConfig" value="lead" assignTo="{!objectName}" />
+                                </apex:commandLink>
+                                
+                                <apex:actionFunction name="changeLeadConfigOption" action="{!onSelectConfig}" 
+                                    rerender="presetAndSavedLeadConfig, scannedLeadFieldList, configLeadName, addLeadLink">
+                                    <apex:param name="changeLeadConfigOptionParam" value="lead" assignTo="{!objectName}" />
+                                </apex:actionFunction>
+                            </apex:panelGrid>
+
+                            <apex:dataTable value="{!leadSFTable.table}" var="scannedField" 
+                                id="scannedLeadFieldList" cellspacing="10"  styleClass="presetConfiguration">
+                                <apex:column style="text-align: left; vertical-align: middle; padding-right:5px;">
+                                    <apex:commandLink action="{!removeRow}" value="X" style="text-decoration: none; " rendered="{! !leadSFTable.configuration.isPreset__c}"
+                                                        rerender="scannedLeadFieldList"  title="Remove this row">
+                                        <apex:param name="leadRowId" value="{!scannedField.id}"
+                                            assignTo="{!rowId}" />
+                                        <apex:param name="objectName" value="lead" assignTo="{!objectName}" />
+                                    </apex:commandLink>
+                                </apex:column>
+                                <apex:column headerValue="Field">
+                                    <apex:selectList size="1" value="{!scannedField.selectedField}" onchange="refreshScannedLeadFields()"
+                                        style="margin-right:20px;" disabled="{!leadSFTable.configuration.UniqueEntry__isPreset__c}">
+                                        <apex:selectOptions value="{!scannedField.allFields}" />
+                                    </apex:selectList>
+                                </apex:column>
+                                <apex:column headerValue="Match Type">
+                                    <apex:selectList size="1" onchange="refreshScannedLeadFields()"
+                                        value="{!scannedField.selectedMatchType}" disabled="{!leadSFTable.configuration.UniqueEntry__isPreset__c}"
+                                        style="margin-right:20px;">
+                                        <apex:selectOptions value="{!scannedField.matchTypes}" />
+                                    </apex:selectList>
+                                </apex:column>
+                                <apex:column headerValue="Importance">
+                                    <c:slider sliderId="{!scannedField.id}"  rendered="{!scannedField.selectedMatchType != 'mustMatchExactly'}"
+                                        value="{!scannedField.importance}" object="lead" disabled="{!leadSFTable.configuration.UniqueEntry__isPreset__c}"/>
+                                </apex:column>
+                            </apex:dataTable>
+                            
+                            <apex:commandLink id="addLeadLink" action="{!addRow}" style="text-decoration: none; color: blue;" title="Add a new field"
+                                rerender="scannedLeadFieldList, helpMessagePop" oncomplete="{!IF(action == 'addLeadFail', 'showHelpPop()', '')}">
+                                <apex:param name="addLead" value="lead" assignTo="{!objectName}" />
+                                <apex:outputText rendered="{! !leadSFTable.configuration.isPreset__c}">Add Fields... </apex:outputText>
+                            </apex:commandLink>
+
+                            <apex:actionFunction name="refreshScannedLeadFields" action="{!onChangeRow}" rerender="scannedLeadFieldList">
+                                <apex:param name="objectName" value="lead" assignTo="{!objectName}" />
+                            </apex:actionFunction>
+                            <apex:actionFunction name="saveScannedLeadFields"
+                                action="{!saveConfiguration}" rerender="messagePop"
+                                oncomplete="showMessagePop()">
+                                <apex:param name="saveLeads" value="lead"
+                                    assignTo="{!objectName}" />
+                            </apex:actionFunction>
+                        </apex:pageBlockSection>
+                    </apex:pageBlock>
+                </apex:tab>
+                <apex:tab label="Custom Field Mapping" name="customFieldMapping"
+                    id="customFieldMapping">
+                    <apex:pageBlock mode="edit">
+                        <apex:pageBlockSection title="Lead Custom Field Mapping" columns="1">
+                            <apex:outputText >
+                            In order for Unique Entry to be able to find duplicates cross-object, 
+                            for example finding Contacts that match a Lead being entered, 
+                            you can use the form below to tell the application where your custom Lead fields 
+                            map to on the Contact and Account objects.
+                            <br/><br/>
+                            This mapping is something you have already entered into Salesforce, 
+                            but unfortunately AppExchange applications do not have access to this part of your setup. 
+                            To save time, don't worry about mapping every single field below to make it match your existing Lead mapping, 
+                            instead just map those fields which you think are important for identifying duplicates 
+                            and have therefore included as "Fields Used to Detect Duplicates" on the other tabs of this setup screen.
+                            <br/><br/>
+                            </apex:outputText>
+                            <apex:panelGrid columns="2">
+                                
+                                <apex:dataTable value="{!mappingLeadFields}" var="item">
+                                    <apex:column headerValue="Take this Lead custom field...  "  style="height: 22px; padding: 5px 0 0 0;">
+                                        <apex:outputText >{!item.leadFieldName}</apex:outputText>
+                                    </apex:column>
+                                    <apex:column style="width: 15px;">&nbsp;</apex:column>
+                                    <apex:column headerValue="  ...and map it to this field" style="height: 22px; padding: 5px 0 0 0;">
+                                        <apex:selectList value="{!item.selectedField}" size="1" onchange="onChange()">
+                                            <apex:selectOptions value="{!item.destinationFields}"/>
+                                        </apex:selectList>
+                                    </apex:column>
+                                </apex:dataTable>
+                                
+                            </apex:panelGrid>
+                            
+<!--                             <apex:commandLink value="Why do I have to enter this here?" style="text-decoration: none;" action="{!selectHelpMessage}" -->
+<!--                                     rerender="helpMessagePop" oncomplete="showHelpPop()"> -->
+<!--                                 <apex:param name="customMappingHelp" value="customFieldMapping" assignTo="{!helpMessage}"/> -->
+<!--                             </apex:commandLink> -->
+                        </apex:pageBlockSection>
+                    </apex:pageBlock>
+                </apex:tab>
+                <apex:tab label="General" name="general" id="general">
+                    <apex:pageBlock mode="edit">
+                        <apex:pageBlockSection title="General Settings" columns="1">
+                            <apex:panelGrid columns="2">
+    
+                                <apex:inputField value="{!settings.UniqueEntry__Boring_Mode__c}" onchange="onChange()"/>
+                                <apex:outputPanel >
+                                    <b>Boring Mode</b> - The duplicate warning box randomly selects a fun phrase to display each time it appears such as "Stop the Presses!" and "Heads up, my friend".
+                            Check this box to disable this feature and always use "Attention:" instead.
+                        </apex:outputPanel>
+    
+                            </apex:panelGrid>
+                        </apex:pageBlockSection>
+                    </apex:pageBlock>
+                </apex:tab>
+            </apex:tabPanel>
+        </apex:pageBlock>
+    </apex:form>
+
+    <div id="overlay"></div>
+
+    <apex:form >
+        <div id="messagePop">
+            <div>
+                <apex:outputPanel id="messagePop">
+                    <apex:messages layout="table" />
+                    <br />
+                    <input type="button" onclick="hideMessagePop();" value="OK" />
+                </apex:outputPanel>
+            </div>
+        </div>
+    </apex:form>
+    <apex:form >
+        <div class="messagePopStyle" id="helpMessagePop">
+            <div>
+                <apex:outputPanel id="helpMessagePop">
+                    <apex:outputText value="{!helpMessage}"
+                        style="float: left; margin: 5% 0; width: 100%"/>
+                    <apex:commandButton value="OK" style="padding: 2px 10px;" onclick="hideHelpPop();" oncomplete=""/>
+                </apex:outputPanel>
+            </div>
+        </div>
+    </apex:form>
+    
+    <apex:form >
+        <div class="messagePopStyle" id="quitPopup">
+            <div>
+                <apex:outputPanel id="quitPopup">
+                    <apex:outputText value="{!helpMessage}"
+                        style="float: left; margin: 5% 0; width: 100%"/>
+                    <apex:commandButton value="Yes" style="padding: 2px 10px;" onclick="onCancel();" oncomplete=""/>
+                    <apex:commandButton value="No" style="padding: 2px 10px;" onclick="hideQuitPop();" oncomplete=""/>
+                </apex:outputPanel>
+            </div>
+        </div>
+    </apex:form>
+    
+    <apex:form >
+        <div class="messagePopStyle" id="deleteConfigMessagePop">
+            <div>
+                <apex:outputPanel id="deleteConfigMessagePop">
+                    <apex:outputText >Are you sure you want to delete this Configuration?</apex:outputText>
+                    <br /><br/>
+                    <apex:commandButton value="Yes" action="{!deleteConfiguration}" oncomplete="hideDeletePop();"
+                        rerender="presetAndSavedAccountConfig, scannedAccountFieldList, addAccountLink,
+                                presetAndSavedPAccConfig, scannedPersonAccountFieldList, addPersonAccountLink,
+                                presetAndSavedContactConfig, scannedContactFieldList, addContactLink,
+                                presetAndSavedLeadConfig, scannedLeadFieldList, addLeadLink"/>
+<!--                        rerender="{!IF(CONTAINS('account', objectName), 'presetAndSavedAccountConfig, scannedAccountFieldList, addAccountLink', IF(CONTAINS('personAccount',objectName), 'presetAndSavedPAccConfig, scannedPersonAccountFieldList, addPersonAccountLink', IF(CONTAINS('contact', objectName), 'presetAndSavedContactConfig, scannedContactFieldList, addContactLink', 'presetAndSavedLeadConfig, scannedLeadFieldList, addLeadLink')))}"/> -->
+                        
+                    
+                    <apex:commandButton value="No" oncomplete="hideDeletePop();"></apex:commandButton>
+                </apex:outputPanel>
+            </div>
+        </div>
+    </apex:form>
+    
+    <apex:form >
+        <div class="messagePopStyle" id="savePageMessagePop">
+            <div>
+                <apex:outputPanel id="savePageMessagePop">
+                    <apex:outputText >{!helpMessage}</apex:outputText>
+                    <br /><br/>
+                    <apex:commandButton onclick="" rendered="{!action=='savedOK'}" value="OK"
+                                        oncomplete="hideSavePagePop();"></apex:commandButton>
+                    
+                    <apex:commandButton onclick="" rendered="{!action=='saveFail_Duplicate'}" value="OK" rerender="setting"
+                                        oncomplete="hideSavePagePop();"></apex:commandButton>
+                                        
+                    <apex:commandButton onclick="" rendered="{!action=='saveFail_reachMaxField'}" value="OK" rerender="setting"
+                                        oncomplete="hideSavePagePop();"></apex:commandButton>
+                    
+                </apex:outputPanel>
+            </div>
+        </div>
+    </apex:form>
+    
+    <apex:form >
+    <div class="messagePopStyle" id="saveAccountConfigurationName" >
+        <div>
+            <apex:outputPanel id="saveAccountConfigurationName" >
+                <apex:outputText value="Your duplicate detection configuration has been saved." rendered="{!action=='accountConfigSaved'}" 
+                    style="float: left; margin: 5% 0; width: 100%"/>
+                <apex:outputText value="{!helpMessage}" rendered="{!action=='saveAccountFail_Duplicate'}" 
+                    style="float: left; margin: 5% 0; width: 100%"/>
+                <apex:commandButton value="OK" onclick="hideSaveNamePopup('account')" style="padding: 2px 10px;"
+                    rendered="{!action=='accountConfigSaved' || action=='saveAccountFail_Duplicate'}" oncomplete=""/>
+                
+                <apex:panelGrid columns="2" id="configAccountName" style="text-align:center;">
+                     
+                     <apex:outputText value="Name: " rendered="{!saveAccountConfigIndicator && action=='saveAs'}"
+                                        style="float: left; margin-bottom:15px;"/>
+                     <apex:inputField value="{!accountSFTable.configuration.Name}" rendered="{!saveAccountConfigIndicator && action=='saveAs'}"
+                                        style="float: left; margin-bottom:15px;"/>
+                     <apex:commandButton action="{!saveConfigurationAs}" value="Save" rendered="{!saveAccountConfigIndicator && action=='saveAs'}"
+                             rerender="presetAndSavedAccountConfig, scannedAccountFieldList, addAccountLink" style="float: left; margin: 0 0 0 30px;"
+                             oncomplete="hideSaveNamePopup('account')">
+                         <apex:param name="saveAccountConfigsName" value="account" assignTo="{!objectName}" />
+                     </apex:commandButton>
+                     <apex:commandButton rendered="{!saveAccountConfigIndicator && action=='saveAs'}" value="Cancel" style="float: left; margin:0px;"
+                                        onclick="hideSaveNamePopup('account')" oncomplete=""/>
+                 </apex:panelGrid>
+            </apex:outputPanel>
+        </div>
+    </div>
+    </apex:form>
+    
+    <apex:form >
+    <div class="messagePopStyle" id="savePersonAccountConfigurationName" >
+        <div>
+            <apex:outputPanel id="savePersonAccountConfigurationName" >
+                <apex:outputText value="Your duplicate detection configuration has been saved." rendered="{!action=='personAccountConfigSaved'}" 
+                    style="float: left; margin: 5% 0; width: 100%"/>
+                <apex:outputText value="{!helpMessage}" rendered="{!action=='savePersonAccountFail_Duplicate'}" 
+                    style="float: left; margin: 5% 0; width: 100%"/>
+                <apex:commandButton value="OK" onclick="hideSaveNamePopup('personAccount')" style="padding: 2px 10px;"
+                    rendered="{!action=='personAccountConfigSaved' || action=='savePersonAccountFail_Duplicate'}" oncomplete=""/>
+                <apex:panelGrid columns="2" id="configPersonAccountName" style="text-align:center;">
+                     
+                     <apex:outputText value="Name: " rendered="{!savePAccountConfigIndicator && action=='saveAs'}"
+                                        style="float: left; margin-bottom:15px;"/>
+                     <apex:inputField value="{!personAccountSFTable.configuration.Name}" rendered="{!savePAccountConfigIndicator && action=='saveAs'}"
+                                        style="float: left; margin-bottom:15px;"/>
+                     <apex:commandButton action="{!saveConfigurationAs}" value="Save" rendered="{!savePAccountConfigIndicator && action=='saveAs'}"
+                             rerender="presetAndSavedPAccConfig, scannedPersonAccountFieldList, addPersonAccountLink" style="float: left; margin: 0 0 0 30px;"
+                             oncomplete="hideSaveNamePopup('personAccount')">
+                         <apex:param name="savePersonAccountConfigsName" value="personAccount" assignTo="{!objectName}" />
+                     </apex:commandButton>
+                     <apex:commandButton rendered="{!savePAccountConfigIndicator && action=='saveAs'}" value="Cancel" style="float: left; margin:0px;"
+                                        onclick="hideSaveNamePopup('personAccount')" oncomplete=""/>
+                 </apex:panelGrid>
+            </apex:outputPanel>
+        </div>
+    </div>
+    </apex:form>
+    
+    <apex:form >
+    <div class="messagePopStyle" id="saveContactConfigurationName" >
+        <div>
+            <apex:outputPanel id="saveContactConfigurationName" >
+                <apex:outputText value="Your duplicate detection configuration has been saved." rendered="{!action=='contactConfigSaved'}" 
+                    style="float: left; margin: 5% 0; width: 100%"/>
+                <apex:outputText value="{!helpMessage}" rendered="{!action=='saveContactFail_Duplicate'}" 
+                    style="float: left; margin: 5% 0; width: 100%"/>
+                <apex:commandButton value="OK" onclick="hideSaveNamePopup('contact')" style="padding: 2px 10px;"
+                    rendered="{!action=='contactConfigSaved' || action=='saveContactFail_Duplicate'}" oncomplete=""/>
+                <apex:panelGrid columns="2" id="configContactName" style="text-align:center;">
+                     
+                     <apex:outputText value="Name: " rendered="{!saveContactConfigIndicator && action=='saveAs'}"
+                                        style="float: left; margin-bottom:15px;"/>
+                     <apex:inputField value="{!contactSFTable.configuration.Name}" rendered="{!saveContactConfigIndicator && action=='saveAs'}"
+                                        style="float: left; margin-bottom:15px;"/>
+                     <apex:commandButton action="{!saveConfigurationAs}" value="Save" rendered="{!saveContactConfigIndicator && action=='saveAs'}"
+                             rerender="presetAndSavedContactConfig, scannedContactFieldList, addContactLink" style="float: left; margin: 0 0 0 30px;"
+                             oncomplete="hideSaveNamePopup('contact')">
+                         <apex:param name="saveContactConfigsName" value="contact" assignTo="{!objectName}" />
+                     </apex:commandButton>
+                     <apex:commandButton rendered="{!saveContactConfigIndicator && action=='saveAs'}" value="Cancel" style="float: left; margin:0px;"
+                                        onclick="hideSaveNamePopup('contact')" oncomplete=""/>
+                 </apex:panelGrid>
+            </apex:outputPanel>
+        </div>
+    </div>
+    </apex:form>
+    
+    <apex:form >
+    <div class="messagePopStyle" id="saveLeadConfigurationName" >
+        <div>
+            <apex:outputPanel id="saveLeadConfigurationName" >
+                <apex:outputText value="Your duplicate detection configuration has been saved." rendered="{!action=='leadConfigSaved'}" 
+                    style="float: left; margin: 5% 0; width: 100%"/>
+                <apex:outputText value="{!helpMessage}" rendered="{!action=='saveLeadFail_Duplicate'}" 
+                    style="float: left; margin: 5% 0; width: 100%"/>
+                <apex:commandButton value="OK" onclick="hideSaveNamePopup('lead')" style="padding: 2px 10px;"
+                    rendered="{!action=='leadConfigSaved' || action=='saveLeadFail_Duplicate'}" oncomplete=""/>
+                <apex:panelGrid columns="2" id="configLeadName" style="text-align:center;">
+                     
+                     <apex:outputText value="Name: " rendered="{!saveLeadConfigIndicator && action=='saveAs'}"
+                                        style="float: left; margin-bottom:15px;"/>
+                     <apex:inputField value="{!leadSFTable.configuration.Name}" rendered="{!saveLeadConfigIndicator && action=='saveAs'}"
+                                        style="float: left; margin-bottom:15px;"/>
+                     <apex:commandButton action="{!saveConfigurationAs}" value="Save" rendered="{!saveLeadConfigIndicator && action=='saveAs'}"
+                             rerender="presetAndSavedLeadConfig, scannedLeadFieldList, addLeadLink" style="float: left; margin: 0 0 0 30px;"
+                             oncomplete="hideSaveNamePopup('lead')">
+                         <apex:param name="saveLeadConfigsName" value="lead" assignTo="{!objectName}" />
+                     </apex:commandButton>
+                     <apex:commandButton rendered="{!saveLeadConfigIndicator && action=='saveAs'}" value="Cancel" style="float: left; margin:0px;"
+                                        onclick="hideSaveNamePopup('lead')" oncomplete=""/>
+                 </apex:panelGrid>
+            </apex:outputPanel>
+        </div> 
+    </div>
+    </apex:form>
+    
+</apex:page>

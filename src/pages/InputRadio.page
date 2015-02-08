@@ -1,0 +1,24 @@
+<apex:page controller="InputRadioController">
+    <apex:form id="form">
+        <apex:actionfunction name="callByRadio" rerender="sec">
+            <apex:param name="contId" assignTo="{!contId}" value=""/>
+        </apex:actionfunction>
+        <apex:pageBlock >
+            <apex:pageBlockTable value="{!conList}" var="con">
+                <apex:column >
+                    <input type="radio" name="selectRadio" id="radio" onclick="callByRadio('{!con.contactId}')"/>
+                </apex:column>
+                <apex:column >
+                    <apex:outputText value="{!con.contactName}"/>
+                </apex:column>
+            </apex:pageBlockTable>
+            <apex:commandButton value="Call Method" action="{!methodCall}" reRender="sec">  
+            </apex:commandButton>
+            
+            <apex:pageblockSection id="sec">
+                <apex:outputText value="{!con.ContactId}"/> 
+                <apex:outputText value="{!con.ContactName}"/>                 
+            </apex:pageblockSection>
+        </apex:pageBlock>
+    </apex:form>  
+</apex:page>

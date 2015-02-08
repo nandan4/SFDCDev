@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>This Object is used store the filter criteria for the de-duplication.</description>
+    <enableActivities>true</enableActivities>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Action__c</fullName>
+        <description>Action to be done when duplicate found.</description>
+        <inlineHelpText>Select action to be done if duplicate found</inlineHelpText>
+        <label>Action</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Throw An Error</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Create Duplicate</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Merge With Existing</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Delete Existing &amp; Insert</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>IgnoreCase__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Check box to ignore case while comparing</description>
+        <inlineHelpText>If checked, case will ignored while comparing</inlineHelpText>
+        <label>Ignore Case</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ShowMessage__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>If Checked, displays message to user after DML</description>
+        <inlineHelpText>If Checked, displays user message to user after DML</inlineHelpText>
+        <label>Show Message</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>UserMessage__c</fullName>
+        <description>Message to be displayed after DML operation</description>
+        <inlineHelpText>Message to be displayed after DML operation</inlineHelpText>
+        <label>User Message</label>
+        <length>255</length>
+        <type>Text</type>
+    </fields>
+    <label>Filter Criteria</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>FC-{0000}</displayFormat>
+        <label>FC</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Filter Criterias</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

@@ -1,0 +1,110 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" controller="TreeGridController">
+    <head>  
+        <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/dhtmlxgrid.css')}"/>      
+        <!--<apex:stylesheet value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/dhtmlxgrid.css')}"/>-->
+        <apex:stylesheet value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/skins/dhtmlxgrid_dhx_skyblue.css')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/dhtmlxcommon.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/dhtmlxgrid.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/dhtmlxgridcell.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.dhtmlxTreeGrid, 'dhtmlxTreeGrid/codebase/dhtmlxtreegrid.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/ext/dhtmlxgrid_json.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/ext/dhtmlxgrid_drag.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/ext/dhtmlxgrid_srnd.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.dhtmlxGrid, 'dhtmlxGrid/codebase/ext/dhtmlxgrid_filter.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.dhtmlxtreegrid_filter, 'dhtmlxtreegrid_filter/dhtmlxtreegrid_filter.js')}"/>
+        
+        <script type="text/javascript">
+            var jsonObject = {!pretty};
+            console.log(jsonObject);
+            var mygrid;
+            function loadGrid(){
+                mygrid = new dhtmlXGridObject('gridbox');
+                mygrid.selMultiRows = true;
+                mygrid.imgURL = "{!URLFOR($Resource.dhtmlxGrid, '/dhtmlxGrid/codebase/imgs/')}";
+                mygrid.setImagePath("{!URLFOR($Resource.dhtmlxGrid, '/dhtmlxGrid/codebase/imgs/csh_bluebooks/')}");
+                mygrid.setHeader("Account-Contact Tree,City,State,Annual Revenue");
+                mygrid.attachHeader("#text_search,&nbsp;,&nbsp;,&nbsp;");
+                mygrid.setColAlign("left,left,left,left");
+                mygrid.setColTypes("tree,ed,ed,price");  
+                mygrid.enableAutoWidth(true);
+                mygrid.enableAutoHeight(true); 
+                mygrid.setSkin("dhx_skyblue"); 
+                mygrid.enableDragAndDrop(true); 
+                mygrid.enableSmartRendering(true);       
+                mygrid.init();     
+                mygrid.parse(jsonObject,"json");
+                mygrid.attachFooter('Total Revenue :,,,${#stat_total}');
+                mygrid.attachFooter('Maximum Revenue :,,,${#stat_max}');
+                mygrid.attachFooter('Minimum Revenue :,,,${#stat_min}');
+                mygrid.attachFooter('Average Revenue :,,,${#stat_average}');
+                mygrid.attachFooter('Count  :,,,{#stat_count}');
+                mygrid.attachEvent("onEditCell",doOnEditCell);
+                    function doOnEditCell(stage,rowId,cellIndex,newValue,oldValue){
+                        if ((stage==2)&&(newValue!=oldValue)){
+                            alert("Cell with id="+rowId+" and index="+cellIndex+" was edited from "+oldValue+" with Value "+newValue);
+                            Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.TreeGridController.updateRecords}',rowId,cellIndex,oldValue,newValue,
+                                function(result, event) {                                    
+                                    alert('Records Updated');   
+                                }
+                            ); 
+                        }
+                    }  
+                mygrid.attachEvent("onDrag", function(dId,tId,sObj,tObj,sInd,tInd){
+                    if(dId.substring(0,3)=='001' && tId.substring(0,3)=='003'){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                });  
+                
+                mygrid.attachEvent("onDrop",doOnDrop);
+                    function doOnDrop(sId,tId,dId,sObj,tObj,sCol,tCol){                        
+                                Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.TreeGridController.updateDropRecords}',sId,tId,dId,
+                                    function(result, event) {
+                                        alert('Records Dropped');
+                                    }
+                                );    
+                    }                    
+            }
+            window.onload = loadGrid;      
+            
+            function conv(result){
+                 var j = JSON.stringify(result);  
+                 var js = JSON.parse(j.replace(/&quot;/ig,'"'));                              
+                 console.log(js);
+                 return js;
+            }                 
+        </script>
+        <style>
+            body{
+                background-color : #2F90B8;
+            }
+            #banner-title,#banner-hr-title {
+                display: none;
+            }
+            #banner {
+                background: url({!$Resource.acn_logo}) no-repeat;
+                margin-top: 10px;
+                margin-left: 10px;
+                width: 100%;
+                height: 80px;
+            }
+            #banner-hr {
+                background: url({!$Resource.line});
+                position: relative;
+                top: 50px;
+                margin-left: -10px;
+                height: 2px;
+            }
+        </style>
+    </head>
+    <body> 
+        <div id="banner">
+            <h1 id="banner-title">Accenture</h1>
+            <div id="banner-hr">
+                <hr id="banner-hr-title" />
+            </div>
+        </div>
+        <div id="gridbox"></div>     
+    </body>
+</apex:page>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>Stores the List of Salesforce Ids or Strings that can be referred in Configuration and Customization</description>
+    <fields>
+        <fullName>Reference__c</fullName>
+        <description>Stores the reference where the string is used.</description>
+        <inlineHelpText>Where it is used/ Referenced</inlineHelpText>
+        <label>Reference</label>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>StaticStringValue__c</fullName>
+        <description>Stores the static strings or ids to be used in the Apex code</description>
+        <inlineHelpText>value to be used</inlineHelpText>
+        <label>Static String Value</label>
+        <length>80</length>
+        <type>Text</type>
+    </fields>
+    <label>CS001_StaticStrings</label>
+</CustomObject>

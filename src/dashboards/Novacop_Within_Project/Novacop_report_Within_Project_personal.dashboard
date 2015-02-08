@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dashboard xmlns="http://soap.sforce.com/2006/04/metadata">
+    <backgroundEndColor>#FFFFFF</backgroundEndColor>
+    <backgroundFadeDirection>Diagonal</backgroundFadeDirection>
+    <backgroundStartColor>#FFFFFF</backgroundStartColor>
+    <leftSection>
+        <columnSize>Wide</columnSize>
+        <components>
+            <componentType>Table</componentType>
+            <displayUnits>Auto</displayUnits>
+            <indicatorHighColor>#54C254</indicatorHighColor>
+            <indicatorLowColor>#C25454</indicatorLowColor>
+            <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
+            <report>Novacop_Within_Project/NovaRunProjectName</report>
+            <sortBy>RowLabelAscending</sortBy>
+        </components>
+        <components>
+            <componentType>Gauge</componentType>
+            <displayUnits>Auto</displayUnits>
+            <gaugeMax>10.0</gaugeMax>
+            <gaugeMin>0.0</gaugeMin>
+            <header>Novacop Quality Index</header>
+            <indicatorBreakpoint1>3.0</indicatorBreakpoint1>
+            <indicatorBreakpoint2>6.0</indicatorBreakpoint2>
+            <indicatorHighColor>#54C254</indicatorHighColor>
+            <indicatorLowColor>#C25454</indicatorLowColor>
+            <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
+            <report>Novacop_Within_Project/Project_NQI_Report</report>
+        </components>
+        <components>
+            <componentType>Table</componentType>
+            <displayUnits>Integer</displayUnits>
+            <header>Novacop Violation Summary</header>
+            <indicatorHighColor>#54C254</indicatorHighColor>
+            <indicatorLowColor>#C25454</indicatorLowColor>
+            <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
+            <report>Novacop_Within_Project/Last_NovaRun_Details</report>
+            <sortBy>RowLabelAscending</sortBy>
+        </components>
+        <components>
+            <componentType>Table</componentType>
+            <displayUnits>Integer</displayUnits>
+            <indicatorHighColor>#54C254</indicatorHighColor>
+            <indicatorLowColor>#C25454</indicatorLowColor>
+            <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
+            <report>Novacop_Within_Project/Last_NovaRun_P1_P2</report>
+            <sortBy>RowLabelAscending</sortBy>
+        </components>
+        <components>
+            <componentType>Table</componentType>
+            <displayUnits>Integer</displayUnits>
+            <indicatorHighColor>#54C254</indicatorHighColor>
+            <indicatorLowColor>#C25454</indicatorLowColor>
+            <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
+            <report>Novacop_Within_Project/Last_NovaRun_P3_P4</report>
+            <sortBy>RowLabelAscending</sortBy>
+        </components>
+    </leftSection>
+    <middleSection>
+        <columnSize>Medium</columnSize>
+        <components>
+            <chartAxisRange>Auto</chartAxisRange>
+            <componentType>Column</componentType>
+            <displayUnits>Auto</displayUnits>
+            <header>Novacop Quality Trend</header>
+            <legendPosition>Bottom</legendPosition>
+            <report>Novacop_Within_Project/NQI_Report</report>
+            <sortBy>RowLabelAscending</sortBy>
+        </components>
+    </middleSection>
+    <rightSection>
+        <columnSize>Medium</columnSize>
+        <components>
+            <componentType>Table</componentType>
+            <displayUnits>Auto</displayUnits>
+            <header>Novacop Insights</header>
+            <indicatorHighColor>#54C254</indicatorHighColor>
+            <indicatorLowColor>#C25454</indicatorLowColor>
+            <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
+            <maxValuesDisplayed>10</maxValuesDisplayed>
+            <report>Novacop_Within_Project/Within_Project_Top_Files</report>
+            <sortBy>RowValueDescending</sortBy>
+            <title>Top Ten Files</title>
+        </components>
+        <components>
+            <componentType>Table</componentType>
+            <displayUnits>Auto</displayUnits>
+            <indicatorHighColor>#54C254</indicatorHighColor>
+            <indicatorLowColor>#C25454</indicatorLowColor>
+            <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
+            <maxValuesDisplayed>10</maxValuesDisplayed>
+            <report>Novacop_Within_Project/Within_Project_Top_Ten_Violations</report>
+            <sortBy>RowValueDescending</sortBy>
+            <title>Top Ten Violations</title>
+        </components>
+    </rightSection>
+    <runningUser>nandan.narasappa@accenture.com</runningUser>
+    <textColor>#000000</textColor>
+    <title>Novacop report Within Project_personal</title>
+    <titleColor>#000000</titleColor>
+    <titleSize>12</titleSize>
+</Dashboard>

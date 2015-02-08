@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>MBR_External__c</fullName>
+        <label>MBR_External</label>
+        <length>50</length>
+        <type>Text</type>
+    </fields>
+    <validationRules>
+        <fullName>ValidationContact</fullName>
+        <active>true</active>
+        <errorConditionFormula>NOT(ISBLANK( ContactId ) )</errorConditionFormula>
+        <errorMessage>Error on Conversion</errorMessage>
+    </validationRules>
+</CustomObject>

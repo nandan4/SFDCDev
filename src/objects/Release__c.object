@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>TOOLKIT - An object that represents a specific instance of the product and all of the related components that make up the specific instance.</description>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Adapt_Ongoing_Support__c</fullName>
+        <label>Support</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Build_End_Date__c</fullName>
+        <label>Build End Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Build_Start_Date__c</fullName>
+        <label>Build Start Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Build_Unit_Test__c</fullName>
+        <label>Build</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Deploy_End_Date__c</fullName>
+        <label>Deploy End Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Deploy_Start_Date__c</fullName>
+        <label>Deploy Start Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <label>Description</label>
+        <length>4000</length>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Design_End_Date__c</fullName>
+        <label>Design End Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Design_Start_Date__c</fullName>
+        <label>Design Start Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Design__c</fullName>
+        <label>Design</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Owner__c</fullName>
+        <description>Owner of this release.</description>
+        <inlineHelpText>Owner of this release.</inlineHelpText>
+        <label>Owner</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Releases</relationshipLabel>
+        <relationshipName>Releases</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>PMT2009_SIT__c</fullName>
+        <label>Test</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>PMT2009_Train_Deploy__c</fullName>
+        <label>Deploy</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>PMT2009_UAT__c</fullName>
+        <label>UAT</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Parent_Release__c</fullName>
+        <description>Select a release to which this release is related to.</description>
+        <inlineHelpText>Select an existing release to which the current release is related to.</inlineHelpText>
+        <label>Parent Release</label>
+        <referenceTo>Release__c</referenceTo>
+        <relationshipLabel>Releases</relationshipLabel>
+        <relationshipName>Releases</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Plan_End_Date__c</fullName>
+        <label>Plan End Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Plan_Start_Date__c</fullName>
+        <label>Plan Start Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Release_Actual_End_Date__c</fullName>
+        <label>Release Actual End Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Release_Planned_End_Date__c</fullName>
+        <label>Release Planned End Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Release_Start_Date__c</fullName>
+        <label>Release Start Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Release__c</fullName>
+        <label>Release #</label>
+        <precision>6</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Requirements_Gathering__c</fullName>
+        <label>Plan</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Status_Update__c</fullName>
+        <description>Release status update</description>
+        <inlineHelpText>Release status update</inlineHelpText>
+        <label>Comments</label>
+        <length>32000</length>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <inlineHelpText>Green: Milestone completion on target
+Yellow: Milestone completion at risk
+Red: Milestone completion planned to be missed or missed</inlineHelpText>
+        <label>Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Red</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Yellow</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Green</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Support_End_Date__c</fullName>
+        <label>Support End Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Support_Start_Date__c</fullName>
+        <label>Support Start Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Test_End_Date__c</fullName>
+        <label>Test End Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Test_Start_Date__c</fullName>
+        <label>Test Start Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Total_Adapt_Ongoing_Support_Capacity__c</fullName>
+        <label>Total Support</label>
+        <precision>18</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Available_Capacity__c</fullName>
+        <formula>Total_Plan_Capacity__c  +  Total_Design_Capacity__c  +  Total_Build_Capacity__c  +  Total_Test_Capacity__c  +  Total_Deploy_Capacity__c  +  Total_UAT__c  + Total_Adapt_Ongoing_Support_Capacity__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Available Capacity</label>
+        <precision>18</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Build_Capacity__c</fullName>
+        <label>Total Build</label>
+        <precision>18</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Deploy_Capacity__c</fullName>
+        <label>Total Deploy</label>
+        <precision>18</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Design_Capacity__c</fullName>
+        <label>Total Design</label>
+        <precision>18</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Estimate__c</fullName>
+        <formula>Requirements_Gathering__c +  Design__c +  Build_Unit_Test__c +  PMT2009_SIT__c +  PMT2009_UAT__c +  PMT2009_Train_Deploy__c +  Adapt_Ongoing_Support__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Estimate</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Plan_Capacity__c</fullName>
+        <label>Total Plan</label>
+        <precision>18</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_Test_Capacity__c</fullName>
+        <label>Total Test</label>
+        <precision>18</precision>
+        <scale>2</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Total_UAT__c</fullName>
+        <label>Total UAT</label>
+        <precision>18</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>UAT_End_Date__c</fullName>
+        <label>UAT End Date</label>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>UAT_Start_Date__c</fullName>
+        <label>UAT Start Date</label>
+        <type>Date</type>
+    </fields>
+    <label>Release</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Parent_Release__c</columns>
+        <columns>Release_Start_Date__c</columns>
+        <columns>Release_Planned_End_Date__c</columns>
+        <columns>Owner__c</columns>
+        <columns>Status__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Release Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Releases</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Parent_Release__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Release_Start_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Release_Planned_End_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Owner__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Status__c</customTabListAdditionalFields>
+        <searchResultsAdditionalFields>Parent_Release__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Release_Start_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Release_Planned_End_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Owner__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>Release_Actual_End_Date_Validation</fullName>
+        <active>true</active>
+        <description>Actual end date should not be greater  than today&apos;s date</description>
+        <errorConditionFormula>Release_Actual_End_Date__c  &gt; Today()</errorConditionFormula>
+        <errorDisplayField>Release_Actual_End_Date__c</errorDisplayField>
+        <errorMessage>Actual end date should not be greater  than today&apos;s date</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Releases_Date_Validation</fullName>
+        <active>true</active>
+        <description>Releases_Date_Validation</description>
+        <errorConditionFormula>OR( Release_Actual_End_Date__c  &lt;  Release_Start_Date__c ,  Release_Planned_End_Date__c  &lt;  Release_Start_Date__c )</errorConditionFormula>
+        <errorMessage>Release Start/End Date should be later than Release Start Date.</errorMessage>
+    </validationRules>
+</CustomObject>

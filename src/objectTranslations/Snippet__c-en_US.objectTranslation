@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>Snippet</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Snippets</value>
+    </caseValues>
+    <fields>
+        <label><!-- Effort Saving (mins) --></label>
+        <name>EffortSaving__c</name>
+    </fields>
+    <fields>
+        <label><!-- Snippet Id --></label>
+        <name>SnippetId__c</name>
+    </fields>
+    <fields>
+        <label><!-- Snippy --></label>
+        <name>Snippy__c</name>
+        <relationshipLabel><!-- Snippets --></relationshipLabel>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,23 @@
+<apex:page standardController="Account" id="page">
+    <apex:form id="form">
+        <apex:tabPanel id="tabPanel" >            
+            <apex:tab id="tabCreate" name="Create" label="Create">
+                <apex:pageBlock id="pBlock">
+                    <apex:pageblockSection id="pBSection">
+                        <apex:outputField value="{!Account.Name}" id="name">
+                            <apex:inlineEditSupport event="ondblclick" showOnEdit="update" />
+                        </apex:outputField>
+                        <apex:outputField value="{!Account.Phone}" id="phone">
+                            <apex:inlineEditSupport event="ondblclick" showOnEdit="update" />
+                        </apex:outputField>
+                    </apex:pageblockSection>
+                </apex:pageBlock>
+            </apex:tab>
+            <apex:tab id="tabEdit" name="Edit" label="Edit">
+                Edit
+            </apex:tab>            
+        </apex:tabPanel> 
+        
+        <apex:commandButton value="Save" action="{!save}" id="saveBTN"/>
+    </apex:form> 
+</apex:page>

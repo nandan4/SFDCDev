@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>Project</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Projects</value>
+    </caseValues>
+    <fields>
+        <help><!-- If you do not want NovaCop to download your code, then NovaCop provides you a separate batch file which you can execute on your local machine. Please contact NovaCop support team (novacopsupport@accenture.com) for further details. --></help>
+        <label><!-- Download the Apex code to NovaCop Server --></label>
+        <name>Download_the_Apex_code_to_NovaCop_Server__c</name>
+    </fields>
+    <fields>
+        <label><!-- Is Approved --></label>
+        <name>Is_Approved__c</name>
+    </fields>
+    <fields>
+        <label><!-- Last Scan Date --></label>
+        <name>Last_Scan_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Latest NQI --></label>
+        <name>Latest_NQI__c</name>
+    </fields>
+    <fields>
+        <label><!-- Number of completed run for today --></label>
+        <name>Number_of_completed_run_for_today__c</name>
+    </fields>
+    <fields>
+        <label><!-- Number of runs per day --></label>
+        <name>Number_of_runs_per_day__c</name>
+    </fields>
+    <fields>
+        <help><!-- Password to access Novacop project --></help>
+        <label><!-- Password --></label>
+        <name>Password__c</name>
+    </fields>
+    <fields>
+        <help><!-- Project End Date till which Novacop should automatically scan and send the Novacop Dashboard --></help>
+        <label><!-- Project End Date --></label>
+        <name>Project_End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Project POC Contact Number --></label>
+        <name>Project_POC_Contact_Number__c</name>
+    </fields>
+    <fields>
+        <label><!-- Project POC Email Id --></label>
+        <name>Project_POC_Email_Id__c</name>
+    </fields>
+    <fields>
+        <label><!-- Project POC Name --></label>
+        <name>Project_POC_Name__c</name>
+    </fields>
+    <fields>
+        <help><!-- Project Start Date from which Novacop should automatically scan and send the Novacop Dashboard --></help>
+        <label><!-- Project Start Date --></label>
+        <name>Project_Start_Date__c</name>
+    </fields>
+    <fields>
+        <help><!-- Salesforce.com security token to access this org through a third party application --></help>
+        <label><!-- Security Token --></label>
+        <name>Security_Token__c</name>
+    </fields>
+    <fields>
+        <help><!-- Please select if the specified project is a sandbox or production/developer edition --></help>
+        <label><!-- URL --></label>
+        <name>URL__c</name>
+        <picklistValues>
+            <masterLabel>https://login.salesforce.com</masterLabel>
+            <translation><!-- https://login.salesforce.com --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>https://test.salesforce.com</masterLabel>
+            <translation><!-- https://test.salesforce.com --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <help><!-- User Name to access the Novacop project --></help>
+        <label><!-- User Name --></label>
+        <name>User_Name__c</name>
+    </fields>
+    <layouts>
+        <layout>Project Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Project Details --></label>
+            <section>Project Details</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Project Name Should be Unique and Cannot be changed after creation --></errorMessage>
+        <name>Check_Unique_Project</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please provide the User Credentials --></errorMessage>
+        <name>Require_Credentials</name>
+    </validationRules>
+</CustomObjectTranslation>

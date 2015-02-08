@@ -1,0 +1,10 @@
+<!--
+    @Author      : ATL Team
+    @Name        : VF_CSRF_Bad_One
+    @Date        : 09/23/2012
+    @Description : Page shows the bad practice of making page vulnerable to 
+                   CSRF attack
+-->
+<apex:page standardController="Account" action="{!delete}">
+  
+</apex:page>

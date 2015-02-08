@@ -1,0 +1,3 @@
+<apex:page standardController="Opportunity" extensions="VFC_OppButton" action="{!methodCall}">
+    <apex:outputtext value="{!opportunity.stageName},{!opportunity.Name}" rendered="false"/>  
+</apex:page>

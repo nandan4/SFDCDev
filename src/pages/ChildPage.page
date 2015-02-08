@@ -1,0 +1,13 @@
+<apex:page >
+    <script language="JavaScript" type="text/javascript">        
+        function closeAndRefresh(){
+          //window.opener.location.href = '/001/o';
+          window.opener.location.reload();
+          self.close(); 
+        }
+    </script>
+    
+    <apex:form >
+        <apex:commandButton value="Refresh Parent Window & close" oncomplete="closeAndRefresh();"/>
+    </apex:form>
+</apex:page>

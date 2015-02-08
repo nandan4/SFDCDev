@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HomePageComponent xmlns="http://soap.sforce.com/2006/04/metadata">
+    <body>&lt;br&gt;&lt;script type=&quot;text/javascript&quot;&gt;window.onload = checkFocus();function checkFocus(){            var url = window.location.pathname;    var objCode = url.substring(url.indexOf(&quot;/&quot;)+1,url.indexOf(&quot;/&quot;)+4);    var pageMode = url.substring(url.lastIndexOf(&quot;/&quot;)+1,url.lastIndexOf(&quot;/&quot;)+2);    if(objCode == &apos;00T&apos; &amp;&amp; pageMode == &apos;e&apos;){        window.onblur = function(){            alert(&apos;You are trying to navigate away&apos;);        };        window.onbeforeunload  = function(){            var closeAction = &apos;You have unsaved changes&apos;;            return closeAction;        };    }}&lt;/script&gt;</body>
+    <pageComponentType>htmlArea</pageComponentType>
+    <width>narrow</width>
+</HomePageComponent>

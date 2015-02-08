@@ -1,0 +1,14 @@
+<!--
+    @Author      : ATL Team
+    @Name        : VF_CSRF_Good_One
+    @Date        : 29/12/2013
+    @Description : Page shows the example of SOSL Injection
+-->
+<apex:page Controller="ApexRulesV3_AvoidSOSLInjection">
+    <apex:form >
+        <apex:outputText value="Enter Name" />
+        <apex:inputText value="{!name}" />
+        <apex:commandButton value="Query Bad" action="{!queryBad}"/>
+        <apex:commandButton value="Query Good" action="{!queryGood}"/>
+    </apex:form>  
+</apex:page>

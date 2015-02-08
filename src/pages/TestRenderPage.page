@@ -1,0 +1,34 @@
+<apex:page standardController="Account" extensions="VFC_MultiSelect">
+    <apex:form >
+        <apex:pageblock >
+            <apex:pageBlockSection title="Select Value">
+                <apex:outputText title="Select Object" label="Select Object"/>
+                <apex:selectList value="{!objName}" size="1">
+                    <apex:selectOptions value="{!acc}"/> 
+                    <apex:actionSupport event="oncomplete" action="{!rec}" rerender="counter" status="counterStatus">
+                    <!--<apex:param name="p1" value="" assignTo="{!objName}"/> -->
+                    </apex:actionSupport>
+                    <apex:actionStatus id="counterStatus" startText=" (Loading...)"/>               
+                </apex:selectList>
+                <!--apex:commandButton style="button" value="Update" title="Update Account" action="{!updateAccounts}"/-->
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="Select Records" columns="4">
+                <apex:panelGrid columns="3">
+                    <apex:selectList value="{!objName}" size="4" multiselect="true" style="width:250px" id="counter">
+                    <!--apex:selectOptions value="{!rec}"/--> 
+                    </apex:selectList>
+                    <apex:panelGroup >
+                        <apex:commandButton style="button" value=">>"/>
+                        <br/>
+                        <apex:commandButton style="button" value="<<"/>
+                        <br/><br/>
+                    </apex:panelGroup>
+                    <apex:selectList value="{!objName}" size="4" multiselect="true" style="width:250px">
+                    <!--apex:selectOptions value="{!Selected}"/--> 
+                    </apex:selectList>
+                </apex:panelGrid>
+            </apex:pageBlockSection>
+        </apex:pageblock>
+    </apex:form>
+</apex:page>

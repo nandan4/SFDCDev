@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>Handyman License</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Handyman Licenses</value>
+    </caseValues>
+    <fields>
+        <help><!-- This field contains the date that the user achieved the license. --></help>
+        <label><!-- License Date --></label>
+        <name>License_Date__c</name>
+    </fields>
+    <fields>
+        <help><!-- This field describes the license that was achieved by the user. --></help>
+        <label><!-- License --></label>
+        <name>License__c</name>
+        <picklistValues>
+            <masterLabel>Handyman Licensed Builder</masterLabel>
+            <translation><!-- Handyman Licensed Builder --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Handyman Licensed Contractor</masterLabel>
+            <translation><!-- Handyman Licensed Contractor --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Handyman Licensed Electrician</masterLabel>
+            <translation><!-- Handyman Licensed Electrician --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Handyman Licensed Laborer</masterLabel>
+            <translation><!-- Handyman Licensed Laborer --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Handyman Licensed Painter</masterLabel>
+            <translation><!-- Handyman Licensed Painter --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Handyman Licensed Plumber</masterLabel>
+            <translation><!-- Handyman Licensed Plumber --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Handyman Licensed Tiler</masterLabel>
+            <translation><!-- Handyman Licensed Tiler --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <help><!-- This field is a lookup to the user that obtained a Salesforce Certification. --></help>
+        <label><!-- User --></label>
+        <name>User__c</name>
+        <relationshipLabel><!-- Handyman Licenses --></relationshipLabel>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

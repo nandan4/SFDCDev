@@ -1,0 +1,309 @@
+<apex:page standardStylesheets="false" docType="html-5.0" applyHtmlTag="false" applyBodyTag="false" showHeader="false">
+    <html lang="en">
+        <head>
+            <title> HTML5/CSS3 Responsive Theme</title>
+            <meta charset="utf-8"/>
+                        
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        </head>
+        
+        <style type="text/css">
+            body{
+                background-color : #e6e5e4;
+                color : #00305;
+                font-size : 87.5%; /* Base font size is 14px ( 16 * 0.875) */
+                font-family : Arial, 'Lucida Sans Unicode';
+                line-height: 1.5;
+                text-align : left;
+            }
+
+            a {
+                text-decoration : none;
+            }
+
+            a:link, a:visited{
+                color : #CF5C3F;
+            }
+
+            a:hover, a:active{
+                background-color : #CF5C3F;
+                color : #FFF;
+            }
+
+            .body{
+                margin : 0 auto;
+                width : 70%;
+                clear : both;
+            }
+
+            .img{
+                width: 30%;
+                height : auto;
+                margin : 2% 0;
+            }
+
+            .mainHeader nav {
+                background-color : #666;
+                height : 40px;  
+                border-radius : 5px;
+                -moz-border-radius : 5px;
+                -webkit-border-radius : 5px;
+            }
+
+            .mainHeader nav ul{
+                list-style : none;
+                margin : 0 auto;
+                overflow : hidden;
+            }
+
+            .mainHeader nav ul li{
+                display : block;
+                float : left;   
+            }
+
+            .mainHeader nav a:link, .mainHeader nav a:visited{
+                color : #FFF;
+                display : inline-block;
+                padding : 10px 25px;
+                height : 20px;
+            }
+
+            .mainHeader nav a:hover, .mainHeader nav a:active, .mainHeader nav .active a:link, .mainHeader nav .active a:visited{
+                background-color : #CF5C3F;
+                text-shadow : none;
+            } 
+
+            .mainHeader nav ul li a{
+                border-radius : 5px;
+                -moz-border-radius : 5px;
+                -webkit-border-radius : 5px;
+            }
+
+            .mainContent{
+                overflow :hidden;
+                line-height : 25px;
+                border-radius : 5px;
+                -moz-border-radius : 5px;
+                -webkit-border-radius : 5px;    
+            }
+
+            .content{
+                width : 70%;
+                float : left;
+            }
+
+            .topContent{
+                background-color : #FFF;
+                border-radius : 5px;
+                -moz-border-radius : 5px;
+                -webkit-border-radius : 5px;
+                padding : 3% 5%;
+                margin-top: 2%; 
+            }
+
+            .bottomContent{
+                background-color : #FFF;
+                border-radius : 5px;
+                -moz-border-radius : 5px;
+                -webkit-border-radius : 5px;
+                padding : 3% 5%;
+                margin-top: 2%;     
+            }
+
+            .post-info{
+                font-style : italic;
+                font-size : 90%;
+                color : #999;
+            }
+
+            .top-sidebar{
+                width : 21%;
+                float : left;
+                background-color : #FFF;
+                border-radius : 5px;
+                -moz-border-radius : 5px;
+                -webkit-border-radius : 5px;
+                margin : 1.5% 0 2% 3%;  
+                padding : 2% 3%;
+            }
+
+            .middle-sidebar{
+                width : 21%;
+                float : left;
+                background-color : #FFF;
+                border-radius : 5px;
+                -moz-border-radius : 5px;
+                -webkit-border-radius : 5px;
+                margin : 2% 0 2% 3%;
+                padding : 2% 3%;
+            }
+
+            .bottom-sidebar{
+                width : 21%;
+                float : left;
+                background-color : #FFF;
+                border-radius : 5px;
+                -moz-border-radius : 5px;
+                -webkit-border-radius : 5px;
+                margin : 2% 0 2% 3%;
+                padding : 2% 3%;
+            }
+
+            .mainFooter{
+                width : 100%;
+                height : 40px;
+                float : left;
+                background-color : #666;    
+                border-radius : 5px;
+                -moz-border-radius : 5px;
+                -webkit-border-radius : 5px;
+                margin : 2% 0;
+            }
+
+            .mainFooter p{
+                width : 92%;
+                margin : 1% auto;
+                color : #FFF;
+            }
+
+            @media only screen and (min-width: 150px) and (max-width: 600px){
+                .body{      
+                    width : 90%;
+                    font-size : 95%;
+                }
+                
+                .img{
+                    width : 100%;
+                }
+                
+                .mainHeader nav{
+                    height : 160px;
+                }
+                
+                .mainHeader nav ul{
+                    padding-left : 0;
+                }
+                
+                .mainHeader nav ul li{
+                    width : 100%;
+                    text-align : center;
+                }
+                
+                .mainHeader nav a:link, .mainHeader nav a:visited{
+                    padding : 10px 25px;
+                    height : 20px;
+                    display : block;
+                }
+                
+                .content{
+                    width : 100%;
+                    margin-top : 2%;
+                }
+                
+                .topContent{
+                    margin : 3% 0;
+                }
+                
+                .bottomContent{
+                    margin : 4% 0;
+                }
+                
+                .post-info{
+                    display : none;
+                }
+                
+                .top-sidebar, .middle-sidebar, .bottom-sidebar {
+                    width : 94%;
+                    margin : 2% 0 2% 0;
+                    padding : 2% 3%;
+                }   
+            }
+
+        
+        </style>
+        
+        <body class="body">
+            <header class="mainHeader">
+                <div class="img" style="height:150px;">
+                
+                </div>
+                <nav>
+                    <ul>
+                        <li class="active"><a href="#"> Home </a></li>
+                        <li><a href="#"> About </a></li>
+                        <li><a href="#"> Portfolio </a></li>
+                        <li><a href="#"> Contact </a></li>
+                    </ul>
+                </nav>
+            </header>
+            
+            <div class="mainContent">
+                
+                <div class="content">
+                    <article class="topContent">
+                        <header>
+                            <h2><a href="#" title="First Post"> First Post  </a> <progress value="70" max="100">70 %</progress></h2>
+                        </header>
+                        
+                        <footer>
+                            <p class="post-info"> This post is written by Nandan</p>
+                        </footer>
+                        
+                        <content>
+                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                            
+                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                        </content>
+                    </article>
+                    
+                    <article class="bottomContent">
+                        <header>
+                            <h2><a href="#" title="Second Post"> Second Post  </a></h2>
+                        </header>
+                        
+                        <footer>
+                            <p class="post-info"> This post is written by Nandan</p>
+                        </footer>
+                        
+                        <content>
+                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                            
+                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                        </content>
+                    </article>
+                </div>
+                
+                <aside class="top-sidebar">
+                    <article>
+                        <h2> Top Sidebar </h2>
+                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                    </article>
+                </aside>
+                
+                <aside class="middle-sidebar">
+                    <article>
+                        <h2> Middle Sidebar </h2>
+                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                    </article>
+                </aside>
+                
+                <aside class="bottom-sidebar">
+                    <article>
+                        <h2> Bottom Sidebar </h2>
+                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                    </article>
+                </aside>
+            </div>
+            
+            
+            
+            <footer class="mainFooter">
+                <p> Copyright &copy; 2014 <a href="#" title="Nandan">Nandan N </a></p>
+            </footer>
+        </body>
+    </html>
+</apex:page>

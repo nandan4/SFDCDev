@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>This object contains a record of a Handyman License that a User has obtained.</description>
+    <fields>
+        <fullName>License_Date__c</fullName>
+        <description>This field contains the date that the user achieved the license.</description>
+        <inlineHelpText>This field contains the date that the user achieved the license.</inlineHelpText>
+        <label>License Date</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>License__c</fullName>
+        <description>This field describes the license that was achieved by the user.</description>
+        <inlineHelpText>This field describes the license that was achieved by the user.</inlineHelpText>
+        <label>License</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Handyman Licensed Builder</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Handyman Licensed Contractor</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Handyman Licensed Electrician</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Handyman Licensed Laborer</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Handyman Licensed Painter</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Handyman Licensed Plumber</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Handyman Licensed Tiler</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>User__c</fullName>
+        <description>This field is a lookup to the user that obtained a Salesforce Certification.</description>
+        <inlineHelpText>This field is a lookup to the user that obtained a Salesforce Certification.</inlineHelpText>
+        <label>User</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Salesforce_Certifications</relationshipName>
+        <type>Lookup</type>
+    </fields>
+    <label>Handyman License</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>User__c</columns>
+        <columns>License_Date__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>License Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Handyman Licenses</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

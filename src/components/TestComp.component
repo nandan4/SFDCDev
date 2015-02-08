@@ -1,0 +1,16 @@
+<apex:component controller="TestComponent_Cont">
+    <apex:form id="form">
+        <apex:pageBlock >
+        <apex:repeat value="{!accList}" var="acc">
+            <apex:commandLink value="{!acc.Name}" action="{!refresh}">
+                <apex:param assignTo="{!accId}" value="{!acc.ID}" name="editid"/>   
+            </apex:commandLink> <br/>
+        </apex:repeat>
+        </apex:pageBlock>
+        <apex:outputPanel id="tbl">
+            <apex:pageblock id="block" rendered="{!showTbl}">
+                <apex:outputText value="{!conList[0].Name}"/>
+            </apex:pageblock>
+        </apex:outputpanel>
+    </apex:form>
+</apex:component>

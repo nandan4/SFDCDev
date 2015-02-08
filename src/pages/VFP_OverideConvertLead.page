@@ -1,0 +1,16 @@
+<apex:page standardController="Lead" extensions="VFC_OverideConvertLead" action="{!lobList}">
+  Lead Converted
+  <apex:form >
+      <apex:pageBlock title="Select Line Of Business">
+          <apex:pageBlockSection >
+              <apex:selectList value="{!lobSelected}" size="1">
+                  <apex:selectOptions value="{!lob}">                  
+                  </apex:selectOptions>
+              </apex:selectList> &nbsp;
+              <apex:commandButton id="led" value="Convert Lead" action="{!convertLead}" onclick="alert('Test')"/>
+          </apex:pageBlockSection>
+          
+          <apex:commandButton value="Test" action="{!test}"/>
+      </apex:pageBlock>
+  </apex:form>
+</apex:page>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Download_the_Apex_code_to_NovaCop_Server__c</fullName>
+        <defaultValue>false</defaultValue>
+        <inlineHelpText>If you do not want NovaCop to download your code, then NovaCop provides you a separate batch file which you can execute on your local machine. Please contact NovaCop support team (novacopsupport@accenture.com) for further details.</inlineHelpText>
+        <label>Download the Apex code to NovaCop Server</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Is_Approved__c</fullName>
+        <defaultValue>false</defaultValue>
+        <label>Is Approved</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Last_Scan_Date__c</fullName>
+        <label>Last Scan Date</label>
+        <summarizedField>NovaRun__c.DateRun__c</summarizedField>
+        <summaryForeignKey>NovaRun__c.Project__c</summaryForeignKey>
+        <summaryOperation>max</summaryOperation>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Latest_NQI__c</fullName>
+        <label>Latest NQI</label>
+        <precision>8</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Number_of_completed_run_for_today__c</fullName>
+        <label>Number of completed run for today</label>
+        <precision>8</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Number_of_runs_per_day__c</fullName>
+        <label>Number of runs per day</label>
+        <precision>8</precision>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Password__c</fullName>
+        <description>Password to access Novacop project</description>
+        <inlineHelpText>Password to access Novacop project</inlineHelpText>
+        <label>Password</label>
+        <length>20</length>
+        <maskChar>asterisk</maskChar>
+        <maskType>all</maskType>
+        <type>EncryptedText</type>
+    </fields>
+    <fields>
+        <fullName>Project_End_Date__c</fullName>
+        <description>Project End Date</description>
+        <inlineHelpText>Project End Date till which Novacop should automatically scan and send the Novacop Dashboard</inlineHelpText>
+        <label>Project End Date</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Project_POC_Contact_Number__c</fullName>
+        <label>Project POC Contact Number</label>
+        <required>true</required>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Project_POC_Email_Id__c</fullName>
+        <label>Project POC Email Id</label>
+        <required>true</required>
+        <type>Email</type>
+    </fields>
+    <fields>
+        <fullName>Project_POC_Name__c</fullName>
+        <label>Project POC Name</label>
+        <length>50</length>
+        <required>true</required>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Project_Start_Date__c</fullName>
+        <defaultValue>Today()</defaultValue>
+        <description>Project Start Date</description>
+        <inlineHelpText>Project Start Date from which Novacop should automatically scan and send the Novacop Dashboard</inlineHelpText>
+        <label>Project Start Date</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Security_Token__c</fullName>
+        <inlineHelpText>Salesforce.com security token to access this org through a third party application</inlineHelpText>
+        <label>Security Token</label>
+        <length>25</length>
+        <maskChar>asterisk</maskChar>
+        <maskType>all</maskType>
+        <type>EncryptedText</type>
+    </fields>
+    <fields>
+        <fullName>URL__c</fullName>
+        <inlineHelpText>Please select if the specified project is a sandbox or production/developer edition</inlineHelpText>
+        <label>URL</label>
+        <picklist>
+            <picklistValues>
+                <fullName>https://test.salesforce.com</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>https://login.salesforce.com</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>User_Name__c</fullName>
+        <description>User Name to access the Novacop project</description>
+        <inlineHelpText>User Name to access the Novacop project</inlineHelpText>
+        <label>User Name</label>
+        <type>Email</type>
+    </fields>
+    <label>Project</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Project_POC_Name__c</columns>
+        <columns>Project_POC_Email_Id__c</columns>
+        <columns>Project_POC_Contact_Number__c</columns>
+        <columns>Last_Scan_Date__c</columns>
+        <columns>Latest_NQI__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Project Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Projects</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>Private</sharingModel>
+    <validationRules>
+        <fullName>Check_Unique_Project</fullName>
+        <active>true</active>
+        <errorConditionFormula>OR(ISCHANGED(Name),(LOWER(Name) = LOWER(VLOOKUP($ObjectType.Project__c.Fields.Name, $ObjectType.Project__c.Fields.Name,Name))
+&amp;&amp;Id &lt;&gt; VLOOKUP($ObjectType.Project__c.Fields.Id, $ObjectType.Project__c.Fields.Name,Name)))</errorConditionFormula>
+        <errorDisplayField>Download_the_Apex_code_to_NovaCop_Server__c</errorDisplayField>
+        <errorMessage>Project Name Should be Unique and Cannot be changed after creation</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Require_Credentials</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(Download_the_Apex_code_to_NovaCop_Server__c ,OR( ISBLANK( Password__c ) , ISBLANK(  User_Name__c  ) ,ISBLANK(   Security_Token__c  ) ))</errorConditionFormula>
+        <errorMessage>Please provide the User Credentials</errorMessage>
+    </validationRules>
+</CustomObject>

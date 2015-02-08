@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <value>Pagination Records</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Pagination Records</value>
+    </caseValues>
+    <fields>
+        <label><!-- Number of Records --></label>
+        <name>NumberofRecords__c</name>
+    </fields>
+    <fields>
+        <label><!-- Page Name --></label>
+        <name>PageName__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>
